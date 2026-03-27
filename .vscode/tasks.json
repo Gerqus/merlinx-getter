@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Generate agents session id",
+			"command": ".github/skills/session-id-generator/scripts/generate_session_id.sh",
+			"type": "shell",
+			"presentation": {
+				"reveal": "always"
+			},
+			"group": "build"
+		}
+	]
+}
