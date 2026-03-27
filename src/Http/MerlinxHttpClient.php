@@ -7,6 +7,9 @@ namespace Skionline\MerlinxGetter\Http;
 use JsonException;
 use Skionline\MerlinxGetter\Config\MerlinxGetterConfig;
 use Skionline\MerlinxGetter\Exception\HttpRequestException;
+use Skionline\MerlinxGetter\Http\Auxiliary\HttpErrorReporter;
+use Skionline\MerlinxGetter\Http\Auxiliary\RateLimitRetryEngine;
+use Skionline\MerlinxGetter\Http\Models\RetryPolicy;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -21,6 +24,9 @@ final class MerlinxHttpClient
 	private readonly string $baseUrl;
 	private readonly string $domain;
 	private readonly float $timeout;
+	private readonly RetryPolicy $defaultRetryPolicy;
+	private readonly RateLimitRetryEngine $retryEngine;
+	private readonly HttpErrorReporter $errorReporter;
 
 	public function __construct(MerlinxGetterConfig $config, AuthTokenProvider $tokenProvider, ?HttpClientInterface $httpClient = null)
 	{
@@ -29,19 +35,25 @@ final class MerlinxHttpClient
 		$this->baseUrl = rtrim($config->baseUrl, '/');
 		$this->domain = $config->domain;
 		$this->timeout = $config->timeout;
+		$this->defaultRetryPolicy = RetryPolicy::fromConfig($config);
+		$this->retryEngine = new RateLimitRetryEngine();
+		$this->errorReporter = new HttpErrorReporter();
 	}
 
 	/**
 	 * @param array<string, mixed> $options
+	 * @param array<string, mixed> $context
 	 */
-	public function request(string $method, string $uri, array $options = []): HttpResponse
+	public function request(string $method, string $uri, array $options = [], array $context = []): HttpResponse
 	{
 		$url = $this->buildUrl($uri);
 		$isAuthRequest = $this->isAuthUri($uri);
 		$options = $this->withTimeout($options);
 		$options = $isAuthRequest ? $options : $this->withAuthHeaders($options);
+		$policy = $this->resolveRetryPolicy($context);
+		$queryFingerprint = $this->resolveQueryFingerprint($context);
 
-		$response = $this->send($method, $url, $options);
+		$response = $this->sendWithRetry($method, $url, $options, $policy, $queryFingerprint);
 		if ($isAuthRequest) {
 			return $response;
 		}
@@ -49,7 +61,7 @@ final class MerlinxHttpClient
 		if ($this->isAuthError($response->statusCode(), $response->body())) {
 			$freshToken = $this->tokenProvider->forceRefresh();
 			$optionsWithNewToken = $this->withAuthHeaders($options, $freshToken);
-			return $this->send($method, $url, $optionsWithNewToken);
+			return $this->sendWithRetry($method, $url, $optionsWithNewToken, $policy, $queryFingerprint);
 		}
 
 		return $response;
@@ -103,18 +115,167 @@ final class MerlinxHttpClient
 	/**
 	 * @param array<string, mixed> $options
 	 */
-	private function send(string $method, string $url, array $options): HttpResponse
+	private function sendWithRetry(string $method, string $url, array $options, RetryPolicy $policy, ?string $queryFingerprint = null): HttpResponse
 	{
-		try {
-			$response = $this->httpClient->request($method, $url, $options);
-			$status = $response->getStatusCode();
-			$headers = $response->getHeaders(false);
-			$body = $response->getContent(false);
-		} catch (ClientExceptionInterface | RedirectionExceptionInterface | ServerExceptionInterface | TransportExceptionInterface $e) {
-			throw new HttpRequestException('MerlinX HTTP request failed.', null, null, $e);
+		$retryDelayMs = $policy->initialDelayMs();
+		$maxAttempts = $policy->maxAttempts();
+		$endpoint = $this->endpointForErrorMessage($url);
+		$requestSnippet = $this->resolveRequestSnippet($options);
+
+		for ($attempt = 0;; $attempt++) {
+			$status = 0;
+			$headers = [];
+			$body = '';
+
+			try {
+				$response = $this->httpClient->request($method, $url, $options);
+				$status = $response->getStatusCode();
+				$headers = $response->getHeaders(false);
+				$body = $response->getContent(false);
+			} catch (ClientExceptionInterface | RedirectionExceptionInterface | ServerExceptionInterface | TransportExceptionInterface $e) {
+				if ($this->retryEngine->isRateLimitedThrowable($e) && $attempt < $maxAttempts) {
+					$this->retryEngine->wait($retryDelayMs, null);
+					$retryDelayMs = $this->retryEngine->nextDelayMs($retryDelayMs, $policy);
+					continue;
+				}
+
+				throw new HttpRequestException(
+					$this->errorReporter->buildMessage(
+						'MerlinX HTTP request failed: ' . $e->getMessage(),
+						$method,
+						$endpoint,
+						$attempt + 1,
+						$maxAttempts + 1,
+						null,
+						$requestSnippet,
+						$queryFingerprint,
+					),
+					null,
+					null,
+					$e
+				);
+			}
+
+			$body = $this->removeDebugField($body);
+			if ($this->retryEngine->isRateLimited($status, $body)) {
+				if ($attempt < $maxAttempts) {
+					$retryAfterMs = $this->retryEngine->extractRetryAfterMs($headers);
+					$this->retryEngine->wait($retryDelayMs, $retryAfterMs);
+					$retryDelayMs = $this->retryEngine->nextDelayMs($retryDelayMs, $policy);
+					continue;
+				}
+
+				throw new HttpRequestException(
+					$this->errorReporter->buildMessage(
+						'MerlinX HTTP rate limit persisted after retries',
+						$method,
+						$endpoint,
+						$attempt + 1,
+						$maxAttempts + 1,
+						$body,
+						$requestSnippet,
+						$queryFingerprint,
+					),
+					$status,
+					$body
+				);
+			}
+
+			if ($status >= 400) {
+				$errorType = $status >= 500 ? 'server error' : 'client error';
+				throw new HttpRequestException(
+					$this->errorReporter->buildMessage(
+						'MerlinX HTTP request failed with status ' . $status . ' (' . $errorType . ')',
+						$method,
+						$endpoint,
+						$attempt + 1,
+						$maxAttempts + 1,
+						$body,
+						$requestSnippet,
+						$queryFingerprint,
+					),
+					$status,
+					$body
+				);
+			}
+
+			return new HttpResponse($status, $headers, $body, $attempt + 1);
+		}
+	}
+
+	/**
+	 * @param array<string, mixed> $context
+	 */
+	private function resolveRetryPolicy(array $context): RetryPolicy
+	{
+		$retryKeys = [
+			'rateLimitRetryMaxAttempts',
+			'rateLimitRetryDelayMs',
+			'rateLimitRetryBackoffMultiplier',
+			'rateLimitRetryMaxDelayMs',
+		];
+
+		$hasOverride = false;
+		foreach ($retryKeys as $retryKey) {
+			if (array_key_exists($retryKey, $context)) {
+				$hasOverride = true;
+				break;
+			}
 		}
 
-		return new HttpResponse($status, $headers, $this->removeDebugField($body));
+		if (!$hasOverride) {
+			return $this->defaultRetryPolicy;
+		}
+
+		return RetryPolicy::fromOptions([
+			'rateLimitRetryMaxAttempts' => $context['rateLimitRetryMaxAttempts'] ?? $this->defaultRetryPolicy->maxAttempts(),
+			'rateLimitRetryDelayMs' => $context['rateLimitRetryDelayMs'] ?? $this->defaultRetryPolicy->initialDelayMs(),
+			'rateLimitRetryBackoffMultiplier' => $context['rateLimitRetryBackoffMultiplier'] ?? $this->defaultRetryPolicy->backoffMultiplier(),
+			'rateLimitRetryMaxDelayMs' => $context['rateLimitRetryMaxDelayMs'] ?? $this->defaultRetryPolicy->maxDelayMs(),
+		]);
+	}
+
+	/**
+	 * @param array<string, mixed> $context
+	 */
+	private function resolveQueryFingerprint(array $context): ?string
+	{
+		$fingerprint = $context['queryFingerprint'] ?? null;
+		if (!is_string($fingerprint)) {
+			return null;
+		}
+
+		$fingerprint = trim($fingerprint);
+		return $fingerprint === '' ? null : $fingerprint;
+	}
+
+	/**
+	 * @param array<string, mixed> $options
+	 */
+	private function resolveRequestSnippet(array $options): ?string
+	{
+		if (array_key_exists('json', $options)) {
+			return $this->errorReporter->buildSnippet($options['json']);
+		}
+
+		if (array_key_exists('body', $options)) {
+			return $this->errorReporter->buildSnippet($options['body']);
+		}
+
+		return null;
+	}
+
+	private function endpointForErrorMessage(string $url): string
+	{
+		$path = parse_url($url, PHP_URL_PATH);
+		$query = parse_url($url, PHP_URL_QUERY);
+
+		$endpoint = is_string($path) && $path !== '' ? $path : $url;
+		if (is_string($query) && $query !== '') {
+			$endpoint .= '?' . $query;
+		}
+
+		return $endpoint;
 	}
 
 	private function isAuthError(int $statusCode, string $body): bool

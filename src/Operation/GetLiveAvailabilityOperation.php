@@ -9,7 +9,6 @@ use Psr\SimpleCache\CacheInterface;
 use Skionline\MerlinxGetter\Cache\FilesystemCacheFactory;
 use Skionline\MerlinxGetter\Config\MerlinxGetterConfig;
 use Skionline\MerlinxGetter\Contract\OperationInterface;
-use Skionline\MerlinxGetter\Exception\HttpRequestException;
 use Skionline\MerlinxGetter\Exception\InvalidInputException;
 use Skionline\MerlinxGetter\Exception\ResponseFormatException;
 use Skionline\MerlinxGetter\Http\MerlinxHttpClient;
@@ -81,12 +80,7 @@ final class GetLiveAvailabilityOperation implements OperationInterface
 			],
 		]);
 
-		$status = $response->statusCode();
 		$content = $response->body();
-		if ($status >= 400) {
-			throw new HttpRequestException('MerlinX checkonline failed with status ' . $status . '.', $status, $content);
-		}
-
 		try {
 			$data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 		} catch (JsonException $e) {

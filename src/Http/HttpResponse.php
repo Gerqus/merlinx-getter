@@ -13,6 +13,7 @@ final class HttpResponse
 		private readonly int $statusCode,
 		private readonly array $headers,
 		private readonly string $body,
+		private readonly int $attemptsMade = 1,
 	) {
 	}
 
@@ -32,5 +33,10 @@ final class HttpResponse
 	public function body(): string
 	{
 		return $this->body;
+	}
+
+	public function attemptsMade(): int
+	{
+		return $this->attemptsMade;
 	}
 }

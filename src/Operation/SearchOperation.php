@@ -10,7 +10,6 @@ use Skionline\MerlinxGetter\Cache\FileKeyLock;
 use Skionline\MerlinxGetter\Cache\FilesystemCacheFactory;
 use Skionline\MerlinxGetter\Config\MerlinxGetterConfig;
 use Skionline\MerlinxGetter\Contract\OperationInterface;
-use Skionline\MerlinxGetter\Exception\HttpRequestException;
 use Skionline\MerlinxGetter\Exception\ResponseFormatException;
 use Skionline\MerlinxGetter\Http\MerlinxHttpClient;
 use Skionline\MerlinxGetter\Log\LoggerInterface;
@@ -262,113 +261,33 @@ final class SearchOperation implements OperationInterface
 	 */
 	private function fetchSearchPage(SearchExecutionRequest $request, array $options): array
 	{
-		$maxAttempts = max(0, (int) ($options['rateLimitRetryMaxAttempts'] ?? 0));
-		$retryDelayMs = max(0, (int) ($options['rateLimitRetryDelayMs'] ?? 0));
+		$queryFingerprint = $this->buildErrorContextFingerprint($request);
+		$context = $options;
+		$context['queryFingerprint'] = $queryFingerprint;
 
-		for ($attempt = 0;; $attempt++) {
-			$content = '';
-			$status = 0;
-			$headers = [];
+		$response = $this->client->request(
+			'POST',
+			self::SEARCH_ENDPOINT,
+			[
+				'json' => $request->toObject($this->config->defaultViewLimit),
+				'headers' => ['Content-Type' => 'application/json'],
+			],
+			$context
+		);
 
-			try {
-				$response = $this->client->request('POST', self::SEARCH_ENDPOINT, [
-					'json' => $request->toObject($this->config->defaultViewLimit),
-					'headers' => ['Content-Type' => 'application/json'],
-				]);
-				$status = $response->statusCode();
-				$headers = $response->headers();
-				$content = $response->body();
-			} catch (\Throwable $exception) {
-				if ($this->isRateLimitedThrowable($exception) && $attempt < $maxAttempts) {
-					$this->waitBeforeRateLimitRetry($retryDelayMs, null);
-					$retryDelayMs = $this->nextRetryDelayMs($retryDelayMs, $options);
-					continue;
-				}
+		$content = $response->body();
 
-				throw new HttpRequestException(
-					$this->buildSearchHttpErrorMessage(
-						'MerlinX search failed: ' . $exception->getMessage() . '.',
-						$request,
-						$attempt,
-						$maxAttempts
-					),
-					null,
-					null,
-					$exception
-				);
-			}
-
-			if ($this->isRateLimitedResponse($status, $content)) {
-				if ($attempt < $maxAttempts) {
-					$retryAfterMs = $this->extractRetryAfterDelayMs($headers);
-					$this->waitBeforeRateLimitRetry($retryDelayMs, $retryAfterMs);
-					$retryDelayMs = $this->nextRetryDelayMs($retryDelayMs, $options);
-					continue;
-				}
-
-				throw new HttpRequestException(
-					$this->buildSearchHttpErrorMessage(
-						'MerlinX search rate limit persisted after retries.',
-						$request,
-						$attempt,
-						$maxAttempts,
-						$content
-					),
-					$status,
-					$content
-				);
-			}
-
-			if ($status >= 400) {
-				$errorType = $status >= 500 ? 'server error' : 'client error';
-				throw new HttpRequestException(
-					$this->buildSearchHttpErrorMessage(
-						'MerlinX search failed with status ' . $status . ' (' . $errorType . ').',
-						$request,
-						$attempt,
-						$maxAttempts,
-						$content
-					),
-					$status,
-					$content
-				);
-			}
-
-			try {
-				$data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-			} catch (JsonException $exception) {
-				throw new ResponseFormatException('MerlinX search endpoint returned invalid JSON.', 0, $exception);
-			}
-
-			if (!is_array($data)) {
-				throw new ResponseFormatException('MerlinX search response has unexpected format.');
-			}
-
-			return $data;
-		}
-	}
-
-	private function buildSearchHttpErrorMessage(
-		string $summary,
-		SearchExecutionRequest $request,
-		int $attempt,
-		int $maxAttempts,
-		?string $responseBody = null
-	): string {
-		$parts = [
-			$summary,
-			'Endpoint: POST ' . self::SEARCH_ENDPOINT . '.',
-			'Attempt: ' . ($attempt + 1) . '/' . ($maxAttempts + 1) . '.',
-			'Query fingerprint: ' . $this->buildErrorContextFingerprint($request) . '.',
-		];
-
-		if ($responseBody !== null) {
-			$parts[] = 'Response snippet: ' . $this->buildDebugSnippet($responseBody) . '.';
+		try {
+			$data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+		} catch (JsonException $exception) {
+			throw new ResponseFormatException('MerlinX search endpoint returned invalid JSON.', 0, $exception);
 		}
 
-		$parts[] = 'Request payload snippet: ' . $this->buildDebugSnippet($request->toBody($this->config->defaultViewLimit)) . '.';
+		if (!is_array($data)) {
+			throw new ResponseFormatException('MerlinX search response has unexpected format.');
+		}
 
-		return implode(' ', $parts);
+		return $data;
 	}
 
 	private function buildErrorContextFingerprint(SearchExecutionRequest $request): string
@@ -377,115 +296,6 @@ final class SearchOperation implements OperationInterface
 			'schema' => self::ERROR_CONTEXT_VERSION,
 			'body' => $request->toBody($this->config->defaultViewLimit),
 		]);
-	}
-
-	private function buildDebugSnippet(mixed $value, int $maxLength = 5000): string
-	{
-		if (is_string($value)) {
-			$serialized = trim($value);
-		} else {
-			$encoded = json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PARTIAL_OUTPUT_ON_ERROR);
-			$serialized = is_string($encoded) ? $encoded : '[unserializable payload]';
-		}
-
-		$normalized = preg_replace('/\s+/', ' ', trim($serialized));
-		if (!is_string($normalized) || $normalized === '') {
-			$normalized = '[empty]';
-		}
-
-		if (strlen($normalized) <= $maxLength) {
-			return $normalized;
-		}
-
-		return substr($normalized, 0, $maxLength) . '...(truncated)';
-	}
-
-	private function isRateLimitedResponse(int $status, string $content): bool
-	{
-		return $status === 429 || $this->isRateLimitedPayload($content);
-	}
-
-	private function isRateLimitedPayload(string $content): bool
-	{
-		$payload = strtolower(trim($content));
-		if ($payload === '') {
-			return false;
-		}
-
-		return str_contains($payload, 'too many requests');
-	}
-
-	private function isRateLimitedThrowable(\Throwable $exception): bool
-	{
-		$message = strtolower($exception->getMessage());
-		return str_contains($message, 'too many requests') || str_contains($message, 'status 429');
-	}
-
-	/**
-	 * @param array<string, mixed> $options
-	 */
-	private function nextRetryDelayMs(int $currentDelayMs, array $options): int
-	{
-		if ($currentDelayMs <= 0) {
-			return 0;
-		}
-
-		$multiplier = (float) ($options['rateLimitRetryBackoffMultiplier'] ?? 2.0);
-		if ($multiplier < 1.0) {
-			$multiplier = 1.0;
-		}
-
-		$maxDelayMs = max(0, (int) ($options['rateLimitRetryMaxDelayMs'] ?? $currentDelayMs));
-		if ($maxDelayMs === 0) {
-			return 0;
-		}
-
-		$nextDelayMs = (int) round($currentDelayMs * $multiplier);
-		$nextDelayMs = max($currentDelayMs, $nextDelayMs);
-
-		return min($nextDelayMs, $maxDelayMs);
-	}
-
-	private function waitBeforeRateLimitRetry(int $retryDelayMs, ?int $retryAfterMs = null): void
-	{
-		$delayMs = max($retryDelayMs, $retryAfterMs ?? 0);
-		if ($delayMs > 0) {
-			usleep($delayMs * 1000);
-		}
-	}
-
-	/**
-	 * @param array<string, array<int, string>> $headers
-	 */
-	private function extractRetryAfterDelayMs(array $headers): ?int
-	{
-		$retryAfter = $headers['retry-after'] ?? $headers['Retry-After'] ?? null;
-		if (!is_array($retryAfter) && !is_string($retryAfter) && !is_int($retryAfter) && !is_float($retryAfter)) {
-			return null;
-		}
-
-		$value = is_array($retryAfter) ? ($retryAfter[0] ?? null) : $retryAfter;
-		if (!is_string($value) && !is_int($value) && !is_float($value)) {
-			return null;
-		}
-
-		$stringValue = trim((string) $value);
-		if ($stringValue === '') {
-			return null;
-		}
-
-		if (is_numeric($stringValue)) {
-			$seconds = max(0.0, (float) $stringValue);
-			return (int) round($seconds * 1000);
-		}
-
-		$timestamp = strtotime($stringValue);
-		if ($timestamp === false) {
-			return null;
-		}
-
-		$seconds = max(0, $timestamp - time());
-		return $seconds * 1000;
 	}
 
 	/**

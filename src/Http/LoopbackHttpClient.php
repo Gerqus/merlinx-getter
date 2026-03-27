@@ -41,6 +41,6 @@ final class LoopbackHttpClient
 			throw new HttpRequestException('Portal search HTTP request failed.', null, null, $e);
 		}
 
-		return new HttpResponse($status, $headers, $body);
+		return new HttpResponse($status, $headers, $body, 1);
 	}
 }
