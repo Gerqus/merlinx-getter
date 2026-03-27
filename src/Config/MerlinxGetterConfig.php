@@ -90,7 +90,7 @@ final class MerlinxGetterConfig
 			'rateLimitRetryMaxAttempts' => self::optionalNestedNonNegativeInt($runtime, ['rate_limit_retry_max_attempts'], 4),
 			'rateLimitRetryDelayMs' => self::optionalNestedNonNegativeInt($runtime, ['rate_limit_retry_delay_ms'], 500),
 			'rateLimitRetryBackoffMultiplier' => self::toPositiveFloat($runtime['rate_limit_retry_backoff_multiplier'] ?? null, 2.0),
-			'rateLimitRetryMaxDelayMs' => self::optionalNestedNonNegativeInt($runtime, ['rate_limit_retry_max_delay_ms'], 8000),
+			'rateLimitRetryMaxDelayMs' => self::optionalNestedNonNegativeInt($runtime, ['rate_limit_retry_max_delay_ms'], 15000),
 		];
 
 		return new self(
