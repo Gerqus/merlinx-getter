@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mds>
+  <auth>
+		<login>...</login>
+		<pass>...</pass>
+		<source>MDSWS</source>
+		<srcDomain>skionline.pl</srcDomain>
+		<consultant>DCJU</consultant>
+  </auth>
+
+  <request>
+    <type>book</type>
+    <conditions>
+      <language>PL</language>
+			<currency>PLN</currency>
+      <ofr_tourOp>VITX</ofr_tourOp>
+      <ofr_id>psAd3WFXH_x8X0zZhdSYOlAAogWxXBCrFOh2NwGKYYu0XaiOyqcRewTxKLwTHW7ccL4q4qBFZJVFgwhILKzQZIwgRQAVjuMGABcgMCDWMzSpzL</ofr_id>
+      <par_adt>2</par_adt>
+    </conditions>
+ 
+    <forminfo>
+      <persons>
+        <person int="0">
+          <gender>H</gender>
+          <lastname>MERLIN-TEST</lastname>
+          <firstname>MACIEJ KRZYSZTOF</firstname>
+          <birthdate>06.09.1989</birthdate>
+        </person>
+        <person int="1">
+          <gender>F</gender>
+          <lastname>MERLIN-TESTOWA</lastname>
+          <firstname>TEST</firstname>
+          <birthdate>06.09.1989</birthdate>
+        </person>
+      </persons>
+
+      <client>
+        <title>H</title>
+        <lastname>MERLIN-TEST</lastname>
+        <firstname>MACIEJ KRZYSZTOF</firstname>
+        <address>TESTOWA</address>
+        <post_code>12-345</post_code>
+        <city>WROCLAW</city>
+        <phone>1234545678</phone>
+        <email_address>TEST@TEST.PL</email_address>
+      </client>
+
+      <services_optional>
+        <service int="0">
+          <code>OPLATA_A</code>
+          <codeElemType>M</codeElemType>
+          <codeOptServType>A</codeOptServType>
+          <checked>0</checked>
+          <allocations>
+            <allocate int="0">
+              <value>1</value>
+              <checked>0</checked>
+            </allocate>
+            <allocate int="1">
+              <value>2</value>
+              <checked>0</checked>
+            </allocate>
+          </allocations>
+        </service>
+
+        <service int="1">
+          <code>UBSCANP_COV</code>
+          <type>INSURANCE_CNL</type>
+          <codeElemType>A</codeElemType>
+          <codeOptServType>D</codeOptServType>
+          <checked>0</checked>
+          <allocations>
+            <allocate int="0">
+              <value>1</value>
+              <checked>0</checked>
+            </allocate>
+            <allocate int="1">
+              <value>2</value>
+              <checked>0</checked>
+            </allocate>
+          </allocations>
+        </service>
+
+        <service int="2">
+          <code>UBSCANP</code>
+          <type>INSURANCE_CNL</type>
+          <codeElemType>M</codeElemType>
+          <codeOptServType>A</codeOptServType>
+          <checked>0</checked>
+          <allocations>
+            <allocate int="0">
+              <value>1</value>
+              <checked>0</checked>
+            </allocate>
+            <allocate int="1">
+              <value>2</value>
+              <checked>0</checked>
+            </allocate>
+          </allocations>
+        </service>
+
+        <service int="3">
+          <code>UBSCNLP</code>
+          <type>INSURANCE_CNL</type>
+          <codeElemType>M</codeElemType>
+          <codeOptServType>A</codeOptServType>
+          <checked>0</checked>
+          <allocations>
+            <allocate int="0">
+              <value>1</value>
+              <checked>0</checked>
+            </allocate>
+            <allocate int="1">
+              <value>2</value>
+              <checked>0</checked>
+            </allocate>
+          </allocations>
+        </service>
+      </services_optional>
+
+      <formalAgreements>
+        <formalAgreement int="0">
+          <code>GIODO</code>
+          <selected>1</selected>
+        </formalAgreement>
+        <formalAgreement int="1">
+          <code>SFI</code>
+          <selected>1</selected>
+        </formalAgreement>
+        <formalAgreement int="2">
+          <code>GDPRAccepted</code>
+          <selected>1</selected>
+        </formalAgreement>
+      </formalAgreements>
+      
+    </forminfo>
+    
+  </request>
+</mds>

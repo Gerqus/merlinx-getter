@@ -1,0 +1,227 @@
+{
+	"Base": {
+		"XCity": {
+			"Id": "5245",
+			"Name": "Granada"
+		},
+		"XCode": {
+			"Id": 12171,
+			"Name": "Palacio de los Navas"
+		},
+		"XCountry": {
+			"Id": "15",
+			"Name": "Hiszpania"
+		},
+		"XRegion": {
+			"Id": "13",
+			"Name": "Andaluzja"
+		},
+		"Availability": {
+			"base": "available",
+			"message": "",
+			"option": {
+				"possible": false
+			},
+			"quota": {
+				"possible": false
+			}
+		},
+		"BookingConditions": "10S10",
+		"Catalog": "KL20",
+		"ComponentsCombinations": [
+			"transport.flight",
+			"accommodation.hotel"
+		],
+		"DatasetInfo": {
+			"name": "",
+			"private": false
+		},
+		"DepartureLocation": {
+			"Id": "0x4b61746f77696365",
+			"Name": "Katowice"
+		},
+		"DestinationLocation": {
+			"Id": "15_13",
+			"Name": "Hiszpania / Andaluzja"
+		},
+		"Duration": 4,
+		"InternalData": "4c415354",
+		"NightsBeforeReturn": 3,
+		"ObjectId": "12171",
+		"OfferId": "pI79e8RyrpR6kF4eEtyBvBAAogOud4NMjeUL000PHfbjz6f811O-dXWbLb5JJaPqk9ZlsqBFZJVFgwusWeywZItjBQAVixAWABcgMCDWMt7HXe|VITX|Mnx8",
+		"Omnibus": {
+			"URL": "https://omnibus.merlinx.eu/omnibusV1/VITX/20260122/3ae77834c8de50bd34d0f1df6e3cfa7fcd753be75759b2dbe4925a3ea93d665b?MjYwMTE0MTUwNS9CMkMvMzAxOTMvMUXBobwvj6np"
+		},
+		"Operator": "VITX",
+		"OperatorDesc": "Itaka",
+		"OriginalPrice": {
+			"FirstPerson": {
+				"amount": "3239.00",
+				"currency": "PLN"
+			},
+			"Total": {
+				"amount": "6198.00",
+				"currency": "PLN"
+			}
+		},
+		"Price": {
+			"FirstPerson": {
+				"amount": "3239.00",
+				"currency": "PLN",
+				"details": {
+					"TFGData": "10/10",
+					"TFGIncluded": false
+				}
+			},
+			"Total": {
+				"amount": "6198.00",
+				"currency": "PLN",
+				"details": {
+					"TFGIncluded": false
+				}
+			}
+		},
+		"Refundable": "no",
+		"Resident": "noinformation",
+		"ReturnDate": "2026-01-25",
+		"StartDate": "2026-01-22",
+		"ThumbUrl": "https://datacfstatic.merlinx.eu/T320/ITAK/IMG/HBX30842/main.webp",
+		"Transfer": "yes",
+		"UniqueObjectId": "pI79e8RyrpR6kF4eEtyBvB"
+	},
+	"Accommodation": {
+		"XCity": {
+			"Id": "5245",
+			"Name": "Granada"
+		},
+		"XCode": {
+			"Id": 12171,
+			"Name": "Palacio de los Navas"
+		},
+		"XCountry": {
+			"Id": "15",
+			"Name": "Hiszpania"
+		},
+		"XRegion": {
+			"Id": "13",
+			"Name": "Andaluzja"
+		},
+		"Attributes": [
+			"location_mountains",
+			"location_ski_resorts",
+			"location_near_airport",
+			"location_without_passport_from_pl",
+			"facility_fitness_or_gym",
+			"facility_facilities_for_disabled",
+			"facility_internet_access",
+			"facility_air_conditioning",
+			"activity_sport",
+			"activity_tennis",
+			"activity_winter_sports"
+		],
+		"Category": 3,
+		"Code": "HBX30842",
+		"DistanceToAirport": 0,
+		"DistanceToBeach": 267877,
+		"DistanceToCityCenter": 302,
+		"DistanceToSlope": 99999,
+		"ExtTripAdvisor": {
+			"count": 0,
+			"description": "",
+			"image": "",
+			"rating": 0,
+			"review": ""
+		},
+		"Location": {
+			"Coords": [
+				37.173054,
+				-3.597043
+			],
+			"geoSearchDistance": 0
+		},
+		"Name": "Hotel Palacio de los Navas",
+		"Nights": 3,
+		"Room": {
+			"Id": "DBL.SU",
+			"Name": "DOUBLE SUPERIOR - Double Superior"
+		},
+		"Service": {
+			"Id": "U",
+			"Name": "ROOM ONLY"
+		},
+		"ThumbUrl": "https://datacfstatic.merlinx.eu/T320/ITAK/IMG/HBX30842/main.webp",
+		"Type": {
+			"Id": "H",
+			"Name": "Hotel"
+		},
+		"XService": {
+			"Id": 4,
+			"Name": "Bez wyżywienia"
+		}
+	},
+	"Transport": {
+		"Flight": {
+			"AirlineType": "lowcost",
+			"Luggage": "no",
+			"Out": [
+				{
+					"Airline": {
+						"Code": "W6",
+						"Name": "Wizz Air Hungary"
+					},
+					"Departure": {
+						"Code": "KTW",
+						"Date": "2026-01-22",
+						"Name": "Katowice",
+						"Time": "14:50"
+					},
+					"Destination": {
+						"Code": "AGP",
+						"Date": "2026-01-22",
+						"Name": "Malaga",
+						"Time": "18:45"
+					},
+					"FlightNo": "W6 1073"
+				}
+			],
+			"Ret": [
+				{
+					"Airline": {
+						"Code": "W6",
+						"Name": "Wizz Air Hungary"
+					},
+					"Departure": {
+						"Code": "AGP",
+						"Date": "2026-01-25",
+						"Name": "Malaga",
+						"Time": "20:05"
+					},
+					"Destination": {
+						"Code": "KTW",
+						"Date": "2026-01-25",
+						"Name": "Katowice",
+						"Time": "23:45"
+					},
+					"FlightNo": "W6 1074"
+				}
+			],
+			"Stops": "no"
+		}
+	},
+	"Online": {
+		"actions": [
+			{
+				"action": "checkstatus",
+				"fieldList": [
+					"Base.Availability",
+					"Base.Price",
+					"Base.OriginalPrice",
+					"Payment.Schedule",
+					"Accommodation.AvailableRoomsCount",
+					"Transport.*"
+				],
+				"timestamp": "2026-01-14T15:05:46+01:00"
+			}
+		]
+	}
+}

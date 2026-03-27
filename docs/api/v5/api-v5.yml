@@ -1,0 +1,3730 @@
+openapi: 3.0.0
+info:
+  title: Merlin Web Services
+  description: |
+    # Basics
+    Merlin Web Services (MWS) is a set of services for providing travel offers, leisure and business.
+    This documentation covers basic usea of data search functions. By using individual functions, we will be able to search, compare and book the   tour operators offers.
+
+    Remember, that in all requests you must use your credentials for access. If you have no account for MWS, please contact us, to order the product.
+
+    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+    NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
+    "OPTIONAL" in this document are to be interpreted as described in
+    RFC 2119.
+
+    # Data Operators
+    We identify data operator by using 3-4 letter codes (field: ofr_oper), they are assigned internally in our system.
+    Each operator means a different connection to external system. Operators can be online or offline. 
+
+    We do not act as an intermediary in signing the contract. 
+
+    Current tour operators list is available under following link https://www.merlinx.pl/dostawcy/.
+
+    Please contact your local MerlinX support in order to receive the exact locations of these lists for your country.
+
+    # Become an external data provider
+    To became external data provider, please go to external provider section, anyway we encorage you to go thru this
+    document in order.
+
+
+  version: 5.3.2
+  x-logo:
+    url: 'mxlogo.png'
+    altText: MerlinX Logo
+servers:
+  - url: 'https://mwsv5pro.merlinx.eu'
+
+tags:
+  - name: Tokens
+    description: |
+      This is a effective authentication which allow communication in the further part of the query. Without a valid token You will not receive any results.
+
+  - name: Search
+    description: |
+      Offers request are divided by type of content.
+
+  - name: Trips
+    x-displayName: Trips/Fligts/Hotels
+    description: |
+      The primary way to get travel offers this include only hotels, charter flights and leisure packages (mostly packages (including dynamic), roundtrips, cruises, etc., but also only hotels offers or flight and bus seats). 
+
+      Depends on what kind of offers would You like to show and sell on Your portal.
+      To build a search engine you need to follow these steps:
+      - start with a searchform, the searchbase request will return all known possible values
+      for specified field types.
+      - grouped offer search, you can get results grouped by specified field (default: by hotel)
+      - list of offers, which will return offers for the selected hotel
+
+  - name: Insurances
+    x-displayName: Insurances
+    description: |
+      The way to get travel insurance offers.
+      
+      To build a search engine you need to follow these steps:
+      - start with a searchform, the searchbase request will return all known possible values
+      for specified field types.
+      - list of offers, which will return offers for the selected search parameters
+
+  - name: Parkings
+    x-displayName: Parkings
+    description: |
+      The way to get parking offers (corresponding to departure airports mostly).
+      
+      To build a search engine you need to follow these steps:
+      - start with a searchform, the searchbase request will return all known possible values
+      for specified field types.
+      - list of offers, which will return offers for the selected search parameters
+
+  - name: Booking
+    description: |
+      The way to get proper booking form, prepare required data and make booking.
+      
+      To get proper booking form you need to followe these steps:
+      - start with form request, this request will provide booking form with all possible fields, offers current status and price
+      - check with formcheck request sending back filled form, that contains choosen options and filled data ie. person codes and bithdates, it will update offers current status and price
+
+  - name: bookv4.1
+    x-displayName: Booking V4.1
+    description: |
+      It functions as a "drop in" replacement for the older v4 format. 
+      The response format matches older bookv4 format (existing sources can be reused)
+
+  - name: offer
+    x-displayName: Offer
+    description: |
+      fields returned in offer
+      ## Base
+        General (standarized) fields for the offer regardless of the type
+      <SchemaDefinition schemaRef="#/components/schemas/offer.base" />
+      ## Accommodation
+        Field associated with  accommodation or tour
+      <SchemaDefinition schemaRef="#/components/schemas/offer.accommodation" />
+      ## Transport
+      <SchemaDefinition schemaRef="#/components/schemas/offer.transport" />
+      ## XCodeBlock
+      matched regions, cities, countries, hotel names , unified data of all tour operators. 
+      
+      
+      Explaining: 
+
+      - **XCountry** - grouped countries, unified country name
+      
+      - **XRegion** - matched regions, unified regions name	
+      
+      - **XCity** - grouped cities, unified cities name
+      
+      - **XCode** - standardized object id, assigned to the hotel by MerlinX, unified hotel code which was matched. Please do not confuse Xcode with the hotel ID (orginal touroperator's hotel number). 
+
+      <SchemaDefinition schemaRef="#/components/schemas/offer.xcodeblock" />
+      ## Online
+        Information about dynamic fields
+      <SchemaDefinition schemaRef="#/components/schemas/offer.online" />
+
+  - name: searchfields
+    x-displayName: Search Fields
+    description: |
+      Searchfield type can be terermined by property name:
+      ## Text
+        text field with optional regexp pattern
+        <SchemaDefinition schemaRef="#/components/schemas/searchbasefield.text" />
+      ## List
+      Select or multiselect list
+      <SchemaDefinition schemaRef="#/components/schemas/searchbasefield.list" />
+      ## Range
+      range selector: from - to with step
+      <SchemaDefinition schemaRef="#/components/schemas/searchbasefield.range" />
+      ## Num
+        single numeric value
+      <SchemaDefinition schemaRef="#/components/schemas/searchbasefield.num" />
+
+      ## Grouped List
+        2 level list, returns a grouped list presenting a list of objects.
+      <SchemaDefinition schemaRef="#/components/schemas/searchbasefield.grouped_list" />
+
+      ## Attribute
+      <SchemaDefinition schemaRef="#/components/schemas/searchbasefield.attribute" />
+
+      ## Participant List
+      return allowed participant definition forms
+      <SchemaDefinition schemaRef="#/components/schemas/participantsList" />
+
+      ## ComponentCombinations
+      return allowed combinations of components. We use all combinations of transport and accommodation creating offers depending on the tour operator, each has its own combinations.  
+
+      The order length transport and stay selected type of vacation depends on the operator. They can be longer or shorter stays.  
+
+      We distinguish the following types of transport:
+
+      - **"transport.flight","accommodation.*"** - flight with accommodation
+      - **"transport.flight"** - only flight 
+      - **"transport.onewayflight"** - one way flight
+      - **"transport.train", "accommodation.*"** - train ride with accommodation
+      - **"transport.bus", "accommodation.*"** - bus ride with accommodation
+      - **"transport.bus"** - bus ride 
+
+
+
+      The following can be mentioned types of accommodation:   
+
+      - **"accommodation.hotel"**- only hotel stay 
+      - **"accommodation.apartament"** - a multi-room apartment of high standard 
+      - **"accommodation.trip"** - a road trip, visiting several units 
+      - **"accommodation.holidayhome"** - holiday house
+      - **"accommodation.cruise"** - a cruise on the sea or on a rive
+      - **"accommodation.citybreak"** - a trip around a city or visiting several citie
+      - **"accommodation.childcamp"** - events dedicated only for children
+      - **"accommodation.cruisePL"** - a cruise on the sea or on a rive with polish animator
+      - **"accommodation.pilgrimage"** - religious events
+      - **"accommodation.activetravel"** - event with activity, e.g. downhill biking, rafting 
+      - **"accommodation.sanatorium"** - stay in sanatorium
+      - **"accommodation.camp"** - camping 
+
+      We enumerate yet special types of tour require a combination query:
+      
+      - **Road trip (ObjazdĂłwka/ Wyc.objazdowe)**-  visiting several units, sightseeing 
+      
+      e.g.
+         [["transport.flight","accommodation.hotel"]]
+      
+      - **2in1 hotel+hotel** -  one week we stay in a selected hotel and next week spends in another one, length of day depends from tour operator .
+      
+       e.g.
+       [["transport.flight","accommodation.hotel"],["accommodation.hotel"]]
+
+      - **Z+W or trip+hotel (Zwiedzanie + Wypoczynek)** -  first week round trip, second week stay in a hotel, sightseeing and leisure,  length of day depends from tour operator.
+
+      e.g. 
+      [["transport.flight","accommodation.trip"],["accommodation.hotel"]]
+      
+      <SchemaDefinition schemaRef="#/components/schemas/searchbasefield.components_combinations" />
+
+      ## Full SearchbaseModel
+      <SchemaDefinition schemaRef="#/components/schemas/searchbase" />
+
+      ## Attributes
+      
+      description:
+         Attributes allows to specify the location, facilities or activities of the offer or hotel
+      ### object localisation
+      - location_mountains - object is situated in or near mountains
+      - location_near_the_slope - object is located near the slope (under 100 meters)
+      - location_exotic_offers - object is located in an exotic country (outside Europe and Mediterranean countries)
+      - location_lakes - object is located onshore or near a lake
+      - location_ski_resorts - object is located in MerlinX ski region
+      - location_city_breaks - object is located in the city, worth a city break
+      - location_directly_on_the_beach - object is located onshore and you can pass from the main building to the beach without cross any road or other obstacle
+      - location_near_airport - object is situated under 50 km from the nearest international airport
+      - location_near_the_center - object is located in the city center
+
+      ### object facilities
+      - facility_free_wifi - in a room or at least one open to the public place in the object free wi-fi access is possible
+      - facility_for_adult - object is intended for adults only (no kids under 16)
+      - facility_wellness - object has a wellness area
+      - facility_gay_friendly - object is friendly for LGBT+ people
+      - facility_barbecue - visitors have the possibility to use the barbecue for themselves
+      - facility_home_appliances - room/apartment is equipped with household appliances
+      - facility_fireplace - room/apartment has fireplace
+      - facility_parking - object has his own or nearby public parking (free of charge or extra paid)
+      - facility_for_families_with_childrens - object is suitable for families with children
+      - facility_club_hotel - chosen club hotels
+      - facility_fitness_or_gym - object has a place for fitness or/and gym
+      - facility_outdoor_pool - object has a minimum of one outdoor pool
+      - facility_indoor_pool - object has a minimum of one indoor pool
+      - facility_kindergarten - object has his own kindergarten
+      - facility_water_slides - object has at least one big water slide
+      - facility_facilities_for_disabled - in object or/and room are present facilities for disabled
+      - facility_pets - guests can take pets with them (free of charge or extra payed)
+      - facility_internet_access - internet access is possible in object or/and room (free of charge or extra payed)
+      - facility_air_conditioning - all or part of the rooms in object have air condition (free of charge or extra payed)
+      - facility_night_life - object have a night club
+      - facility_winter_equipment_rental - object organize winter equipment rental
+
+      ### object activities
+      - activity_bicycles - object has his own or near bike rental and is located near bicycle routes
+      - activity_animation_for_adults - hotel organizes animation for adults
+      - activity_sport - object enables some sport activities (f.e. soccer, volleuball, table tennis)
+      - activity_tennis - object has his own or nearby tennis court
+      - activity_golf - object has his own or nearby golf course
+      - activity_minigolf - object has his own minigolf course
+      - activity_water_sports - object enables some water sport activites such canoeing or swimming on a boat
+      - activity_diving - object or his partner organize diving
+      - activity_riding - object or his partner organize riding
+      - activity_nordic_walking - object is situated in area good for nordic walking
+      - activity_windsurfing - object or his partner organize windsurfing
+      - activity_sailing - object or his partner organize sailing
+      - activity_winter_sports - object is located in area suitable for winter sport activities
+
+
+
+
+
+x-tagGroups:
+  - name: Authentication
+    tags:
+      - Tokens
+  - name: Search
+    tags:
+      - Trips
+      - Insurances
+      - Parkings
+      - Cars/Transfers
+  - name: Booking
+    tags:
+      - Booking
+  - name: Booking Management System
+    tags:
+      - bookv4.1
+      - bookv5
+  - name: Models
+    tags:
+      - searchfields
+      - offer
+
+#  - name: Models
+#    tags:
+#      - pet_model
+#      - store_model
+
+paths:
+  /v5/token/new:
+    post:
+      tags:
+        - Tokens
+      summary: Acquire new token
+      operationId: getNewToken
+      description: |
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/auth"
+
+      responses:
+        '200':
+          $ref: "#/components/responses/authresponse"
+        '401':
+          description: Unauthorized
+
+  /v5/data/travel/searchbase:
+    post:
+      tags:
+        - Trips
+      summary: 'Searchbase'
+      operationId: travelSearchbase
+      security:
+        - TokenAuth: [ ]
+      description: |
+        Gives you all known possible values for each search field. You can choose to groups fields for each supplier/subset,
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ Language, SearchBase ]
+              properties:
+                Language:
+                  type: string
+                  description: Language code
+                  default: "PL"
+                SearchBase:
+                  type: object
+                  required: [ Type, Operator, Transport, Accommodation ]
+                  properties:
+                    Type:
+                      type: string
+                      default: "trip"
+                      description: "Type of requested searchbase only 'trip' avaialbe"
+                    Operator:
+                      schema: array
+                      description: Touroperator code list
+                      default: "[]"
+                      items:
+                        type: string
+                    Transport:
+                      schema: array
+                      description: Transport type combination. See Models -> Search Fields -> ComponentCombinations
+                      default: "[]"
+                      items:
+                        type: string
+                        enum: [ "transport.flight,accommodation.*","transport.bus,accommodation.*","transport.train,accommodation.*","accommodation.*","transport.flight","transport.bus" ]
+                    Accommodation:
+                      schema: array
+                      description: "Accommodation: See Models -> Search Fields -> ComponentCombinations"
+                      default: "[]"
+                      items:
+                        type: string
+                        enum: [ "accommodation.hotel", "accommodation.apartament", "accommodation.trip", "accommodation.holidayhome", "accommodation.cruise", "accommodation.citybreak", "accommodation.childcamp", "accommodation.cruisePL", "accommodation.pilgrimage", "accommodation.activetravel", "accommodation.sanatorium", "accommodation.camp" ]
+
+      responses:
+        '200':
+          $ref: "#/components/responses/searchbaseresp"
+        '401':
+          $ref: "#/components/responses/response_401"
+
+  /v5/data/insurance/searchbase:
+    get:
+      tags:
+        - Insurances
+      summary: 'Searchbase'
+      operationId: insuranceSearchbase
+      security:
+        - TokenAuth: [ ]
+      description: |
+        Gives you all known possible values for each search field. You can choose to groups fields for each supplier.
+
+      parameters:
+        - $ref: "externalservicesv1.yaml#/components/parameters/fields.insurance"
+        - $ref: "externalservicesv1.yaml#/components/parameters/baseOperator"
+      responses:
+        '200':
+          $ref: "externalservicesv1.yaml#/components/responses/searchbaseresp.insurance"
+        '401':
+          $ref: "#/components/responses/response_401"
+
+  /v5/data/parking/searchbase:
+    get:
+      tags:
+        - Parkings
+      summary: 'Searchbase'
+      operationId: parkingSearchbase
+      security:
+        - TokenAuth: [ ]
+      description: |
+        Gives you all known possible values for each search field. You can choose to groups fields for each supplier.
+
+      parameters:
+        - $ref: "externalservicesv1.yaml#/components/parameters/fields.parking"
+        - $ref: "externalservicesv1.yaml#/components/parameters/baseOperator"
+      responses:
+        '200':
+          $ref: "externalservicesv1.yaml#/components/responses/searchbaseresp.parking"
+        '401':
+          $ref: "#/components/responses/response_401"
+
+  /v5/data/travel/autocomplete/Accommodation.Name:
+    get:
+      tags:
+        - Trips
+      summary: "AccommodationName autocomplete"
+      operationId: AccommodationAutocomplete
+      parameters:
+        - in: query
+          explode: false
+          style: form
+          required: true
+          name: 'Base.Operator'
+          schema:
+            type: array
+            items:
+              type: string
+            minItems: 1
+        - in: query
+          explode: false
+          style: form
+          name: 'Base.ComponentsCombinations.Transport'
+          schema:
+            type: array
+            items:
+              type: string
+        - in: query
+          explode: false
+          style: form
+          name: 'Base.ComponentsCombinations.Accommodation'
+          schema:
+            type: array
+            items:
+              type: string
+        - in: query
+          explode: false
+          style: form
+          name: 'Base.DestinationLocation.Id'
+          schema:
+            type: array
+            items:
+              type: string
+        - in: query
+          explode: true
+          style: form
+          required: true
+          name: 'query'
+          schema:
+            type: string
+            minLength: 3
+
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Base:
+                          type: object
+                          properties:
+                            ObjectId:
+                              type: string
+                              description: ObjectId
+                        Accommodation:
+                          type: object
+                          properties:
+                            Name:
+                              type: string
+                              description: AccommodationName
+
+  /v5/data/travel/search:
+    post:
+      tags:
+        - Trips
+      summary: Search
+      operationId: travelSearch
+      description: |
+        Search request can return up to 4 sets of data: filters, reduced filters , grouped offers , and offers
+
+        - Filters:
+        List of possible values for search fields. They use base conditions.
+        - Reduced filters:
+        List of possible values for search fields. They use filter conditions on top of base conditions.
+        - Grouped offers
+        List of grouped offers. They use filter conditions on top of base conditions, grouped by group field.
+        - Offers
+        List of offers . They use filter conditions on top of base conditions + value of group field. 
+
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ conditions, results ]
+              properties:
+                conditions:
+                  type: object
+                  required: [ search, filter ]
+                  properties:
+                    search:
+                      allOf:
+                        - $ref: "#/components/schemas/baseconditions"
+                        - $ref: "#/components/schemas/field_searchid"
+                    filter:
+                      allOf:
+                        - $ref: "#/components/schemas/baseconditions"
+                results:
+                  type: object
+                  properties:
+                    groupBy:
+                      properties:
+                        key:
+                          type: string
+                          enum: [ "Base.Operator", "Base.StartDate", "Base.NightsBeforeReturn", "Base.DepartureLocation", "Base.DestinationLocation", "Accommodation.Type", "Accommodation.XCode", "Accommodation.Category", "Accommodation.Room", "Accommodation.Service" ]
+                        value:
+                          type: string
+                          description: Offerlist will return elements only for selected value
+                views:
+                  $ref: "#/components/schemas/views"
+
+      responses:
+        '200':
+          $ref: "#/components/responses/travelsearchresponse"
+        '401':
+          $ref: "#/components/responses/response_401"
+        '500':
+          $ref: "#/components/responses/response_500"
+
+  /v5/data/insurance/search:
+    post:
+      tags:
+        - Insurances
+      summary: Search
+      operationId: insuranceSearch
+      description: |
+        Search request returns list of offers.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ conditions ]
+              properties:
+                conditions:
+                  type: object
+                  required: [ search ]
+                  properties:
+                    search:
+                      allOf:
+                        - $ref: "externalservicesv1.yaml#/components/schemas/baseconditions.insurance"
+                        - $ref: "externalservicesv1.yaml#/components/schemas/field_searchid"
+                views:
+                  type: object
+                  properties:
+                    offerList:
+                      type: object
+                      properties:
+                        limit:
+                          type: integer
+                          description: 'max returned results'
+                        orderBy:
+                          $ref: "externalservicesv1.yaml#/components/schemas/orderBy.insurances"
+                        previousPageBookmark:
+                          type: string
+                          description: 'page bookmark from last offerList result'
+                        fieldList:
+                          type: array
+                          items:
+                            type: string
+                            enum: [ "Base.Price","Base.OfferId","Base.Operator","Base.OperatorDesc","Base.DestinationLocation","Base.StartDate","Base.ReturnDate","Base.Duration","Base.NightsBeforeReturn","Base.ComponentsCombinations","Insurance.Code","Insurance.Name","Insurance.DestinationLocation","Insurance.PersonsCount","Insurance.StartDate","Insurance.EndDate","Insurance.Description" ]
+
+      responses:
+        '200':
+          $ref: "externalservicesv1.yaml#/components/responses/insurancesearchresponse"
+        '401':
+          $ref: "#/components/responses/response_401"
+        '500':
+          $ref: "#/components/responses/response_500"
+
+  /v5/data/parking/search:
+    post:
+      tags:
+        - Parkings
+      summary: Search
+      operationId: parkingSearch
+      description: |
+        Search request returns list of offers.
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ conditions ]
+              properties:
+                conditions:
+                  type: object
+                  required: [ search ]
+                  properties:
+                    search:
+                      allOf:
+                        - $ref: "externalservicesv1.yaml#/components/schemas/baseconditions.parking"
+                        - $ref: "externalservicesv1.yaml#/components/schemas/field_searchid"
+                views:
+                  type: object
+                  properties:
+                    offerList:
+                      type: object
+                      properties:
+                        limit:
+                          type: integer
+                          description: 'max returned results'
+                        orderBy:
+                          $ref: "externalservicesv1.yaml#/components/schemas/orderBy.parkings"
+                        previousPageBookmark:
+                          type: string
+                          description: 'page bookmark from last offerList result'
+                        fieldList:
+                          type: array
+                          items:
+                            type: string
+                            enum: [ "Base.Price","Base.OfferId","Base.Operator","Base.OperatorDesc","Base.DepartureLocation","Base.StartDate","Base.ReturnDate","Base.Duration","Base.NightsBeforeReturn","Base.ComponentsCombinations","Base.Transfer","Parking.Code","Parking.Name","Parking.DepartureLocation","Parking.Location","Parking.CarsCount","Parking.PersonsCount","Parking.StartDateTime","Parking.EndDateTime","Parking.Description" ]
+
+      responses:
+        '200':
+          $ref: "externalservicesv1.yaml#/components/responses/parkingsearchresponse"
+        '401':
+          $ref: "#/components/responses/response_401"
+        '500':
+          $ref: "#/components/responses/response_500"
+
+  /v5/data/travel/details:
+    get:
+      tags:
+        - Trips
+      summary: 'Details'
+      description: Details request is used, when the client chooses one specific offer from the list or when we would like to show a specific offer.
+      operationId: travelDetails
+      parameters:
+        - in: query
+          explode: false
+          style: form
+          required: true
+          name: 'Base.OfferId'
+          schema:
+            type: string
+
+      responses:
+        '200':
+          $ref: "#/components/responses/traveldetailsresponse"
+        '401':
+          $ref: "#/components/responses/response_401"
+
+  /v5/data/insurance/details:
+    get:
+      tags:
+        - Insurances
+      summary: 'Details'
+      description: Details request is used, when the client chooses one specific offer from the list or when we would like to show a specific offer.
+      operationId: insuranceDetails
+      parameters:
+        - $ref: "externalservicesv1.yaml#/components/parameters/baseOfferId"
+
+      responses:
+        '200':
+          $ref: "externalservicesv1.yaml#/components/responses/insurancedetailsresponse"
+        '401':
+          $ref: "#/components/responses/response_401"
+
+  /v5/data/parking/details:
+    get:
+      tags:
+        - Parkings
+      summary: 'Details'
+      description: Details request is used, when the client chooses one specific offer from the list or when we would like to show a specific offer.
+      operationId: parkingDetails
+      parameters:
+        - $ref: "externalservicesv1.yaml#/components/parameters/baseOfferId"
+
+      responses:
+        '200':
+          $ref: "externalservicesv1.yaml#/components/responses/parkingdetailsresponse"
+        '401':
+          $ref: "#/components/responses/response_401"
+
+  /v5/data/travel/checkonline:
+    post:
+      tags:
+        - Trips
+      summary: Checkonline
+      operationId: travelCheckOnline
+      description: Check Online
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ actions,offerIds ]
+              properties:
+                actions:
+                  type: array
+                  minItems: 1
+                  maxItems: 1
+                  description: Action to be performed (from offers.online.*.action),
+                    currently limited to one action at a time.
+                  items:
+                    type: string
+                offerIds:
+                  type: array
+                  minItems: 1
+                  maxItems: 1
+                  description: List of OfferId's to perform actions
+                    currently limited to one offer at a time.
+                  items:
+                    type: string
+                bookingId:
+                  type: string
+                  description: Booking number (booking swap action only)
+                includeTFG:
+                  type: boolean
+                  description: Request operator to return prices with TFG (Tourist Guarantee Fund-special support for tour operators) included
+                  default: false
+      responses:
+        '200':
+          $ref: "#/components/responses/travelcheckonlineresponse"
+        '401':
+          $ref: "#/components/responses/response_401"
+
+  /v5/data/travel/checkdetailsonline:
+    post:
+      tags:
+        - Trips
+      summary: Checkonline details
+      operationId: travelCheckDetailsOnline
+      description: |
+        Allow to check online status and prices changes of selected offer with chosen services.
+        
+        Return online checked offer with updated status and prices.
+      parameters:
+        - $ref: "#/components/parameters/baseOfferId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/bookingFormRequest"
+      responses:
+        '200':
+          $ref: "#/components/responses/travelcheckdetailsonlineresponse"
+        '401':
+          $ref: "#/components/responses/response_401"
+
+  /v5/booking/form:
+    get:
+      tags:
+        - Booking
+      summary: Form
+      operationId: bookForm
+      description: |
+        Return online checked offer with current status and prices and booking form
+      parameters:
+        - $ref: "#/components/parameters/baseOfferId"
+      responses:
+        '200':
+          $ref: "#/components/responses/bookingformresponse"
+        '401':
+          $ref: "#/components/responses/response_401"
+
+  /v5/booking/formcheck:
+    post:
+      tags:
+        - Booking
+      summary: Form check
+      operationId: bookFormCheck
+      description: |
+        Allow to check online status and prices changes of selected offer with filled book form.
+        
+        Return online checked offer with updated status and prices for sent book form.
+      parameters:
+        - $ref: "#/components/parameters/baseOfferId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ form ]
+              properties:
+                form:
+                  $ref: "#/components/schemas/bookingFormRequest"
+      responses:
+        '200':
+          $ref: "#/components/responses/bookingformresponse"
+        '401':
+          $ref: "#/components/responses/response_401"
+
+  /v5/booking/status:
+    get:
+      tags:
+        - Booking
+      summary: Status
+      operationId: bookStatus
+      description: |
+        Return online checked booking status witg basic data
+      parameters:
+        - $ref: "#/components/parameters/bookingId"
+        - $ref: "#/components/parameters/bookingOperator"
+      responses:
+        '200':
+          $ref: "#/components/responses/bookingstatusresponse"
+        '401':
+          $ref: "#/components/responses/response_401"
+
+  /v4.1/booking/status:
+    get:
+      operationId: V41bookingStatus
+      summary: Status
+      description: |
+        Status is information about the type of reservation.
+        
+        Status code description:
+          - **XX** Canceled booking
+          - **RQ** Reservation âon requestâ
+          - **OP** Option reservation with date when the reservation expires
+          - **OQ** offer to pay, non-blocking seats option
+          - **RF** CONFIRMED option reservation
+          - **OK** Firm booking
+          - **??** Because of technical reasons, booking status could not be determined
+      tags:
+        - bookv4.1
+      parameters:
+        - $ref: "#/components/parameters/bookingNr"
+        - $ref: "#/components/parameters/operator"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: "bookv41.yaml#/components/schemas/bookresponse"
+            application/json:
+              schema:
+                $ref: "bookv41.yaml#/components/schemas/bookresponse"
+
+  /v4.1/booking/vouchers:
+    get:
+      operationId: V41bookingVouchers
+      summary: Vouchers
+      description:
+        Return list of documents provided by the tour operator, may differ depending on the status of the booking
+      tags:
+        - bookv4.1
+      parameters:
+        - $ref: "#/components/parameters/bookingNr"
+        - $ref: "#/components/parameters/operator"
+      responses:
+        '200':
+          description: Return list of documents
+          content:
+            application/xml:
+              example: |
+                <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                <response>
+                  <status>OK</status>
+                  <vouchers>
+                    <voucher>
+                      <id>0</id>
+                      <name>documents for the agent</name>
+                      <link>https://example.com/1.pdf</link>
+                    </voucher>
+                    <voucher>
+                      <id>1</id>
+                      <name>1,000 pages that no one reads</name>
+                      <link>https://example.com/2.pdf</link>
+                    </voucher>
+                    <voucher>
+                      <id>2</id>
+                      <name>kidney donor contract</name>
+                      <link>https://example.com/blabla.pdf</link>
+                    </voucher>                                
+                  </vouchers>
+                </response>
+
+              schema:
+                $ref: "bookv41.yaml#/components/schemas/vouchersresponse"
+            application/json:
+              schema:
+                $ref: "bookv41.yaml#/components/schemas/vouchersresponse"
+
+
+  /v4.1/booking/display:
+    get:
+      operationId: V41bookingDisplay
+      tags:
+        - bookv4.1
+      summary: Display
+      description: |
+        All booking details with information about travel dates, accomodation dates, status or payment terms.
+        
+        Status is information about the type of reservation. We distinguish the following codes: 
+          - **XX** Canceled booking
+          - **RQ** Reservation âon requestâ
+          - **OP** Option reservation with date when the reservation expires
+          - **OQ** offer to pay, non-blocking seats option
+          - **RF** CONFIRMED option reservation
+          - **OK** Firm booking
+          - **??** Because of technical reasons, booking status could not be determined
+      parameters:
+        - $ref: "#/components/parameters/bookingNr"
+        - $ref: "#/components/parameters/operator"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: "bookv41.yaml#/components/schemas/bookresponse"
+            application/json:
+              schema:
+                $ref: "bookv41.yaml#/components/schemas/bookresponse"
+
+
+
+  #  /v4.1/booking/form:
+  #    post:
+  #      summary: Form
+  #      operationId: V41bookingForm
+  #      description:
+  #        information on how to build a booking form
+  #      parameters:
+  #        - $ref: "#/components/parameters/offerId"
+  #      tags:
+  #        - bookv4.1
+  #      requestBody:
+  #        content:
+  #          application/json:
+  #            schema:
+  #              $ref: "bookv41.yaml#/components/schemas/bookrequest"
+  #          application/xml:
+  #            schema:
+  #              $ref: "bookv41.yaml#/components/schemas/bookrequest"
+  #      responses:
+  #        '200':
+  #          description: OK
+  #          content:
+  #            application/xml:
+  #              schema:
+  #                $ref: "bookv41.yaml#/components/schemas/bookresponse"
+  #            application/json:
+  #              schema:
+  #                $ref: "bookv41.yaml#/components/schemas/bookresponse"
+
+
+  /v4.1/booking/cancel:
+    post:
+      parameters:
+        - $ref: "#/components/parameters/bookingNr"
+        - $ref: "#/components/parameters/operator"
+      summary: Cancel
+      operationId: V41bookingCancel
+      description:
+        Cancelling the booking reservation. Cancellation possibility and possible costs, should be checked beforehand was cancel. Please always suggest the terms and conditions of the tour operator.
+      tags:
+        - bookv4.1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/bookcancel"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/bookcancel"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: "bookv41.yaml#/components/schemas/bookresponse"
+            application/json:
+              schema:
+                $ref: "bookv41.yaml#/components/schemas/bookresponse"
+
+
+  /v4.1/booking/optionChange:
+    post:
+      operationId: V41bookingChange
+      parameters:
+        - $ref: "#/components/parameters/bookingNr"
+        - $ref: "#/components/parameters/operator"
+      summary: Option change
+      description: The ability to edit the reservation.  Depending on the tour operator, change the contact details or select other services. In case of change additional services, usually involves an increase the price of the reservation.
+      tags:
+        - bookv4.1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "bookv41.yaml#/components/schemas/bookrequest"
+          application/xml:
+            schema:
+              $ref: "bookv41.yaml#/components/schemas/bookrequest"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: "bookv41.yaml#/components/schemas/bookresponse"
+            application/json:
+              schema:
+                $ref: "bookv41.yaml#/components/schemas/bookresponse"
+
+
+  /v4.1/booking/confirm:
+    post:
+      operationId: V41bookingConfirm
+      parameters:
+        - $ref: "#/components/parameters/bookingNr"
+        - $ref: "#/components/parameters/operator"
+      summary: Confirms the reservation
+      description: To confirm a reservation which is optional at first should be status checked and option date.
+      tags:
+        - bookv4.1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "bookv41.yaml#/components/schemas/bookrequest"
+          application/xml:
+            schema:
+              $ref: "bookv41.yaml#/components/schemas/bookrequest"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: "bookv41.yaml#/components/schemas/bookresponse"
+            application/json:
+              schema:
+                $ref: "bookv41.yaml#/components/schemas/bookresponse"
+
+#  /v4.1/booking/copy:
+#    post:
+#      operationId: V41bookingCopy
+#      parameters:
+#        - $ref: "#/components/parameters/bookingNr"
+#        - $ref: "#/components/parameters/operator"
+#      summary: Copy  booking
+#      tags:
+#        - bookv4.1
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: "bookv41.yaml#/components/schemas/bookrequest"
+#          application/xml:
+#            schema:
+#              $ref: "bookv41.yaml#/components/schemas/bookrequest"
+#      responses:
+#        '200':
+#          description: OK
+#          content:
+#            application/xml:
+#              schema:
+#                $ref: "bookv41.yaml#/components/schemas/bookresponse"
+#            application/json:
+#              schema:
+#                $ref: "bookv41.yaml#/components/schemas/bookresponse"
+
+
+#  /v5/data/car/search:
+#    post:
+#      tags:
+#        - Cars/Transfers
+#      description: 'Search'
+#      operationId: carSearch
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              type: object
+#              xml:
+#                name: mds
+#              properties:
+#                request:
+#                  type: array
+#                  items:
+#                    type: object
+#                         properties:
+#                            conditions:
+#                            $ref:  'offer.yaml#/components/schemas/conditions leisure'
+#                    mds: type object
+#                    allOf:
+#                    - $ref: 'offer.yaml#/components/schemas/auth'
+#                    - $ref: 'offer.yaml#/components/schemas/conditions leisure'
+#      responses:
+#        '200':
+#          description: OK
+
+components:
+  parameters:
+    operator:
+      in: query
+      name: 'Operator'
+      required: true
+      schema:
+        type: string
+    bookingNr:
+      in: query
+      name: 'BookingNumber'
+      required: true
+      schema:
+        type: string
+    offerId:
+      in: query
+      name: 'OfferId'
+      required: true
+      schema:
+        type: string
+    baseOfferId:
+      in: query
+      name: 'Base.OfferId'
+      required: true
+      schema:
+        type: string
+    bookingOperator:
+      in: query
+      name: 'Booking.Operator'
+      required: true
+      schema:
+        type: string
+    bookingId:
+      in: query
+      name: 'Booking.Id'
+      required: true
+      schema:
+        type: string
+  schemas:
+    auth:
+      type: object
+      required: [ login, domain, source, type ]
+      properties:
+        login:
+          type: string
+        expedient:
+          type: string
+          description: Expedient/consultant individual code generated by support
+        password:
+          type: string
+        subsystem:
+          description: It is a good practice to have information about origin of request.
+            It will be used for troubleshoting and service usage hints.
+            You can put there information about envinroment or Id of 3rd party developer which received token.
+            This information will be passed to external content provider if supported by supplier.
+          type: string
+          pattern: '[0-9a-zA-Z]{0,32}'
+        domain:
+          type: string
+          description: For services using direct requests from page, limiting crossite request to specific domain
+        source:
+          enum: [ 'B2B', 'B2C' ]
+          description: Source origin, if request came from B2B or B2C portal
+          type: string
+        type:
+          enum: [ 'web' ]
+          default: 'web'
+          description: |
+            type of token to create:
+            web - for frontend applicaitons, will autoexpire, can't be invalidated
+                  in case of 412 response from search page should generate new token thru backend script.
+                  Minimum lifetime is not guaranted, max is 20min.
+          type: string
+        language:
+          type: string
+          default: 'pl'
+          description: Expected language of content in response
+    orderBy:
+      type: array
+      items:
+        type: string
+        enum: [ "Base.Price.Total","Base.Price.FirstPerson","Accommodation.Name","Base.Operator","Accommodation.XService","Accommodation.Rating","Base.StartDate","Base.DepartureLocation","Base.NightsBeforeReturn","Base.XCode","Accommodation.Category","Base.XRegion","Base.XCountry","Accommodation.DistanceToSlope" ]
+    views:
+      type: object
+      properties:
+        unfilteredFieldValues:
+          description: "list of possible field excluding filter conditions (using search conditions)"
+          type: object
+          required: [ fieldList ]
+          properties:
+            fieldList:
+              type: array
+              items:
+                type: string
+                enum: [ "Base.Catalog", "Base.StartDate","Base.NightsBeforeReturn","Base.DepartureLocation","Accommodation.Name","Accommodation.Room","Accommodation.Board" ]
+        fieldValues:
+          description: "list of possible field values (using search and filter conditions)"
+          type: object
+          required: [ fieldList ]
+          properties:
+            fieldList:
+              type: array
+              items:
+                type: string
+                enum: [ "Base.Catalog", "Base.StartDate","Base.NightsBeforeReturn","Base.DepartureLocation","Accommodation.Name","Accommodation.Room","Accommodation.Board" ]
+        groupedList:
+          description: "require group key to be set"
+          type: object
+          properties:
+            orderBy:
+              $ref: "#/components/schemas/orderBy"
+            previousPageBookmark:
+              type: string
+              description: 'page bookmark from last groupedList result'
+            excludeGroupValues:
+              type: array
+              items:
+                type: string
+              description: 'exclude results with specified group keys from answer, supported only for groupBy: [Accommodation.XCode]'
+              deprecated: true
+            prioritizeGroupValues:
+              type: array
+              items:
+                type: string
+              description: 'prioritize results with specified group keys from answer, supported only for groupBy: [Accommodation.XCode]'
+            limit:
+              type: integer
+              description: 'max returned results'
+            fieldList:
+              type: array
+              items:
+                type: string
+                enum: [ "Base.StartDate","Base.NightsBeforeReturn","Base.DepartureLocation","Accommodation.Name","Accommodation.Room","Accommodation.Board" ]
+        regionList:
+          description: ""
+          type: object
+          properties:
+            fieldList:
+              type: array
+              items:
+                type: string
+                enum: [ "Base.StartDate","Base.NightsBeforeReturn","Base.DepartureLocation","Accommodation.Name","Accommodation.Room","Accommodation.Board" ]
+        skiRegionList:
+          description: ""
+          type: object
+          properties:
+            fieldList:
+              type: array
+              items:
+                type: string
+                enum: [ "Base.StartDate","Base.NightsBeforeReturn","Base.DepartureLocation","Accommodation.Name","Accommodation.Room","Accommodation.Board" ]
+        offerList:
+          type: object
+          description: "If conditions.results.group.valuekey is selected, it will return only offers for selected key"
+          properties:
+            limit:
+              type: integer
+              description: 'max returned results'
+            limitFrom:
+              type: integer
+              deprecated: true
+            orderBy:
+              $ref: "#/components/schemas/orderBy"
+            orderByPriority:
+              $ref: "#/components/schemas/orderPrio"
+            previousPageBookmark:
+              type: string
+              description: 'page bookmark from last offerList result'
+            multiroom:
+              type: boolean
+              description: 'Enables multiroom response: each offer term will be returned only once for each board type'
+            fieldList:
+              type: array
+              items:
+                type: string
+                enum: [ "Base.StartDate","Base.NightsBeforeReturn","Base.DepartureLocation","Accommodation.Name","Accommodation.Room","Accommodation.Board" ]
+        groupedListSelectedOfferListPriceMatrix:
+          description: "price for field values using all conditions including group key, available only if grouping is enabled "
+          type: object
+          properties:
+            fieldList:
+              type: array
+              items:
+                type: string
+                enum: [ "Base.Operator" ]
+
+    orderPrio:
+      required: [ items ]
+      description: |
+        Sort offers by priority (used before the regular 'orderBy' field):
+        - not guaranteed
+        - currently limited to single field
+        - empty array '[]' signalize where to put offers without priority set
+        - for e.g. to prioritize 7 and 14 durations in the first place, then 8,9,13,15 in the second; use:      
+        field:"Base.NightsBeforeReturn",prio:[["7","14"],["6","8","13","15"]]        
+        - to show the offers of Operator "OP1" at the beginning and "OP2" at the very end use:        
+        field:"Base.Operator",prio:[["OP1"],[],["OP2"]]
+      type: array
+      maxItems: 1
+      minItems: 1
+      items:
+        $ref: "#/components/schemas/orderByPrioField"
+
+    bookconfirm:
+      type: object
+      required: [ confirmBook ]
+      properties:
+        confirmBook:
+          type: boolean
+
+    bookcancel:
+      type: object
+      required: [ bookcancel ]
+      properties:
+        confirmCancel:
+          type: boolean
+
+    orderByPrioField:
+      type: object
+      required: [ field, mapping ]
+      properties:
+        field:
+          type: string
+          description: "order field used for priority"
+          example: "Base.NightsBeforeReturn"
+        mapping:
+          description: specify values in groups in order of priority (from highest to lowest)
+          example: [ [ "7","14" ],[ "6","8","13","15" ],[ ],[ "1","2","3" ] ]
+          type: array
+          minItems: 1
+          maxItems: 255
+          items:
+            description: the order of the values in one priority does not matter
+            type: array
+            minItems: 1
+            items:
+              type: string
+
+    fieldValuesResponseDate:
+      type: array
+      items:
+        type: string
+        format: date
+
+    fieldValuesResponseInt:
+      type: array
+      items:
+        type: integer
+    fieldValuesResponseString:
+      type: array
+      items:
+        type: string
+
+    fieldValuesResponseDesc:
+      type: object
+      additionalProperties:
+        type: string
+
+    fieldValuesResponse:
+      type: object
+      properties:
+        Base.StartDate:
+          $ref: "#/components/schemas/fieldValuesResponseDate"
+        Base.NightsBeforeReturn:
+          $ref: "#/components/schemas/fieldValuesResponseInt"
+        Base.DepartureLocation:
+          $ref: "#/components/schemas/fieldValuesResponseDesc"
+        Accommodation.BuildRenovationYear:
+          $ref: "#/components/schemas/fieldValuesResponseInt"
+          example: [ 2021, 2022 ]
+        Accommodation.Name:
+          $ref: "#/components/schemas/fieldValuesResponseDesc"
+        Accommodation.Room:
+          $ref: "#/components/schemas/fieldValuesResponseDesc"
+        Accommodation.Board:
+          $ref: "#/components/schemas/fieldValuesResponseDesc"
+        Base.Operator:
+          description: Operator list, usually a 3 or 4 character operator code
+          $ref: "#/components/schemas/fieldValuesResponseDesc"
+        Base.XCity:
+          $ref: "#/components/schemas/fieldValuesResponseDesc"
+        Base.Catalog:
+          $ref: "#/components/schemas/fieldValuesResponseString"
+        Accommodation.XCity:
+          $ref: "#/components/schemas/fieldValuesResponseDesc"
+        Accommodation.XService:
+          $ref: "#/components/schemas/fieldValuesResponseDesc"
+        Accommodation.XCode:
+          description: standardized object id, assigned to the hotel by MerlinX, unified hotel code which was matched
+          $ref: "#/components/schemas/fieldValuesResponseDesc"
+        Accommodation.Category:
+          $ref: "#/components/schemas/fieldValuesResponseString"
+        Accommodation.Attributes:
+          $ref: "#/components/schemas/fieldValuesResponseString"
+        Accommodation.Camp.Theme:
+          $ref: "#/components/schemas/fieldValuesResponseInt"
+        Accommodation.Type:
+          $ref: "#/components/schemas/fieldValuesResponseDesc"
+        Transport.Type:
+          $ref: "#/components/schemas/fieldValuesResponseDesc"
+
+    notapplicable:
+      type: boolean
+      default: false
+
+    searchbase:
+      properties:
+        Base.Operator:
+          $ref: '#/components/schemas/searchbase.Base.Operator'
+        Base.Catalog:
+          type: object
+          properties:
+            notApplicable:
+              $ref: '#/components/schemas/notapplicable'
+            list:
+              $ref: '#/components/schemas/searchbasefield.list'
+            text:
+              $ref: '#/components/schemas/searchbasefield.text'
+          description:
+            Price catalog, allows to narrow to a selected offer or catalog of a operator
+        Base.DestinationLocation:
+          $ref: '#/components/schemas/searchbase.Base.DestinationLocation'
+        Base.DepartureLocation:
+          $ref: '#/components/schemas/searchbase.Base.DepartureLocation'
+        Base.ComponentsCombinations:
+          allOf:
+            - $ref: '#/components/schemas/searchbasefield.components_combinations'
+            - description:
+                Combination of components
+        Base.StartDateAfter:
+          allOf:
+            - $ref: '#/components/schemas/searchbasefield.datefield'
+            - description:
+                Minimum trip start date (including selected)
+              deprecated: true
+        Base.StartDateBefore:
+          allOf:
+            - $ref: '#/components/schemas/searchbasefield.datefield'
+            - description:
+                Maximum trip start date (including selected)
+              deprecated: true
+        Base.StartDateMin:
+          allOf:
+            - $ref: '#/components/schemas/searchbasefield.datefield'
+            - description:
+                Minimum trip start date (including selected)
+        Base.StartDateMax:
+          allOf:
+            - $ref: '#/components/schemas/searchbasefield.datefield'
+            - description:
+                Maximum trip start date (including selected)
+        Base.StartDateDayOfWeek:
+          type: object
+          properties:
+            list:
+              $ref: '#/components/schemas/searchbasefield.list'
+          description:
+            Maximum trip start date (including selected)
+        Base.ReturnDateBefore:
+          allOf:
+            - $ref: '#/components/schemas/searchbasefield.datefield'
+            - description:
+                Maximum trip return date (for offers with transport it will be return departure date)
+              deprecated: true
+        Base.ReturnDateMax:
+          allOf:
+            - $ref: '#/components/schemas/searchbasefield.datefield'
+            - description:
+                Maximum trip return date (for offers with transport it will be return departure date)
+
+        Base.NightsBeforeReturn:
+          allOf:
+            - type: object
+              properties:
+                notApplicable:
+                  $ref: '#/components/schemas/notapplicable'
+            - $ref: '#/components/schemas/searchbasefield.range'
+            - description:
+                Nights between start and return (for offers with transport it will be nights till return departure date)
+        Base.Promotion:
+          type: object
+          properties:
+            notApplicable:
+              $ref: '#/components/schemas/notapplicable'
+            list:
+              $ref: '#/components/schemas/searchbasefield.list'
+          description:
+            promotion type, allows to select hits of the week, last and first minutes offers
+          deprecated: true
+        Base.Candy:
+          type: object
+          properties:
+            notApplicable:
+              $ref: '#/components/schemas/notapplicable'
+            list:
+              $ref: '#/components/schemas/searchbasefield.list'
+          description:
+            Candy - promoted flag ads, e.g. Free Skipass or internet for the free,  bonus provided by the operator
+        Base.Transfer:
+          allOf:
+            - type: object
+              properties:
+                notApplicable:
+                  $ref: '#/components/schemas/notapplicable'
+            - $ref: '#/components/schemas/searchbasefield.attribute'
+            - description: 'offers with transfer'
+
+        Base.Availability:
+          type: object
+          properties:
+            availability:
+              $ref: '#/components/schemas/searchbasefield.availability'
+          description: 'offer availability'
+
+        Accommodation.Category:
+          allOf:
+            - $ref: '#/components/schemas/searchbasefield.range'
+            - type: object
+              properties:
+                notApplicable:
+                  $ref: '#/components/schemas/notapplicable'
+            - description:
+                Object category, range from 1 to 6, some objects may be without any categories such as apartments or guesthouses
+        Accommodation.Rating:
+          allOf:
+            - $ref: '#/components/schemas/searchbasefield.range'
+            - type: object
+              properties:
+                notApplicable:
+                  $ref: '#/components/schemas/notapplicable'
+            - description:
+                Rating of offers
+        Accommodation.XService:
+          type: object
+          properties:
+            notApplicable:
+              $ref: '#/components/schemas/notapplicable'
+            list:
+              $ref: '#/components/schemas/searchbasefield.list'
+          description:
+            Service/Meal type, list IDs are preserved and will not change meaning
+
+        Accommodation.Camp.Theme:
+          allOf:
+            - $ref: '#/components/schemas/searchbasefield.grouped_list'
+            - type: object
+              properties:
+                notApplicable:
+                  $ref: '#/components/schemas/notapplicable'
+            - description:
+                Main child camp theme, offers dedicated only for children
+        Accommodation.ExtAgentAttributes:
+          $ref: '#/components/schemas/searchbase.Accommodation.ExtAgentAttributes'
+        Accommodation.Rooms:
+          description:
+            Board type, list IDs are preserved and will not change meaning
+          type: object
+          required: [ rooms ]
+          properties:
+            notApplicable:
+              $ref: '#/components/schemas/notapplicable'
+            rooms:
+              type: object
+              required: [ maxCount, type, feature ]
+              properties:
+                maxCount:
+                  type: integer
+                  default: 1
+                type:
+                  required: [ list ]
+                  type: object
+                  properties:
+                    list:
+                      $ref: '#/components/schemas/searchbasefield.list'
+                  description:
+                    room type like Apartament / studio, or simple 2 person room
+                feature:
+                  required: [ list ]
+                  type: object
+                  properties:
+                    list:
+                      $ref: '#/components/schemas/searchbasefield.list'
+                  description:
+                    features like View type (sea,garden,...),  double bed
+
+        Transport.Flight.AirlineType:
+          type: object
+          properties:
+            notApplicable:
+              $ref: '#/components/schemas/notapplicable'
+            list:
+              $ref: '#/components/schemas/searchbasefield.list'
+          description:
+            type of airline selection usually gds/lowcost
+
+        Base.ParticipantsList:
+          description:
+            List of participants, can be Type, Age or BirhDate (for unsupported sources birth date will be calculated
+            to age on StartDateAfter)
+          type: object
+          required: [ participantsList ]
+          properties:
+            participantsList:
+              type: object
+              required: [ allowedCodes ]
+              properties:
+                allowedBirthdate:
+                  type: boolean
+                  default: false
+                allowedAge:
+                  type: boolean
+                  default: false
+                allowedCodes:
+                  type: array
+                  items:
+                    type: string
+                    enum: [ 'ADULT','CHILD','YOUTH','SENIOR','INFANT' ]
+
+
+        Base.Price.FirstPerson.Min:
+          allOf:
+            - $ref: '#/components/schemas/searchbasefield.range'
+            - description: "minimum price"
+        Base.Price.FirstPerson.Max:
+          allOf:
+            - $ref: '#/components/schemas/searchbasefield.range'
+            - description: "maximum price"
+
+        Base.Price.Total.Min:
+          allOf:
+            - $ref: '#/components/schemas/searchbasefield.range'
+            - description: "minimum price"
+        Base.Price.Total.Max:
+          allOf:
+            - $ref: '#/components/schemas/searchbasefield.range'
+            - description: "maximum price"
+        debug:
+          type: string
+        Accommodation.Attributes:
+          description: accommodation attributes
+          type: array
+          items:
+            enum: [ location_mountains,location_near_the_slope,location_exotic_offers,location_lakes,
+                    location_ski_resorts,location_city_breaks,location_directly_on_the_beach,location_near_airport,
+                    location_near_the_center,facility_free_wifi,facility_for_adult,facility_wellness,
+                    facility_gay_friendly,facility_barbecue,facility_home_appliances,facility_fireplace,
+                    facility_parking,facility_for_families_with_childrens,facility_club_hotel,facility_fitness_or_gym,
+                    facility_outdoor_pool,facility_indoor_pool,facility_kindergarten,facility_water_slides,
+                    facility_facilities_for_disabled,facility_pets,facility_internet_access,facility_air_conditioning,
+                    facility_night_life,facility_winter_equipment_rental,activity_bicycles,
+                    activity_animation_for_adults,activity_sport,activity_tennis,activity_golf,activity_minigolf,
+                    activity_water_sports,activity_diving,activity_riding,activity_nordic_walking,
+                    activity_windsurfing,activity_sailing,activity_winter_sports ]
+
+        Base.DatasetInfo:
+          $ref: "#/components/schemas/searchbasefield.datasetinfo"
+
+    searchbase.Base.Operator:
+      type: object
+      properties:
+        list:
+          $ref: '#/components/schemas/searchbasefield.list'
+      description: Operator list, usually a 3 or 4 character operator code
+
+    searchbase.Base.DestinationLocation:
+      type: object
+      properties:
+        notApplicable:
+          $ref: '#/components/schemas/notapplicable'
+        countryandregion:
+          $ref: '#/components/schemas/searchbasefield.country_and_regionLevel1'
+        text:
+          $ref: '#/components/schemas/searchbasefield.text'
+      description:
+        Destination, depending of offer type it will be used as Destination Airport or Accommodation location
+
+    searchbase.Base.DepartureLocation:
+      type: object
+      properties:
+        notApplicable:
+          $ref: '#/components/schemas/notapplicable'
+        text:
+          $ref: '#/components/schemas/searchbasefield.text'
+        list:
+          $ref: '#/components/schemas/searchbasefield.list'
+      description:
+        Departure place
+
+    searchbase.Accommodation.ExtAgentAttributes:
+      type: object
+      properties:
+        notApplicable:
+          $ref: '#/components/schemas/notapplicable'
+        list:
+          $ref: '#/components/schemas/searchbasefield.list'
+      description:
+        List of agent attributes. This feature allows the agent to search only his selected, verified hotels. This solution will help create favorite hotel base.
+
+    #          type: array
+    #          items:
+    #            anyOf:
+    #              - $ref: "#/components/schemas/participant.birthdate"
+    #              - $ref: "#/components/schemas/participant.age"
+    #              - $ref: "#/components/schemas/participant.code"
+
+    participantsList:
+      type: array
+      items:
+        $ref: "#/components/schemas/participant"
+
+    participant:
+      properties:
+        roomIndex:
+          type: integer
+          default: 0
+      oneOf:
+        - $ref: "#/components/schemas/participant.birthdate"
+        - $ref: "#/components/schemas/participant.age"
+        - $ref: "#/components/schemas/participant.code"
+
+    participant.birthdate:
+      required: [ birthdate ]
+      properties:
+        birthdate:
+          type: string
+          format: date
+
+    participant.age:
+      required: [ age ]
+      properties:
+        age:
+          type: integer
+          minimum: 0
+          maximum: 99
+
+    participant.code:
+      required: [ code ]
+      properties:
+        code:
+          type: string
+          enum: [ 'ADULT','CHILD','YOUTH','SENIOR','INFANT' ]
+
+
+    conditions_base:
+      type: object
+
+    conditions.location:
+      type: object
+      required: [ Id ]
+      properties:
+        Id:
+          description: "key from searchbase or autosuggest"
+          type: array
+          items:
+            type: string
+
+    conditions.geolocation.circle:
+      type: object
+      required: [ Circle ]
+      properties:
+        Circle:
+          description: search by distance to a point, limiting the maximum radius
+          type: object
+          required: [ Coords, radius ]
+          properties:
+            Coords:
+              example: [ 52.47976, 62.18571 ]
+              description: "[latitude, longitude]"
+              type: array
+              items:
+                minimum: -180
+                maximum: 180
+                type: number
+                format: double
+              minItems: 2
+              maxItems: 2
+            radius:
+              description: maximum radius in Metters
+              example: 1000
+              maximum: 500000
+              type: number
+
+    conditions.geolocation.polygon:
+      type: object
+      required: [ Polygon ]
+      properties:
+        Polygon:
+          description: search by distance to a point, limiting the maximum radius
+          type: object
+          required: [ Points ]
+          properties:
+            Points:
+              type: array
+              minItems: 3
+              maxItems: 4
+              items:
+                example: [ 52.47976, 62.18571 ]
+                description: "[latitude, longitude]"
+                type: array
+                items:
+                  minimum: -180
+                  maximum: 180
+                  type: number
+                  format: double
+                minItems: 2
+                maxItems: 2
+
+    conditions.geolocation:
+      type: object
+      properties:
+        Geo:
+          description: Use most detailed information about a trip for search, preffered accommodation, if not available it use airport location instead
+          type: object
+          oneOf:
+            - $ref: "#/components/schemas/conditions.geolocation.circle"
+            - $ref: "#/components/schemas/conditions.geolocation.polygon"
+
+
+    conditions.end:
+      type: object
+      properties:
+        departure:
+          type: object
+          properties:
+            min:
+              type: string
+              format: date
+              example: "2020-02-01"
+            max:
+              type: string
+              format: date
+              example: "2020-03-01"
+        arrivalLocation:
+          oneOf:
+            - $ref: "#/components/schemas/conditions.location"
+            - type: object
+              title: "same"
+              properties:
+                sameAsStartDeparture:
+                  type: boolean
+
+    conditions.start:
+      description: |
+        conditions parameters describing place of departure, required only for offers with Bus/Train/Flight
+      type: object
+      properties:
+        departure:
+          type: object
+          properties:
+            min:
+              type: string
+              format: date
+              example: "2020-01-01"
+            max:
+              type: string
+              format: date
+              example: "2020-02-01"
+            dayOfWeek:
+              type: array
+              items:
+                example: [ Thu,Fri ]
+                enum: [ Mon,Tue,Wed,Thu,Fri,Sat,Sun ]
+        departureLocation:
+          $ref: "#/components/schemas/conditions.location"
+
+    conditions.part.airport:
+      type: object
+      properties:
+        IATA:
+          type: string
+
+    conditions.part.object:
+      type: object
+      properties:
+        code:
+          type: string
+        service:
+          type: string
+        room:
+          type: string
+        attributes:
+          type: string
+
+    PriceFirstPerson:
+      type: object
+      properties:
+        FirstPerson:
+          type: object
+          description: basic adult price
+          properties:
+            Min:
+              $ref: "#/components/schemas/price"
+            Max:
+              $ref: "#/components/schemas/price"
+
+    PriceTotal:
+      type: object
+      properties:
+        Total:
+          type: object
+          description: basic final price for whole package, with all discounts
+          properties:
+            Min:
+              $ref: "#/components/schemas/price"
+            Max:
+              $ref: "#/components/schemas/price"
+
+
+    baseconditions.price:
+      type: object
+      properties:
+        Price:
+          type: object
+          oneOf:
+            - $ref: "#/components/schemas/PriceFirstPerson"
+            - $ref: "#/components/schemas/PriceTotal"
+
+    filterconditions:
+      type: object
+      properties:
+        Base:
+          type: object
+
+
+    field_searchid:
+      type: object
+      properties:
+        Id:
+          type: string
+
+    baseconditions.Accommodation:
+      type: object
+      properties:
+        ExtAgentAttributes:
+          type: array
+          items:
+            type: string
+        Type:
+          type: string
+          enum:
+            - R    #Round trip
+            - H    #hotel
+            - AP    #apartment
+            - AT    #active travel
+            - FW    #holiday houses
+            - P        #package, ex. Z+W
+            - PR    #package, ex. Z+W-
+            - PH    #package, ex. Z+W--
+            - PAT    #package, ex. Z+W-
+            - K    #cruise
+            - KP    #cruise
+            - OM    #camping, youth camp
+            - NR    #snorkeling
+            - SD    #study tour
+            - CP    #camping
+            - TX    #tickets for events
+            - SK    #sanatorium
+            - SW    #pilgrimage
+            - CB    #city break
+            - CA    #car
+            - T    #transfer
+            - BW    #lodging rooms
+            - M    #resorts
+            - PS    #guesthouse
+            - AG    #agrotourism
+        XCode:
+          description: standardized object id, assigned to the hotel by MerlinX, marking an object, unified hotel code  which was matched
+          type: array
+          items:
+            type: integer
+        BuildRenovationYear:
+          required: [ min ]
+          type: object
+          properties:
+            min:
+              type: integer
+            max:
+              type: integer
+        BookBeds:
+          description: "book beds instead rooms"
+          type: boolean
+          default: false
+        Category:
+          required: [ min, max ]
+          description: object official category between 1-6 with possible halves
+          properties:
+            min:
+              type: number
+            max:
+              type: number
+        Rating:
+          required: [ min, max ]
+          description: object average rating (between 0-5 wth possible halves)
+          type: object
+          properties:
+            min:
+              type: number
+            max:
+              type: number
+        XService:
+          description: possibles meals grouped in categories
+          type: array
+          items:
+            type: integer
+        Rooms:
+          type: array
+          items:
+            required: [ type, feature ]
+            type: object
+            properties:
+              type:
+                description: basic type of room (f.e. double, triple, bungalow)
+                type: array
+                items:
+                  type: string
+              feature:
+                description: additional room characteristic (f.e. with sea view)
+                type: array
+                items:
+                  type: string
+        Camp:
+          type: object
+          required: [ Theme ]
+          properties:
+            Theme:
+              type: array
+              items:
+                type: integer
+        Attributes:
+          description: |
+            By default the offer must contain at least one attribute from list, you can use "+" to make it required or "-" to exclude
+            for example: "+facility_free_wifi,-facility_for_adult,facility_indoor_pool,facility_outdoor_pool"
+            will search for offers with "facility_free_wifi", with at least one of: "facility_indoor_pool,facility_outdoor_pool",
+            and excluding facility_for_adult and 
+
+          type: array
+          items:
+            type: string
+        DistanceToBeach:
+          required: [ max ]
+          type: object
+          description: "limit objects by distance from beach in kilometers"
+          properties:
+            max:
+              type: integer
+        DistanceToSlope:
+          required: [ max ]
+          type: object
+          description: "limit objects by distance from slope  in kilometers"
+          properties:
+            max:
+              type: integer
+        XNameAndCodeFullTextSearch:
+          type: string
+          description: "full text search in Name and Code, limited to MerlinX Travel data"
+        Room:
+          type: string
+          description: "Room Code"
+    baseconditions:
+      type: object
+      required: [ Base ]
+      properties:
+        Custom:
+          description:
+            reserved for internal use
+          type: object
+          properties:
+            Rules:
+              type: object
+              properties:
+                include:
+                  type: array
+                  items:
+                    type: string
+                exclude:
+                  type: array
+                  items:
+                    type: string
+            Fields:
+              type: object
+              additionalProperties:
+                type: string
+        Content:
+          type: object
+          properties:
+            PhotosRequired:
+              description: Return only offers with photos
+              type: boolean
+              default: false
+            DescriptionRequired:
+              description: Return only offers with descriptions
+              type: boolean
+              default: false
+        Base:
+          allOf:
+            - $ref: "#/components/schemas/baseconditions.price"
+            - type: object
+              properties:
+                Availability:
+                  type: array
+                  description: offer status
+                  default: [ "available" ]
+                  items:
+                    type: string
+                    enum: [ "available","notavailable","onrequest" ]
+                XCountry:
+                  type: string
+                  description: country of the offer (from standardized list)
+                XRegion:
+                  type: string
+                  description: region of the offer (from standardized list)
+                XCity:
+                  type: string
+                  description: city of the offer (from standardized list)
+                XName:
+                  type: string
+                  description: standarized name of the object
+                XNameAndCodePartial:
+                  type: string
+                  description: Search inside name and code using full text search
+                Catalog:
+                  description: Offer price code (from operator)
+                  type: array
+                  items:
+                    type: string
+                Currency:
+                  type: string
+                  description: "requested currency for prices"
+                Operator:
+                  description: operator codes
+                  type: array
+                  items:
+                    type: string
+                OfferId:
+                  type: string
+                  description: "Id of offer, precisely defines offer"
+                DatasetInfo:
+                  type: object
+                  properties:
+                    private:
+                      type: array
+                      items:
+                        type: boolean
+
+                DepartureLocation:
+                  $ref: "#/components/schemas/conditions.location"
+                #                  type: array
+                #                  items:
+                #                    type: string
+                DestinationLocation:
+                  oneOf:
+                    - $ref: "#/components/schemas/conditions.location"
+                    - $ref: "#/components/schemas/conditions.geolocation"
+                  #$ Location //"shortcut for Transport Destination, or Accomodation Location"
+                #        DepartureLocation: #$Location //"shortcut for Transport Departure"
+                #        DepartureLocation: #$Location //"shortcut for Transport Departure"
+                StartDate:
+                  type: object
+                  properties:
+                    Min:
+                      type: string
+                      format: date
+                      description: first possible date for departure (inclusive)
+                    Max:
+                      type: string
+                      format: date
+                      description: last possible date for departure  (inclusive)
+                    After:
+                      type: string
+                      format: date
+                      deprecated: true
+                      description: deprecated, use use the Max field instead
+                    Before:
+                      type: string
+                      format: date
+                      deprecated: true
+                      description: deprecated, use  use the Min field instead
+                    DayOfWeek:
+                      type: array
+                      items:
+                        example: [ Thu,Fri ]
+                        enum: [ Mon,Tue,Wed,Thu,Fri,Sat,Sun ]
+                ReturnDate:
+                  properties:
+                    Max:
+                      type: string
+                      format: date
+                      description: last possible date for return (inclusive)
+                    Before:
+                      type: string
+                      format: date
+                      deprecated: true
+                      description: deprecated, use the Max field instead
+                NightsBeforeReturn:
+                  type: object
+                  description:
+                    number of nights between start and return departure (for offers with transport), or just number of accommodation nights (for offers without transport)
+                  properties:
+                    min:
+                      type: integer
+                    max:
+                      type: integer
+                ComponentsCombinations:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: string
+                Promotion:
+                  type: string
+                  description: type of the special offer (f.e. first minute, last minute)
+                Candy:
+                  type: integer
+                  description: extra bonuses from the operator, standardized to several types
+                Transfer:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - "yes"
+                      - "no"
+                      - "unspecified"
+                Refundable:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - "yes"
+                      - "no"
+                      - "flex"
+                      - "unspecified"
+                ParticipantsList:
+                  $ref: "#/components/schemas/participantsList"
+                XObjectText:
+                  type: string
+                  description: "text search, for internal use, may not work on production"
+                BookingConditions:
+                  type: string
+                  description: Special booking conditions code.
+                Resident:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - local
+                      - remote
+                      - no
+                      - noinformation
+
+        Accommodation:
+          $ref: "#/components/schemas/baseconditions.Accommodation"
+        Transport:
+          type: object
+          properties:
+            Flight:
+              type: object
+              properties:
+                Luggage:
+                  type: array
+                  items:
+                    type: string
+                    enum: [ "yes","no","unspecified" ]
+                Stops:
+                  type: array
+                  items:
+                    type: string
+                    enum: [ "yes","no","unspecified" ]
+                AirlineType:
+                  type: array
+                  items:
+                    type: string
+                    enum: [ "gds","lowcost","unspecified" ]
+                    default: "unspecified"
+    bookingFormRequest:
+      type: object
+      description: "Filled book form to check online."
+      properties:
+        AdditionalServices:
+          type: array
+          items:
+            $ref: '#/components/schemas/additionalServiceRequest'
+    price:
+      type: object
+      description: "Price, always remember to do not use float for price manipulation."
+      required: [ amount, currency ]
+      properties:
+        amount:
+          type: string
+          pattern: '^\d{1,10}(\.\d{1,3})?$'
+        currency:
+          type: string
+          description: "currency"
+          pattern: '^[A-Z]{3}$'
+        details:
+          type: object
+          properties:
+            TFGIncluded:
+              type: boolean
+            TFGData:
+              type: string
+    offer.base.candy:
+      type: object
+      properties:
+        Types:
+          type: array
+          description: Standardized category name assigned to Id, promoted flag ads, e.g. Free Skipass or internet for the free,  bonus provided by the operator
+          items:
+            type: object
+            properties:
+              Id:
+                type: integer
+              Name:
+                type: string
+        Description:
+          type: string
+          description: Detailed description from provider
+    offer.base.availability:
+      type: object
+      properties:
+        base:
+          type: string
+          default: "available"
+          enum: [ "available","notavailable","onrequest","unknown" ]
+        extended:
+          type: array
+          items:
+            type: string
+            enum: [ "confirmed" ]
+            description: |
+              Additional flags:
+              confirmed: For offers (usually sightseeing / round trips ) that may not take place due to insufficient number of participants.
+        message:
+          type: string
+        option:
+          type: object
+          properties:
+            possible:
+              type: boolean
+              description: "Indicates if optional booking for checked offer is possible."
+            date:
+              type: string
+              format: date-time
+              description: "Show max date until when optional booking is possible."
+        quota:
+          type: object
+          properties:
+            possible:
+              type: boolean
+              description: "Indicates if quota for checked offer is possible."
+            date:
+              type: string
+              format: date-time
+              description: "Show max date until when quota is possible."
+    pricedetails.participant:
+      allOf:
+        - $ref: '#/components/schemas/participant.birthdate'
+        - $ref: '#/components/schemas/participant.code'
+        - type: object
+          properties:
+            amount:
+              type: string
+              pattern: '^\d{1,10}(\.\d{1,3})?$'
+            currency:
+              type: string
+              description: "currency"
+              pattern: '^[A-Z]{3}$'
+
+    pricedetails:
+      type: object
+      properties:
+        Participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/pricedetails.participant'
+
+    booking.price:
+      type: object
+      properties:
+        Details:
+          $ref: "#/components/schemas/pricedetails"
+        FirstPerson:
+          $ref: "#/components/schemas/price"
+        Total:
+          $ref: "#/components/schemas/price"
+
+    offer.base.price:
+      type: object
+      properties:
+        Details:
+          $ref: "#/components/schemas/pricedetails"
+        FirstPerson:
+          $ref: "#/components/schemas/price"
+        Total:
+          $ref: "#/components/schemas/price"
+    offer.base.omnibus:
+      type: object
+      description: "EU Omnibus directive prices per person block, previous price and lowest price per person from set date range"
+      properties:
+        URL:
+          type: string
+          description: "URL to JSON with data"
+    offer.base:
+      allOf:
+        - $ref: '#/components/schemas/offer.xcodeblock'
+        - properties:
+            XType:
+              $ref: '#/components/schemas/offer.xtype'
+            EGuide:
+              $ref: '#/components/schemas/offer.eguide'
+            ThumbUrl:
+              type: string
+              description: "thumbnail URL"
+            Price:
+              $ref: "#/components/schemas/offer.base.price"
+            OriginalPrice:
+              $ref: "#/components/schemas/offer.base.price"
+            Omnibus:
+              $ref: "#/components/schemas/offer.base.omnibus"
+            LegacyOfferId:
+              type: string
+              description: legacy id of object, compatible with old version of service (V4:field ofr_id).
+                Incompatible with content available only in V5.
+              deprecated: true
+            UniqueObjectId:
+              type: string
+              description: legacy id of object, compatible with old version of service (V4:field ofr_id).
+                Incompatible with content available only in V5.
+              deprecated: true
+            ObjectId:
+              type: string
+              description: "Id of object (originate from `accommodation` if possible), can be used to find alternative offers"
+            OfferId:
+              type: string
+              description: "Id of offer, precisely defines offer, can be different in repeated requests"
+            Availability:
+              $ref: "#/components/schemas/offer.base.availability"
+            Catalog:
+              type: string
+            Operator:
+              type: string
+            OperatorDesc:
+              type: string
+            Duration:
+              type: integer
+              description: total number of travel days (including the day of return)
+            DepartureLocation:
+              $ref: "#/components/schemas/IdAndName"
+            DestinationLocation:
+              $ref: "#/components/schemas/IdAndName"
+            StartDate:
+              type: string
+              format: date
+            ReturnDate:
+              type: string
+              format: date
+            NightsBeforeReturn: #days ( for trips with transport: between start departure, and return departure using local timezone , for accommodation only: nights)
+              type: integer
+            ComponentsCombinations:
+              type: array
+              items:
+                type: string
+            Promotion:
+              type: string
+            Candy:
+              $ref: "#/components/schemas/offer.base.candy"
+            Transfer:
+              type: string
+              enum:
+                - "yes"
+                - "no"
+                - "unspecified"
+            Refundable:
+              type: string
+              enum:
+                - "yes"
+                - "no"
+                - "flex"
+                - "unspecified"
+            ExtCovidInfo:
+              $ref: "#/components/schemas/extcovidinfo"
+            InternalData:
+              type: string
+              description: contains additional details regarding the offer for example, pid, roomId or roomSrvId
+            DatasetInfo:
+              $ref: "#/components/schemas/offer.base.datasetinfo"
+            BookingConditions:
+              type: string
+              description: Special booking conditions code
+            Allocations:
+              type: array
+              items:
+                $ref: "#/components/schemas/offer.base.allocation"
+            Resident:
+              type: string
+              enum:
+                - local
+                - remote
+                - no
+                - noinformation
+
+    offer.base.datasetinfo:
+      type: object
+      description: metadata describing the dataset
+      required: [ private, name ]
+      properties:
+        private:
+          description: offer is from the dataset limited to the selected agents
+          type: boolean
+        name:
+          description: name of the dataset (can be empty)
+          type: string
+
+    extcovidinfo:
+      type: object
+      required: [ in , out ]
+      properties:
+        in:
+          $ref: "#/components/schemas/extcovidinfo.block"
+        out:
+          $ref: "#/components/schemas/extcovidinfo.block"
+    extcovidinfo.block:
+      required: [ country, border, borderText, quarantine,quarantineText,test,testText ]
+      type: object
+      properties:
+        country:
+          type: string
+        border:
+          type: string
+          enum: [ Open, Closed, Conditions ]
+        borderText:
+          type: string
+        quarantine:
+          type: boolean
+        quarantineText:
+          type: string
+        test:
+          type: boolean
+        testText:
+          type: string
+
+    IntIdAndName:
+      type: object
+      properties:
+        Id:
+          type: integer
+        Name:
+          type: string
+
+    IdAndName:
+      type: object
+      properties:
+        Id:
+          type: string
+        Name:
+          type: string
+
+    offer.xtype:
+      description: Standardized MerlinX type (best fit) describing the offer
+      type: string
+      enum:
+        - Package
+        - Cruise
+        - ChildCamp
+        - Accommodation
+        - Transport
+        - Insurance
+        - Parking
+        - Car
+
+    offer.eguide:
+      description: section only returned if the given region has an eguide description
+      type: object
+      required: [ RegionId ]
+      properties:
+        RegionId:
+          type: integer
+
+    offer.xcodeblock:
+      type: object
+      properties:
+        XCountry:
+          $ref: "#/components/schemas/IdAndName"
+        XRegion:
+          $ref: "#/components/schemas/IdAndName"
+        XCity:
+          $ref: "#/components/schemas/IdAndName"
+        XCode:
+          description: standardized object id, assigned to the hotel by MerlinX, marking an object, unified hotel code  which was matched
+          $ref: "#/components/schemas/IntIdAndName"
+    extTripAdvisor:
+      type: object
+      required: [ image,description,review,count,rating ]
+      properties:
+        image:
+          type: string
+        description:
+          type: string
+        review:
+          type: string
+        count:
+          type: integer
+        rating:
+          type: number
+          format: float
+
+
+    #  $offer['Accommodation']['ExtTripAdvisor'] = [
+    #  'image' => $_tab['TA_image'] ?? '',
+    #  'description' => $_tab['TA_description'] ?? '',
+    #  'review' => $_tab['TA_review'] ?? '',
+    #  'count' => $_tab['TA_count'] ?? '',
+    #  'rating' => $_tab['TA_rating'] ?? ''
+    #  ];
+
+    offer.accommodation.camp:
+      type: object
+      required: [ Theme ]
+      properties:
+        Theme:
+          type: array
+          items:
+            type: object
+            properties:
+              Id:
+                type: integer
+              Name:
+                type: string
+
+    offer.accommodation.location:
+      type: object
+      properties:
+        Coords:
+          example: [ 52.47976, 62.18571 ]
+          description: "[latitude, longitude]"
+          type: array
+          items:
+            type: number
+            format: double
+          minItems: 2
+          maxItems: 2
+        geoSearchDistance:
+          type: number
+          description: distance in meters from center point of geo search
+
+    offer.accommodation.type:
+      type: object
+      properties:
+        Id:
+          type: string
+          enum: [ "H","R","K","PP","7+7","Z+W" ]
+          deprecated: true
+        Name:
+          type: string
+      description: Type of accommodation,
+
+    extMonthlyWeather:
+      type: object
+      properties:
+        Month:
+          type: integer
+          minimum: 1
+          maximum: 12
+          description: "month number"
+        TempUnit:
+          type: string
+          enum: [ "Â°C" ]
+        SpeedUnit:
+          type: string
+          enum: [ "km/h" ]
+        DepthUnit:
+          type: string
+          enum: [ "cm" ]
+        AirMinTemp:
+          type: integer
+        AirMaxTemp:
+          type: integer
+        WaterTemp:
+          type: integer
+        SunnyDays:
+          type: integer
+        RainyDays:
+          type: integer
+        Humidity:
+          type: integer
+          description: "percentage of relative humidity"
+        SnowDepth:
+          type: integer
+        WindSpeed:
+          type: integer
+
+
+    offer.accommodation:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/offer.xcodeblock'
+        - properties:
+            BuildRenovationYear:
+              type: integer
+            ExtMonthlyWeather:
+              $ref: '#/components/schemas/extMonthlyWeather'
+            AvailableRoomsCount:
+              type: string
+            ExtTripAdvisor:
+              $ref: '#/components/schemas/extTripAdvisor'
+            Type:
+              $ref: '#/components/schemas/offer.accommodation.type'
+            Code:
+              type: string
+              description: "Object code used by supplier system"
+            StartDate:
+              type: string
+              format: date
+              description: "startdate in hotel"
+            Nights:
+              type: integer
+              description: "nights in hotel"
+            BookBeds:
+              type: boolean
+              description: "book beds"
+            Opinions:
+              type: integer
+            Category:
+              type: number
+            Rating:
+              type: number
+              format: float
+            Room:
+              $ref: "#/components/schemas/IdAndName"
+            XService:
+              $ref: "#/components/schemas/IntIdAndName"
+            Name:
+              type: string
+            Location:
+              $ref: "#/components/schemas/offer.accommodation.location"
+            Service:
+              $ref: "#/components/schemas/IdAndName"
+            Rooms:
+              type: integer
+            Camp:
+              $ref: "#/components/schemas/offer.accommodation.camp"
+            Attributes:
+              type: array
+              items:
+                type: string
+            ThumbUrl:
+              type: string
+              description: "thumbnail URL"
+            DistanceToBeach:
+              type: integer
+            DistanceToSlope:
+              type: integer
+            DistanceToCityCenter:
+              type: integer
+            DistanceToAirport:
+              type: integer
+            ExtAgentAttributes:
+              $ref: "#/components/schemas/offer.accommodation.extAgentAttributes"
+
+    offer.accommodation.extAgentAttributes:
+      type: object
+      properties:
+        attributes:
+          type: array
+          items:
+            $ref: "#/components/schemas/offer.accommodation.extAgentAttributes.Attribute"
+        descriptionExists:
+          type: boolean
+          description: "return true if there is at least one agent description for the hotel"
+    #        descriptions:
+    #          type: array
+    #          items:
+    #            $ref: "#/components/schemas/offer.accommodation.extAgentAttributes.Description"
+
+
+    offer.accommodation.extAgentAttributes.Attribute:
+      type: object
+      required: [ id,name ]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    offer.accommodation.extAgentAttributes.Description:
+      type: object
+      required: [ id,expedient,description ]
+      properties:
+        id:
+          type: integer
+        expedient:
+          type: string
+        description:
+          type: string
+    offer.accommodationExtended:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/offer.accommodation'
+        - properties:
+            Supplementary:
+              type: array
+              items:
+                $ref: '#/components/schemas/offer.accommodation'
+
+    offer.transport:
+      oneOf:
+        - $ref: "#/components/schemas/Transport.Bus"
+        - $ref: "#/components/schemas/Transport.Flight"
+        - $ref: "#/components/schemas/Transport.Train"
+
+    offer.online.action:
+      type: object
+      required: [ timestamp, fieldList, action ]
+      properties:
+        action:
+          description: "Action required to validate"
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        fieldList:
+          type: array
+          items:
+            type: string
+
+    offer.online:
+      type: object
+      required: [ actions ]
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/offer.online.action'
+
+    offer.additionalServices:
+      type: array
+      items:
+        $ref: '#/components/schemas/offer.additionalService'
+
+    additionalServiceRequest:
+      type: object
+      required: [ Code, Assignment ]
+      description: |
+        list of choosen services from book form
+      properties:
+        Code:
+          type: string
+          description: unique service identifier
+        Assignment:
+          type: array
+          items:
+            type: integer
+        DateFrom:
+          type: string
+          format: date
+        DateTo:
+          type: string
+          format: date
+
+    offer.additionalService:
+      type: object
+      required: [ Code, Name, Assignment ]
+      description: |
+        list of services that are or may be included in the offer.
+        the setting of the `Assignment` value determines whether the service is selected 
+        each service must be assigned to an offer or to a participant,
+        in the case of a participant, we use its index, in the case of an offer, the value is 0
+      properties:
+        Code:
+          type: string
+          description: unique service identifier
+        Name:
+          type: string
+          description: service short name
+        Description:
+          type: string
+          description: service long description provided by operator
+        Assignment:
+          type: array
+          items:
+            type: integer
+        Price:
+          $ref: '#/components/schemas/servicePrice'
+        DateFrom:
+          type: string
+          format: date
+        DateTo:
+          type: string
+          format: date
+        precondition:
+          $ref: '#/components/schemas/additionalService.precondition'
+
+    additionalService.precondition:
+      type: object
+      description: conditions to be checked to enable selection of the service
+      properties:
+        assignment:
+          type: array
+          description: list of available assignments
+          items:
+            type: integer
+        required:
+          type: array
+          description: service codes that must be selected, for example when the current service is an extension of another
+          items:
+            type: string
+        incompatible:
+          type: array
+          description: service codes not compatible with the current service, for example when only one service in a group can be selected
+          items:
+            type: string
+        perBooking:
+          type: boolean
+          description: flag informs that service should be checked for all persons listed in assignment for valid booking
+    servicePrice:
+      type: object
+      required: [ amount, currency ]
+      properties:
+        amount:
+          type: string
+          pattern: '^\d{1,10}(\.\d{1,3})?$'
+        currency:
+          type: string
+          description: "currency"
+          pattern: '^[A-Z]{3}$'
+
+    form:
+      type: object
+      properties:
+        Payment:
+          $ref: '#/components/schemas/payment'
+        AdditionalServices:
+          $ref: '#/components/schemas/offer.additionalServices'
+
+    payment:
+      type: object
+      required:
+        - Schedule
+      properties:
+        Schedule:
+          type: array
+          items:
+            $ref: '#/components/schemas/payment.schedule.item'
+
+
+    payment.schedule.item:
+      type: object
+      required:
+        - amount
+      properties:
+        type:
+          type: string
+          enum:
+            - Pre
+            - Rest
+        requiredTill:
+          type: string
+          format: "date-time"
+        amount:
+          type: string
+          format: decimal
+          pattern: '^\d{1,10}(\.\d{1,3})?$'
+        currency:
+          type: string
+          description: "currency"
+          pattern: '^[A-Z]{3}$'
+        paidAmount:
+          type: string
+          format: decimal
+          pattern: '^\d{1,10}(\.\d{1,3})?$'
+
+    offer:
+      type: object
+      properties:
+        Base:
+          $ref: '#/components/schemas/offer.base'
+        Accommodation:
+          $ref: '#/components/schemas/offer.accommodationExtended'
+        Transport:
+          $ref: '#/components/schemas/offer.transport'
+        Online:
+          $ref: '#/components/schemas/offer.online'
+        AdditionalServices:
+          $ref: '#/components/schemas/offer.additionalServices'
+        Payment:
+          $ref: '#/components/schemas/payment'
+
+    bookingstatus:
+      type: object
+      required: [ Id, Operator, Status ]
+      properties:
+        Id:
+          type: string
+        Operator:
+          type: string
+        Status:
+          type: string
+          description: |
+            Status code description:
+              - **XX** Canceled booking
+              - **RQ** Reservation âon requestâ
+              - **OP** Option reservation with date when the reservation expires
+              - **OQ** offer to pay, non-blocking seats option
+              - **RF** CONFIRMED option reservation
+              - **OK** Firm booking
+              - **??** Because of technical reasons, booking status could not be determined
+        Message:
+          type: string
+          description: |
+            Online message from operator
+        Price:
+          $ref: "#/components/schemas/booking.price"
+
+    Transport.Bus:
+      type: object
+      required: [ Bus ]
+      properties:
+        Bus:
+          type: object
+          properties:
+            Out:
+              $ref: "#/components/schemas/bus.Part"
+            Ret:
+              $ref: "#/components/schemas/bus.Part"
+
+    Transport.Train:
+      type: object
+      required: [ Train ]
+      properties:
+        Train:
+          type: object
+          properties:
+            Out:
+              $ref: "#/components/schemas/train.Part"
+            Ret:
+              $ref: "#/components/schemas/train.Part"
+
+    Transport.Flight:
+      type: object
+      required: [ Flight ]
+      properties:
+        Flight:
+          type: object
+          required: [ Out,Ret,AirlineType,Luggage,Stops ]
+          properties:
+            Out:
+              type: array
+              items:
+                $ref: "#/components/schemas/flight.Part"
+            Ret:
+              type: array
+              items:
+                $ref: "#/components/schemas/flight.Part"
+            AirlineType:
+              type: string
+              enum: [ "gds","lowcost","unspecified" ]
+            Luggage:
+              type: string
+              enum: [ "yes","no","unspecified" ]
+            Stops:
+              type: string
+              enum: [ "yes","no","unspecified" ]
+
+    flight.Part.Airline:
+      type: object
+      properties:
+        Code:
+          type: string
+          description: "IATA CODE"
+          pattern: '^[A-Z]{2}$'
+        Name:
+          type: string
+          description: "Airline name"
+
+    flight.Part.Airport:
+      type: object
+      properties:
+        Code:
+          type: string
+          description: "IATA CODE"
+          pattern: '^[A-Z]{3}$'
+        Name:
+          type: string
+          description: "Airport name"
+        Date:
+          type: string
+          format: date
+        Time:
+          type: string
+          pattern: '^\d{2}:\d{2}$'
+
+    bus.Part.Stop:
+      type: object
+      properties:
+        Code:
+          type: string
+          description: "Non standardized bus stop code, used by provider interface"
+          maxLength: 6
+        Date:
+          type: string
+          format: date
+        Time:
+          type: string
+          pattern: '^\d{2}:\d{2}$'
+        Name:
+          type: string
+          description: "A short name, usually a city"
+        Desc:
+          type: string
+          description: "Detailed description of the bus stop (if exists)"
+
+    train.Part.Stop:
+      type: object
+      properties:
+        Code:
+          type: string
+          description: "Non standardized train stop code, used by provider interface"
+          maxLength: 6
+        Date:
+          type: string
+          format: date
+        Time:
+          type: string
+          pattern: '^\d{2}:\d{2}$'
+        Name:
+          type: string
+          description: "A short name, usually a city"
+        Desc:
+          type: string
+          description: "Detailed description of the train stop (if exists)"
+
+    bus.Part:
+      type: object
+      properties:
+        Departure:
+          $ref: "#/components/schemas/bus.Part.Stop"
+        Destination:
+          $ref: "#/components/schemas/bus.Part.Stop"
+
+    train.Part:
+      type: object
+      properties:
+        Departure:
+          $ref: "#/components/schemas/train.Part.Stop"
+        Destination:
+          $ref: "#/components/schemas/train.Part.Stop"
+
+    flight.Part.Luggage:
+      type: object
+      properties:
+        Hand:
+          type: string
+        Registered:
+          type: string
+
+    flight.Part:
+      type: object
+      properties:
+        Luggage:
+          $ref: "#/components/schemas/flight.Part.Luggage"
+        AvailableSeatsCount:
+          type: string
+        Departure:
+          $ref: "#/components/schemas/flight.Part.Airport"
+        Destination:
+          $ref: "#/components/schemas/flight.Part.Airport"
+        FlightNo:
+          type: string
+        Airline:
+          $ref: "#/components/schemas/flight.Part.Airline"
+
+
+    searchbasefield.availability:
+      type: array
+      items:
+        enum: [ 'available','notavailable','onrequest' ]
+
+    searchbasefield.components_combinations:
+      type: object
+      properties:
+        componentscombinations:
+          type: array
+          items:
+            type: array
+            items:
+              enum: [ 'transport.flight','transport.bus','accommodation.hotel','accommodation.trip' ]
+              type: string
+              description: "component type"
+
+    searchbasefield.datefield:
+      type: object
+      properties:
+        date:
+          required: [ min,max ]
+          properties:
+            min:
+              type: string
+              format: date
+            max:
+              type: string
+              format: date
+
+    searchbasefield.day_of_fweek:
+      $ref: '#/components/schemas/searchbasefield.list'
+
+    searchbasefield.grouped_listItem:
+      type: object
+      properties:
+        desc:
+          type: string
+          description: "Group name"
+        values:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              desc:
+                type: string
+                description: "Item name"
+
+    searchbasefield.grouped_list:
+      type: object
+      properties:
+        groupedlist:
+          type: array
+          items:
+            $ref: '#/components/schemas/searchbasefield.grouped_listItem'
+
+    searchbasefield.country_and_regionLevel2:
+      type: object
+      additionalProperties:
+        type: object
+        required: [ desc ]
+        properties:
+          desc:
+            type: string
+            description: "Region name"
+
+
+    searchbasefield.country_and_regionLevel1:
+      type: object
+      additionalProperties:
+        type: object
+        required: [ desc, regions ]
+        properties:
+          desc:
+            type: string
+            description: "Country name"
+          regions:
+            $ref: '#/components/schemas/searchbasefield.country_and_regionLevel2'
+
+    searchbasefield.country_and_region:
+      type: object
+      properties:
+        countryandregion:
+          $ref: '#/components/schemas/searchbasefield.country_and_regionLevel1'
+
+    searchbasefield.text:
+      properties:
+        pattern:
+          type: string
+          description: "regex for field validation"
+
+    searchbasefield.list:
+      type: object
+      properties:
+        multiple:
+          type: boolean
+          default: false
+        values:
+          description: "for fixed lists, contains key/values"
+          additionalProperties:
+            type: string
+
+    searchbasefield.attribute:
+      type: object
+      properties:
+        attribute:
+          type: array
+          items:
+            type: string
+            enum:
+              - "yes"
+              - "no"
+              - "unspecified"
+
+    searchbasefield.range:
+      type: object
+      required: [ num ]
+      properties:
+        num:
+          required: [ min, max, step ]
+          type: object
+          properties:
+            step:
+              type: number
+              format: float
+              default: 1
+            min:
+              type: number
+              format: float
+            max:
+              type: number
+              format: float
+
+    searchbasefield.num:
+      type: object
+      required: [ num ]
+      properties:
+        num:
+          required: [ min, max ]
+          type: object
+          properties:
+            min:
+              type: integer
+            max:
+              type: integer
+
+    searchbasefield.datasetinfo:
+      type: array
+      items:
+        $ref: "#/components/schemas/offer.base.datasetinfo"
+
+
+    field_ofr_id:
+      description: |
+        It is  used to identify offer in internal system.
+        Same offers can have different offerids, but one offerid will always represent same offer
+        Value may vary depending of data source, it is in range of alphaunmeric with underscore [a-Z,0-9,_]
+      format: string
+      pattern: '[0-9a-zA-Z0-9_]'
+      xml:
+        attribute: true
+
+    errorInfo:
+      type: object
+      properties:
+        status:
+          enum:
+            - OK
+            - ERROR
+        errorMessage:
+          type: string
+
+    #        password:
+    #          type:
+    #            string
+    #    auth.token:
+    #      type: object
+    #      properties:
+    #        token:
+    #          type: string
+    #    auth.token:
+    #      type: object
+    #      properties:
+    #        token:
+    #          type: string
+    #    auth:
+    #      oneOf:
+    #        - $ref: "#/components/schemas/auth.pass"
+    #        - $ref: "#/components/schemas/auth.token"
+    regionListResponseRegionsItem:
+      type: object
+      properties:
+        desc:
+          type: string
+          description: "Region name"
+        offer:
+          $ref: "#/components/schemas/offer"
+
+    regionListResponseRegions:
+      type: object
+      description: "Region List"
+      additionalProperties:
+        $ref: "#/components/schemas/regionListResponseRegionsItem"
+
+    regionListResponseCountryItem:
+      type: object
+      properties:
+        desc:
+          type: string
+          description: "Country name"
+        regions:
+          $ref: "#/components/schemas/regionListResponseRegions"
+
+    regionListResponse:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/regionListResponseCountryItem"
+
+
+    skiRegionPath:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          desc:
+            type: string
+
+    skiRegionListResponse:
+      type: object
+      additionalProperties:
+        required: [ path ]
+        type: object
+        properties:
+          path:
+            $ref: "#/components/schemas/skiRegionPath"
+          offer:
+            $ref: "#/components/schemas/offer"
+
+    groupedListResponseItem:
+      type: object
+      required: [ groupKeyValue, sortKeyValue, offer ]
+      properties:
+        groupKeyValue:
+          type: string
+        sortKeyValue:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - type: integer
+        offer:
+          $ref: "#/components/schemas/offer"
+
+    groupedListResponseItems:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/groupedListResponseItem"
+
+
+    groupedListResponse:
+      type: object
+      required: [ sortKeyOrderAscending ]
+      properties:
+        sortKeyOrderAscending:
+          description: Order direction for each sort key field [ true - ascending , false - descending ]
+          type: array
+          items:
+            type: boolean
+        more:
+          type: boolean
+          description: 'there are more results than those returned'
+        pageBookmark:
+          type: string
+          description: 'mark of current results page'
+        items:
+          $ref: "#/components/schemas/groupedListResponseItems"
+
+    offer.base.allocation.participant:
+      type: object
+      required: [ count ]
+      properties:
+        count:
+          type: integer
+        minAge:
+          type: integer
+        maxAge:
+          type: integer
+
+    offer.base.allocation:
+      type: object
+      properties:
+        Price:
+          $ref: "#/components/schemas/offer.base.price"
+        Participants:
+          type: array
+          items:
+            $ref: "#/components/schemas/offer.base.allocation.participant"
+
+    multiroomoffer:
+      type: object
+      properties:
+        OfferId:
+          type: string
+          description: "Id of offer, precisely defines offer, can be different in repeated requests"
+        Room:
+          $ref: "#/components/schemas/IdAndName"
+        Allocation:
+          $ref: "#/components/schemas/offer.base.allocation"
+
+    multiroom:
+      type: object
+      properties:
+        rooms:
+          type: array
+          items:
+            $ref: "#/components/schemas/multiroomoffer"
+
+    offerListResponseItem:
+      type: object
+      required: [ sortKeyValue, offer ]
+      properties:
+        sortKeyValue:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - type: integer
+        offer:
+          $ref: "#/components/schemas/offer"
+        multiRoom:
+          $ref: "#/components/schemas/multiroom"
+
+
+    offerListResponse:
+      type: object
+      required: [ sortKeyOrderAscending ]
+      properties:
+        sortKeyOrderAscending:
+          description: Order direction for each sort key field [ true - ascending , false - descending ]
+          type: array
+          items:
+            type: boolean
+        more:
+          type: boolean
+          description: 'there are more results than those returned'
+        pageBookmark:
+          type: string
+          description: 'mark of current results page'
+        items:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/offerListResponseItem"
+
+    travelcheckonline.item:
+      type: object
+      required: [ offer, action, OfferId ]
+      properties:
+        action:
+          type: string
+        OfferId:
+          type: string
+        offer:
+          $ref: "#/components/schemas/offer"
+  responses:
+    authresponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ token ]
+            properties:
+              token:
+                type: string
+                format: base64
+    traveldetailsresponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ result ]
+            properties:
+              result:
+                type: object
+                properties:
+                  offer:
+                    $ref: "#/components/schemas/offer"
+              debug:
+                type: string
+
+    travelcheckonlineresponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ results ]
+            properties:
+              results:
+                type: array
+                items:
+                  $ref: "#/components/schemas/travelcheckonline.item"
+              debug:
+                type: string
+
+    travelcheckdetailsonlineresponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ result ]
+            properties:
+              result:
+                type: object
+                properties:
+                  offer:
+                    $ref: "#/components/schemas/offer"
+              debug:
+                type: string
+
+    bookingformresponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ result ]
+            properties:
+              result:
+                type: object
+                properties:
+                  offer:
+                    $ref: "#/components/schemas/offer"
+                  form:
+                    $ref: "#/components/schemas/form"
+              debug:
+                type: string
+
+    bookingstatusresponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ result ]
+            properties:
+              result:
+                type: object
+                properties:
+                  booking:
+                    $ref: "#/components/schemas/bookingstatus"
+              debug:
+                type: string
+
+    travelsearchresponse:
+      description: ok
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              unfilteredFieldValues:
+                $ref: "#/components/schemas/fieldValuesResponse"
+              fieldValues:
+                $ref: "#/components/schemas/fieldValuesResponse"
+              regionList:
+                $ref: "#/components/schemas/regionListResponse"
+              skiRegionList:
+                $ref: "#/components/schemas/skiRegionListResponse"
+              groupedList:
+                $ref: "#/components/schemas/groupedListResponse"
+              offerList:
+                $ref: "#/components/schemas/offerListResponse"
+              debug:
+                type: string
+
+    searchbaseresp:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/searchbase'
+
+    response_500:
+      description: Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errorCode:
+                type: string
+                enum:
+                  - "ERROR_INPUT_JSON_PARSE"
+                  - "UNKNOWN"
+              description:
+                type: string
+
+    response_401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reason:
+                enum: [ TOKEN_CORRPUTED,TOKEN_INVALID,TOKEN_INVALIDATED,TOKEN_EXPIRED,ACCOUNT_LOCKED,ACCOUNT_NOT_FOUND ]
+                description: >
+                  - TOKEN_INVALID - for internal reasons token isn't valid
+
+                  - TOKEN_INVALIDATED - creation date of token is before date specified in invalidatetoken request
+
+                  - TOKEN_EXPIRED - token reached its time to life
+
+                  - ACCOUNT_LOCKED - account have been locked, contact tech support
+
+                  - TOKEN_CORRUPTED - can't read token data
+
+                  - ACCOUNT_NOT_FOUND - accound was deleted or token is invalidated because of password change
+  securitySchemes:
+    TokenAuth:
+      description: |
+        Tokens provide secure way of keeping your credentials safe from exposing
+        (even to your 3rd party application developers).
+
+        - Each website or service SHOULD use own token (ideally each user).
+        - There are no limitations of amount of tokens.
+        - We do not store list of tokens, so there is no possibility to retrieve list of valid tokens.
+        - It is RECOMMENDED to specify own ttl (but it MAY be lower that the one you specified, but never higher)
+        - Fields domain and acquirer MUST NOT contain sensitive informations, they are not securely encoded inside token.
+        - Domain SHOULD be provided during token creation, otherwise it MUST be provided for every request.
+
+      type: apiKey
+      in: header
+      name: X-TOKEN
+    Domain:
+      description: |
+        application domain, some parts of system can have different configuration for each domain.
+        can be included in token (simply pass it during token creation) or with each request.
+      type: apiKey
+      in: header
+      name: X-DOMAIN
+security:
+  - TokenAuth: [ ]

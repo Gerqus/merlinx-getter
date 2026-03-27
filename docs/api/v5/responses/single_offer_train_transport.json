@@ -1,0 +1,198 @@
+{
+	"Base": {
+		"XCity": {
+			"Id": "336",
+			"Name": "Wrocław"
+		},
+		"XCode": {
+			"Id": 234202,
+			"Name": "Vratislav - Vlakem Za Zazitky"
+		},
+		"XCountry": {
+			"Id": "59",
+			"Name": "Polska"
+		},
+		"XRegion": {
+			"Id": "3705",
+			"Name": "Wrocław"
+		},
+		"Availability": {
+			"base": "available",
+			"message": "",
+			"option": {
+				"possible": false
+			},
+			"quota": {
+				"possible": false
+			}
+		},
+		"BookingConditions": "0P0",
+		"Catalog": "G30R",
+		"ComponentsCombinations": [
+			"transport.train",
+			"accommodation.trip"
+		],
+		"DatasetInfo": {
+			"name": "",
+			"private": false
+		},
+		"DepartureLocation": {
+			"Id": "0x506172647562696365202d20686c61766ec3ad206ec3a1647261c5bec3ad",
+			"Name": "Pardubice - hlavní nádraží"
+		},
+		"DestinationLocation": {
+			"Id": "59_3705",
+			"Name": "Polska / Wrocław"
+		},
+		"Duration": 3,
+		"InternalData": "46525354",
+		"NightsBeforeReturn": 2,
+		"ObjectId": "234202",
+		"OfferId": "p-6qM9RZp75_2NZW2H7kC6AAogQnZoXM-BXhD0hcl1NuONWgdrIj_QTPn9UQarzEsrk2cqBFZJVEMwvpipywZQAVjZIIgbc8c|VITC|fHw=",
+		"Omnibus": {
+			"URL": "https://omnibus.merlinx.eu/omnibusV1/VITC/20260710/4276685ccf815e10f485c97536e38d5a076b223fd04cf9fd5106abcc4b2b9367?MjYwMTE2MTUzMy9CMkMvMzAxOTMvMetgj6qfWmlq"
+		},
+		"Operator": "VITC",
+		"OperatorDesc": "Cedok R",
+		"OriginalPrice": {
+			"FirstPerson": {
+				"amount": "10879.00",
+				"currency": "CZK"
+			},
+			"Total": {
+				"amount": "0.00",
+				"currency": "CZK"
+			}
+		},
+		"Price": {
+			"FirstPerson": {
+				"amount": "1887.51",
+				"currency": "PLN",
+				"details": {
+					"TFGData": "0/0",
+					"TFGIncluded": false
+				}
+			},
+			"Total": {
+				"amount": "0.00",
+				"currency": "PLN",
+				"details": {
+					"TFGIncluded": false
+				}
+			}
+		},
+		"Resident": "noinformation",
+		"ReturnDate": "2026-07-12",
+		"StartDate": "2026-07-10",
+		"ThumbUrl": "https://datacf.merlinx.eu/imgbycode/T320/VITC-XPL1869-XX-.jpeg",
+		"Transfer": "yes",
+		"UniqueObjectId": "p-6qM9RZp75_2NZW2H7kC6"
+	},
+	"Accommodation": {
+		"XCity": {
+			"Id": "336",
+			"Name": "Wrocław"
+		},
+		"XCode": {
+			"Id": 234202,
+			"Name": "Vratislav - Vlakem Za Zazitky"
+		},
+		"XCountry": {
+			"Id": "59",
+			"Name": "Polska"
+		},
+		"XRegion": {
+			"Id": "3705",
+			"Name": "Wrocław"
+		},
+		"Code": "XPL1869",
+		"DistanceToAirport": 0,
+		"DistanceToBeach": 99999999,
+		"DistanceToCityCenter": 0,
+		"DistanceToSlope": 99999,
+		"ExtTripAdvisor": {
+			"count": 0,
+			"description": "",
+			"image": "",
+			"rating": 0,
+			"review": ""
+		},
+		"Name": "Vratislav - Vlakem Za Zážitky",
+		"Nights": 2,
+		"Room": {
+			"Id": "SGL",
+			"Name": "Jednolůžkový pokoj"
+		},
+		"Service": {
+			"Id": "F",
+			"Name": "Snídaně"
+		},
+		"ThumbUrl": "https://datacf.merlinx.eu/imgbycode/T320/VITC-XPL1869-XX-.jpeg",
+		"Type": {
+			"Id": "R",
+			"Name": "Wyc. Objazdowa"
+		},
+		"XService": {
+			"Id": 3,
+			"Name": "Śniadanie"
+		}
+	},
+	"Transport": {
+		"Train": {
+			"Out": {
+				"Departure": {
+					"Code": "XPU",
+					"Date": "2026-07-10",
+					"Desc": "",
+					"Name": "Pardubice - hlavní nádraží",
+					"Time": "00:00"
+				},
+				"Destination": {
+					"Code": "XPL",
+					"Date": "2026-07-10",
+					"Desc": "",
+					"Name": "Round Trip - Poland",
+					"Time": "00:00"
+				}
+			},
+			"Ret": {
+				"Departure": {
+					"Code": "XPL",
+					"Date": "2026-07-12",
+					"Desc": "",
+					"Name": "Round Trip - Poland",
+					"Time": "00:00"
+				},
+				"Destination": {
+					"Code": "XPU",
+					"Date": "2026-07-12",
+					"Desc": "",
+					"Name": "Pardubice - hlavní nádraží",
+					"Time": "00:00"
+				}
+			}
+		}
+	},
+	"Online": {
+		"actions": [
+			{
+				"action": "checktransport",
+				"fieldList": [
+					"Transport.*",
+					"Accommodation.AvailableRoomsCount"
+				],
+				"timestamp": "2026-01-16T15:33:34+01:00"
+			},
+			{
+				"action": "checkstatus",
+				"fieldList": [
+					"Base.Availability",
+					"Base.Price",
+					"Base.OriginalPrice",
+					"Payment.Schedule"
+				],
+				"timestamp": "2026-01-16T15:33:34+01:00"
+			}
+		]
+	}
+}

@@ -1,0 +1,68 @@
+{
+	"debug": "{\"auth\":{\"Languagecode\":\"pl\",\"login\":\"PL.30193\",\"consultant\":\"DCJU\",\"source\":\"B2B\",\"srcdomain\":\"skionline.pl\"},\"context\":{\"Deadline\":\"45\"},\"request\":{\"actions\":[\"checkstatus\"],\"includeTFG\":false,\"offerIds\":[\"po2qPAzqFUYW3ZJT1i-IEOAAogBkBqYokixeInM9Wrxa6f_aCgAB0OXmPuICFl1iZQV_kqBFNOT1cw6ZiUywZI7DlQAViZDWABcgMEEmOAvAz-|SNOW|NHx8\"]}}",
+	"results": [
+		{
+			"OfferId": "po2qPAzqFUYW3ZJT1i-IEOAAogBkBqYokixeInM9Wrxa6f_aCgAB0OXmPuICFl1iZQV_kqBFNOT1cw6ZiUywZI7DlQAViZDWABcgMEEmOAvAz-|SNOW|NHx8",
+			"action": "checkstatus",
+			"offer": {
+				"Accommodation": {
+					"AvailableRoomsCount": "1"
+				},
+				"Base": {
+					"Availability": {
+						"base": "available",
+						"message": "Rezerwacja możliwa, proszę uzupełnić dane (712)",
+						"option": {
+							"possible": false
+						},
+						"quota": {
+							"possible": false
+						}
+					},
+					"BookingConditions": "",
+					"Price": {
+						"Details": {
+							"Participants": [
+								{
+									"birthdate": "1996-01-12",
+									"code": "ADULT",
+									"amount": "1851.00",
+									"currency": "PLN"
+								},
+								{
+									"birthdate": "1996-01-12",
+									"code": "ADULT",
+									"amount": "1851.00",
+									"currency": "PLN"
+								},
+								{
+									"birthdate": "1996-01-12",
+									"code": "ADULT",
+									"amount": "1732.00",
+									"currency": "PLN"
+								},
+								{
+									"birthdate": "1996-01-12",
+									"code": "ADULT",
+									"amount": "1732.00",
+									"currency": "PLN"
+								}
+							]
+						},
+						"FirstPerson": {
+							"amount": "1851.00",
+							"currency": "PLN"
+						},
+						"Total": {
+							"amount": "7166.00",
+							"currency": "PLN"
+						}
+					}
+				},
+				"Payment": {
+					"Schedule": null
+				}
+			}
+		}
+	]
+}

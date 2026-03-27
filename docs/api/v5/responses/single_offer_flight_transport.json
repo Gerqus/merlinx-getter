@@ -1,0 +1,224 @@
+{
+	"Base": {
+		"XCity": {
+			"Id": "4059",
+			"Name": "Wenecja"
+		},
+		"XCode": {
+			"Id": 79909,
+			"Name": "Aaron"
+		},
+		"XCountry": {
+			"Id": "44",
+			"Name": "Włochy"
+		},
+		"XRegion": {
+			"Id": "1597",
+			"Name": "Wenecja"
+		},
+		"Availability": {
+			"base": "available",
+			"message": "",
+			"option": {
+				"possible": false
+			},
+			"quota": {
+				"possible": false
+			}
+		},
+		"BookingConditions": "",
+		"ComponentsCombinations": [
+			"transport.flight",
+			"accommodation.hotel"
+		],
+		"DatasetInfo": {
+			"name": "",
+			"private": false
+		},
+		"DepartureLocation": {
+			"Id": "0x576172737a617761",
+			"Name": "Warszawa"
+		},
+		"DestinationLocation": {
+			"Id": "44_1597",
+			"Name": "Włochy / Wenecja"
+		},
+		"Duration": 3,
+		"InternalData": "523d39333238313023533d4242234f3d39313732333923483d3432303023313d333838393635323535",
+		"NightsBeforeReturn": 2,
+		"ObjectId": "79909",
+		"OfferId": "p-DX4NGH3bJPIB7mx1fyHSAAogj4YDAsfkLtsuY-WmW2GrcrbaA8ZHr6ibKuLWma7tDkMqBEVDQ1gw5pipywZQAViBB2oCQkJyGRwR6CC5BNyhFKsELRiGuyMb03kBvc-DuQGM2pwU|ECCX|fHw=",
+		"Omnibus": {
+			"URL": "https://omnibus.merlinx.eu/omnibusV1/ECCX/20260223/8f860302c7e42edb2e63e5a65b61ab72b6da03c647afa89b2ae2d699aeed0e43?MjYwMTE2MTUzNC9CMkMvMzAxOTMvMVahrhZy4SOr"
+		},
+		"Operator": "ECCX",
+		"OperatorDesc": "Ecco HolidayX",
+		"OriginalPrice": {
+			"FirstPerson": {
+				"amount": "606.00",
+				"currency": "PLN",
+				"details": {
+					"TFGIncluded": true
+				}
+			},
+			"Total": {
+				"amount": "0.00",
+				"currency": "PLN",
+				"details": {
+					"TFGIncluded": true
+				}
+			}
+		},
+		"Price": {
+			"FirstPerson": {
+				"amount": "606.00",
+				"currency": "PLN",
+				"details": {
+					"TFGIncluded": true
+				}
+			},
+			"Total": {
+				"amount": "0.00",
+				"currency": "PLN",
+				"details": {
+					"TFGIncluded": true
+				}
+			}
+		},
+		"Resident": "noinformation",
+		"ReturnDate": "2026-02-25",
+		"StartDate": "2026-02-23",
+		"ThumbUrl": "https://datacfstatic.merlinx.eu/T320/ECCX/IMG/4200/main.webp",
+		"Transfer": "no",
+		"UniqueObjectId": "p-DX4NGH3bJPIB7mx1fyHS"
+	},
+	"Accommodation": {
+		"XCity": {
+			"Id": "4059",
+			"Name": "Wenecja"
+		},
+		"XCode": {
+			"Id": 79909,
+			"Name": "Aaron"
+		},
+		"XCountry": {
+			"Id": "44",
+			"Name": "Włochy"
+		},
+		"XRegion": {
+			"Id": "1597",
+			"Name": "Wenecja"
+		},
+		"Attributes": [
+			"location_seaside_resorts",
+			"location_city_breaks",
+			"location_without_passport_from_pl",
+			"facility_home_appliances",
+			"facility_parking",
+			"facility_facilities_for_disabled",
+			"facility_internet_access",
+			"facility_air_conditioning"
+		],
+		"BuildRenovationYear": 2017,
+		"Category": 3,
+		"Code": "4200",
+		"DistanceToAirport": 0,
+		"DistanceToBeach": 99999999,
+		"DistanceToCityCenter": 9951,
+		"DistanceToSlope": 99999,
+		"ExtTripAdvisor": {
+			"count": 0,
+			"description": "",
+			"image": "",
+			"rating": 0,
+			"review": ""
+		},
+		"Location": {
+			"Coords": [
+				45.485847,
+				12.234396
+			],
+			"geoSearchDistance": 0
+		},
+		"Name": "Aaron",
+		"Nights": 2,
+		"Room": {
+			"Id": "932810",
+			"Name": "STANDARD DWUOSOBOWY Z JEDNYM LUB DWOMA ŁÓŻKAMI STANDARD"
+		},
+		"Service": {
+			"Id": "B",
+			"Name": "Śniadania"
+		},
+		"ThumbUrl": "https://datacfstatic.merlinx.eu/T320/ECCX/IMG/4200/main.webp",
+		"Type": {
+			"Id": "H",
+			"Name": "Hotel"
+		},
+		"XService": {
+			"Id": 3,
+			"Name": "Śniadanie"
+		}
+	},
+	"Transport": {
+		"Flight": {
+			"AirlineType": "gds",
+			"Luggage": "no",
+			"Out": [
+				{
+					"Departure": {
+						"Code": "WAW",
+						"Date": "2026-02-23",
+						"Name": "Warszawa",
+						"Time": "08:40"
+					},
+					"Destination": {
+						"Code": "VCE",
+						"Date": "2026-02-23",
+						"Name": "Venice",
+						"Time": "10:40"
+					}
+				}
+			],
+			"Ret": [
+				{
+					"Departure": {
+						"Code": "VCE",
+						"Date": "2026-02-25",
+						"Name": "Venice",
+						"Time": "06:15"
+					},
+					"Destination": {
+						"Code": "WAW",
+						"Date": "2026-02-25",
+						"Name": "Warszawa",
+						"Time": "08:05"
+					}
+				}
+			],
+			"Stops": "no"
+		}
+	},
+	"Online": {
+		"actions": [
+			{
+				"action": "checktransport",
+				"fieldList": [
+					"Transport.*",
+					"Accommodation.AvailableRoomsCount"
+				],
+				"timestamp": "2026-01-16T15:34:14+01:00"
+			},
+			{
+				"action": "checkstatus",
+				"fieldList": [
+					"Base.Availability",
+					"Base.Price",
+					"Base.OriginalPrice",
+					"Payment.Schedule"
+				],
+				"timestamp": "2026-01-16T15:34:14+01:00"
+			}
+		]
+	}
+}

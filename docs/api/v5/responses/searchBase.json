@@ -1,0 +1,988 @@
+{
+	"Status": {
+		"SearchBase": {
+			"Status": "SUCCESS",
+			"SectionName": "SearchBase"
+		}
+	},
+	"Sections": {
+		"SearchBase": {
+			"Accommodation.Attributes": [
+				"location_mountains",
+				"location_near_the_slope",
+				"location_exotic_offers",
+				"location_lakes",
+				"location_ski_resorts",
+				"location_seaside_resorts",
+				"location_city_breaks",
+				"location_directly_on_the_beach",
+				"location_near_airport",
+				"location_near_the_center",
+				"location_without_passport_from_pl",
+				"facility_free_wifi",
+				"facility_for_adult",
+				"facility_wellness",
+				"facility_gay_friendly",
+				"facility_barbecue",
+				"facility_home_appliances",
+				"facility_fireplace",
+				"facility_parking",
+				"facility_for_families_with_childrens",
+				"facility_club_hotel",
+				"facility_fitness_or_gym",
+				"facility_outdoor_pool",
+				"facility_indoor_pool",
+				"facility_kindergarten",
+				"facility_water_slides",
+				"facility_facilities_for_disabled",
+				"facility_pets",
+				"facility_internet_access",
+				"facility_air_conditioning",
+				"facility_night_life",
+				"facility_winter_equipment_rental",
+				"activity_bicycles",
+				"activity_animation_for_adults",
+				"activity_sport",
+				"activity_tennis",
+				"activity_golf",
+				"activity_minigolf",
+				"activity_water_sports",
+				"activity_diving",
+				"activity_riding",
+				"activity_nordic_walking",
+				"activity_windsurfing",
+				"activity_sailing",
+				"activity_winter_sports"
+			],
+			"Accommodation.Camp.Theme": {},
+			"Accommodation.Category": {
+				"num": {
+					"max": 6,
+					"min": 1,
+					"step": 0.5
+				}
+			},
+			"Accommodation.Rating": {
+				"num": {
+					"max": 5,
+					"step": 0.5
+				}
+			},
+			"Base.DestinationLocation": {},
+			"Base.DepartureLocation": {
+				"list": {}
+			},
+			"Base.Operator": {
+				"list": {
+					"multiple": true,
+					"values": {
+						"ADCR": {
+							"name": "Adventure & Cruises Sp. z o.o."
+						},
+						"ALMA": {
+							"name": "Almatur"
+						},
+						"ANCZ": {
+							"name": "Orex Czechy"
+						},
+						"ANHU": {
+							"name": "Orex HU"
+						},
+						"ANSK": {
+							"name": "Orex SK"
+						},
+						"ATLA": {
+							"name": "Atlas Tours Rejsy"
+						},
+						"BVPR": {
+							"name": "Prima Holiday"
+						},
+						"CKVI": {
+							"name": "Travel Family (Vitkovice)"
+						},
+						"CLCZ": {
+							"name": "Click&Go CZ"
+						},
+						"CLGO": {
+							"name": "Click&Go"
+						},
+						"CLHU": {
+							"name": "Click&Go HU"
+						},
+						"CORE": {
+							"name": "Corendon Airlines"
+						},
+						"CTPO": {
+							"name": "Ct Poland"
+						},
+						"CTRV": {
+							"name": "CzerwinskiTravel"
+						},
+						"DER": {
+							"name": "Dertour"
+						},
+						"DERD": {
+							"name": "Dertour Pakiety"
+						},
+						"DERW": {
+							"name": "Dertour Disneyland"
+						},
+						"EPTB": {
+							"name": "EPT - Euro Pol Tour"
+						},
+						"EPTR": {
+							"name": "Euro Pol Tour"
+						},
+						"ETI": {
+							"name": "Eti"
+						},
+						"ETRV": {
+							"name": "Easygo"
+						},
+						"EXIF": {
+							"name": "Exim Tours Przeloty"
+						},
+						"FNCB": {
+							"name": "Funclub"
+						},
+						"GRCS": {
+							"name": "Grecos Holiday"
+						},
+						"G_BVBE": {
+							"name": "Best Reisen Group ",
+							"linkedOperators": "BVBE,BVBX"
+						},
+						"G_ECCO": {
+							"name": "Ecco Holiday / Ecco Travel",
+							"linkedOperators": "ECCO,ECCX,ECTR"
+						},
+						"G_EXIM": {
+							"name": "Exim Tours",
+							"linkedOperators": "EXIM,EXIF"
+						},
+						"G_ITAK": {
+							"name": "Itaka",
+							"linkedOperators": "ITAK,VITX,VITG,VITN,VITD"
+						},
+						"G_WEZY": {
+							"name": "Coral Travel",
+							"linkedOperators": "WEZY,WEZX"
+						},
+						"JAWR": {
+							"name": "Jaworzyna Tour"
+						},
+						"JOIN": {
+							"name": "Join Up!"
+						},
+						"KOBP": {
+							"name": "Konsorcjum.pl Trade&Travel Company"
+						},
+						"KOMT": {
+							"name": "TO Kompas"
+						},
+						"KRPA": {
+							"name": "Karpatia"
+						},
+						"LULU": {
+							"name": "Lulubeds"
+						},
+						"MERT": {
+							"name": "MerlinX szkoleniowy"
+						},
+						"MITR": {
+							"name": "Misja Travel"
+						},
+						"NKRA": {
+							"name": "Nekera"
+						},
+						"OASI": {
+							"name": "Oasis Tours"
+						},
+						"OCH": {
+							"name": "OchTravel"
+						},
+						"OKTU": {
+							"name": "OK Tours"
+						},
+						"ONHO": {
+							"name": "Onholidays Polska"
+						},
+						"OREX": {
+							"name": "Anex Poland"
+						},
+						"ORKA": {
+							"name": "Orka Travel"
+						},
+						"ORTR": {
+							"name": "Orient Travel"
+						},
+						"OSKA": {
+							"name": "Oskar"
+						},
+						"OSKR": {
+							"name": "Oskar Fly"
+						},
+						"PLES": {
+							"name": "Nomade"
+						},
+						"PNE": {
+							"name": "pne.pl"
+						},
+						"PRTS": {
+							"name": "Prestige Tours"
+						},
+						"PWAK": {
+							"name": "Plus Wakacje"
+						},
+						"REGO": {
+							"name": "Regobis"
+						},
+						"RNBW": {
+							"name": "Rainbow"
+						},
+						"ROTR": {
+							"name": "Nastok.pl"
+						},
+						"SFPL": {
+							"name": "Sun & Fun"
+						},
+						"SLVA": {
+							"name": "Selva Tour"
+						},
+						"SNOW": {
+							"name": "SnowTrex"
+						},
+						"SOLT": {
+							"name": "Sol-Tours"
+						},
+						"SYAL": {
+							"name": "Altamira"
+						},
+						"SYAT": {
+							"name": "Atur"
+						},
+						"SYIN": {
+							"name": "Index Polska"
+						},
+						"SYKM": {
+							"name": "Kompas"
+						},
+						"SYLO": {
+							"name": "Logostour"
+						},
+						"SYRG": {
+							"name": "Regent"
+						},
+						"SYTP": {
+							"name": "Tourist Polska"
+						},
+						"TETO": {
+							"name": "TestTour"
+						},
+						"VITG": {
+							"name": "Itaka & Gala"
+						},
+						"VITN": {
+							"name": "Itaka No Limits"
+						},
+						"VMAT": {
+							"name": "Matimpex Travel"
+						},
+						"VMRO": {
+							"name": "Marco"
+						},
+						"VOTI": {
+							"name": "Otium"
+						},
+						"VYOB": {
+							"name": "Yobboo"
+						},
+						"WETR": {
+							"name": "Weszlo Travel"
+						},
+						"XTOP": {
+							"name": "Top Touristik"
+						}
+					}
+				}
+			},
+			"Custom.OperatorFullList": {
+				"list": {
+					"multiple": true,
+					"values": {
+						"ADCR": {
+							"name": "Adventure & Cruises Sp. z o.o.",
+							"typeId": "package"
+						},
+						"ALMA": {
+							"name": "Almatur",
+							"typeId": "package"
+						},
+						"ANCZ": {
+							"name": "Orex Czechy",
+							"typeId": "package"
+						},
+						"ANHU": {
+							"name": "Orex HU",
+							"typeId": "package"
+						},
+						"ANSK": {
+							"name": "Orex SK",
+							"typeId": "package"
+						},
+						"ATLA": {
+							"name": "Atlas Tours Rejsy",
+							"typeId": "package"
+						},
+						"BVBE": {
+							"name": "Best Reisen Group ",
+							"linkedOperators": "BVBE,BVBX",
+							"typeId": "package"
+						},
+						"BVPR": {
+							"name": "Prima Holiday",
+							"typeId": "package"
+						},
+						"CKVI": {
+							"name": "Travel Family (Vitkovice)",
+							"typeId": "package"
+						},
+						"CLCZ": {
+							"name": "Click&Go CZ",
+							"typeId": "package"
+						},
+						"CLGO": {
+							"name": "Click&Go",
+							"typeId": "package"
+						},
+						"CLHU": {
+							"name": "Click&Go HU",
+							"typeId": "package"
+						},
+						"CORE": {
+							"name": "Corendon Airlines",
+							"typeId": "package"
+						},
+						"CTPO": {
+							"name": "Ct Poland",
+							"typeId": "package"
+						},
+						"CTRV": {
+							"name": "CzerwinskiTravel",
+							"typeId": "package"
+						},
+						"DER": {
+							"name": "Dertour",
+							"typeId": "package"
+						},
+						"DERD": {
+							"name": "Dertour Pakiety",
+							"typeId": "package"
+						},
+						"DERW": {
+							"name": "Dertour Disneyland",
+							"typeId": "package"
+						},
+						"ECCO": {
+							"name": "Ecco Holiday / Ecco Travel",
+							"linkedOperators": "ECCO,ECCX,ECTR",
+							"typeId": "package"
+						},
+						"EPTB": {
+							"name": "EPT - Euro Pol Tour",
+							"typeId": "package"
+						},
+						"EPTR": {
+							"name": "Euro Pol Tour",
+							"typeId": "package"
+						},
+						"ETI": {
+							"name": "Eti",
+							"typeId": "package"
+						},
+						"ETRV": {
+							"name": "Easygo",
+							"typeId": "package"
+						},
+						"EXIF": {
+							"name": "Exim Tours Przeloty",
+							"typeId": "package"
+						},
+						"EXIM": {
+							"name": "Exim Tours",
+							"linkedOperators": "EXIM,EXIF",
+							"typeId": "package"
+						},
+						"FNCB": {
+							"name": "Funclub",
+							"typeId": "package"
+						},
+						"GRCS": {
+							"name": "Grecos Holiday",
+							"typeId": "package"
+						},
+						"ITAK": {
+							"name": "Itaka",
+							"linkedOperators": "ITAK,VITX,VITG,VITN,VITD",
+							"typeId": "package"
+						},
+						"JAWR": {
+							"name": "Jaworzyna Tour",
+							"typeId": "package"
+						},
+						"JOIN": {
+							"name": "Join Up!",
+							"typeId": "package"
+						},
+						"KOBP": {
+							"name": "Konsorcjum.pl Trade&Travel Company",
+							"typeId": "package"
+						},
+						"KOMT": {
+							"name": "TO Kompas",
+							"typeId": "package"
+						},
+						"KRPA": {
+							"name": "Karpatia",
+							"typeId": "package"
+						},
+						"LULU": {
+							"name": "Lulubeds",
+							"typeId": "package"
+						},
+						"MERT": {
+							"name": "MerlinX szkoleniowy",
+							"typeId": "package"
+						},
+						"MITR": {
+							"name": "Misja Travel",
+							"typeId": "package"
+						},
+						"NKRA": {
+							"name": "Nekera",
+							"typeId": "package"
+						},
+						"OASI": {
+							"name": "Oasis Tours",
+							"typeId": "package"
+						},
+						"OCH": {
+							"name": "OchTravel",
+							"typeId": "package"
+						},
+						"OKTU": {
+							"name": "OK Tours",
+							"typeId": "package"
+						},
+						"ONHO": {
+							"name": "Onholidays Polska",
+							"typeId": "package"
+						},
+						"OREX": {
+							"name": "Anex Poland",
+							"typeId": "package"
+						},
+						"ORKA": {
+							"name": "Orka Travel",
+							"typeId": "package"
+						},
+						"ORTR": {
+							"name": "Orient Travel",
+							"typeId": "package"
+						},
+						"OSKA": {
+							"name": "Oskar",
+							"typeId": "package"
+						},
+						"OSKR": {
+							"name": "Oskar Fly",
+							"typeId": "package"
+						},
+						"PLES": {
+							"name": "Nomade",
+							"typeId": "package"
+						},
+						"PNE": {
+							"name": "pne.pl",
+							"typeId": "package"
+						},
+						"PRTS": {
+							"name": "Prestige Tours",
+							"typeId": "package"
+						},
+						"PWAK": {
+							"name": "Plus Wakacje",
+							"typeId": "package"
+						},
+						"REGO": {
+							"name": "Regobis",
+							"typeId": "package"
+						},
+						"RNBW": {
+							"name": "Rainbow",
+							"typeId": "package"
+						},
+						"ROTR": {
+							"name": "Nastok.pl",
+							"typeId": "package"
+						},
+						"SFPL": {
+							"name": "Sun & Fun",
+							"typeId": "package"
+						},
+						"SLVA": {
+							"name": "Selva Tour",
+							"typeId": "package"
+						},
+						"SNOW": {
+							"name": "SnowTrex",
+							"typeId": "package"
+						},
+						"SOLT": {
+							"name": "Sol-Tours",
+							"typeId": "package"
+						},
+						"SYAL": {
+							"name": "Altamira",
+							"typeId": "package"
+						},
+						"SYAT": {
+							"name": "Atur",
+							"typeId": "package"
+						},
+						"SYIN": {
+							"name": "Index Polska",
+							"typeId": "package"
+						},
+						"SYKM": {
+							"name": "Kompas",
+							"typeId": "package"
+						},
+						"SYLO": {
+							"name": "Logostour",
+							"typeId": "package"
+						},
+						"SYRG": {
+							"name": "Regent",
+							"typeId": "package"
+						},
+						"SYTP": {
+							"name": "Tourist Polska",
+							"typeId": "package"
+						},
+						"TETO": {
+							"name": "TestTour",
+							"typeId": "package"
+						},
+						"VITG": {
+							"name": "Itaka & Gala",
+							"typeId": "package"
+						},
+						"VITN": {
+							"name": "Itaka No Limits",
+							"typeId": "package"
+						},
+						"VMAT": {
+							"name": "Matimpex Travel",
+							"typeId": "package"
+						},
+						"VMRO": {
+							"name": "Marco",
+							"typeId": "package"
+						},
+						"VOTI": {
+							"name": "Otium",
+							"typeId": "package"
+						},
+						"VYOB": {
+							"name": "Yobboo",
+							"typeId": "package"
+						},
+						"WETR": {
+							"name": "Weszlo Travel",
+							"typeId": "package"
+						},
+						"WEZY": {
+							"name": "Coral Travel",
+							"linkedOperators": "WEZY,WEZX",
+							"typeId": "package"
+						},
+						"XTOP": {
+							"name": "Top Touristik",
+							"typeId": "package"
+						}
+					}
+				}
+			},
+			"Accommodation.XService": {
+				"list": {
+					"multiple": true,
+					"values": {
+						"1": "Wszystko w cenie",
+						"2": "Śniadanie i obiadokolacje",
+						"3": "Śniadanie",
+						"4": "Bez wyżywienia",
+						"5": "Według programu",
+						"6": "Pełne wyżywienie",
+						"8": "Obiad"
+					}
+				}
+			},
+			"Accommodation.Rooms": {
+				"rooms": {
+					"type": {
+						"list": {
+							"values": {
+								"1:19,": "Bungalow",
+								"1:20,": "Willa",
+								"1:22,1:21,1:23,": "Apartament / Studio / Suite",
+								"1:55,": "Kabina",
+								"2:2,": "Jednosobowy",
+								"2:7,2:31,2:32,2:68,2:54,": "Dwuosobowy",
+								"2:8,2:42,2:43,2:69,": "Trzyosobowy"
+							}
+						}
+					},
+					"feature": {
+						"list": {
+							"values": {
+								"3:11,": "Widok na morze",
+								"3:12,": "Widok na góry",
+								"3:13,": "Widok na ogród",
+								"3:14,": "Widok na basen",
+								"3:17,": "Łóżko małżeńskie",
+								"3:27,": "Widok na jezioro",
+								"3:33,": "Rodziny",
+								"3:34,": "Superior",
+								"3:52,": "Delux"
+							}
+						}
+					},
+					"maxCount": 2
+				}
+			},
+			"Accommodation.BuildRenovationYear": {
+				"list": {
+					"values": {
+						",2019": "Starsze hotele",
+						"2020,": "Nowsze hotele"
+					}
+				}
+			},
+			"Base.ComponentsCombinations": {
+				"componentscombinations": [
+					[
+						"transport.flight",
+						"accommodation.*"
+					],
+					[
+						"transport.bus",
+						"accommodation.*"
+					],
+					[
+						"accommodation.*"
+					],
+					[
+						"transport.flight"
+					],
+					[
+						"transport.onewayflight"
+					],
+					[
+						"transport.bus"
+					],
+					[
+						"transport.train",
+						"accommodation.*"
+					],
+					[
+						"accommodation.apartament"
+					],
+					[
+						"accommodation.citybreak"
+					],
+					[
+						"accommodation.hotel"
+					],
+					[
+						"accommodation.trip"
+					],
+					[
+						"accommodation.childcamp"
+					],
+					[
+						"accommodation.cruisePL"
+					],
+					[
+						"accommodation.cruise"
+					],
+					[
+						"accommodation.hotel",
+						"accommodation.hotel"
+					],
+					[
+						"accommodation.trip",
+						"accommodation.hotel"
+					],
+					[
+						"accommodation.pilgrimage"
+					]
+				]
+			},
+			"Base.ReturnDateMax": {
+				"date": {
+					"max": "2027-12-13",
+					"min": "2025-12-14"
+				}
+			},
+			"Base.StartDateMax": {
+				"date": {
+					"max": "2027-12-13",
+					"min": "2025-12-14"
+				}
+			},
+			"Base.StartDateMin": {
+				"date": {
+					"max": "2027-12-13",
+					"min": "2025-12-14"
+				}
+			},
+			"Base.StartDateDayOfWeek": {
+				"list": {
+					"multiple": true,
+					"values": {
+						"Fri": "Piątek",
+						"Mon": "Poniedziałek",
+						"Sat": "Sobota",
+						"Sun": "Niedziela",
+						"Thu": "Czwartek",
+						"Tue": "Wtorek",
+						"Wed": "Środa"
+					}
+				}
+			},
+			"Base.ParticipantsList": {
+				"participantsList": {
+					"allowedAge": true,
+					"allowedBirthdate": true,
+					"allowedCodes": [
+						"ADULT",
+						"CHILD",
+						"INFANT"
+					]
+				}
+			},
+			"Base.Promotion": {
+				"list": {}
+			},
+			"Base.Transfer": {
+				"attribute": [
+					"yes",
+					"no",
+					"unspecified"
+				]
+			},
+			"Transport.Flight.AirlineType": {
+				"list": {
+					"multiple": true,
+					"values": {
+						"gds": "bez lowcostów",
+						"lowcost": "bez czarterów"
+					}
+				}
+			},
+			"Custom.OfferAttributes": {
+				"list": {
+					"multiple": true,
+					"values": {
+						"Base.Resident_no": {
+							"name": "Bez rezydenta",
+							"field": "Base.Resident",
+							"value": [
+								"false"
+							]
+						},
+						"Base.Resident_yes": {
+							"name": "Rezydent",
+							"field": "Base.Resident",
+							"value": [
+								"local",
+								"remote"
+							]
+						},
+						"Base.Transfer_no": {
+							"name": "Bez transferu",
+							"field": "Base.Transfer",
+							"value": [
+								"no"
+							]
+						},
+						"Base.Transfer_yes": {
+							"name": "Transfer w cenie",
+							"field": "Base.Transfer",
+							"value": [
+								"yes",
+								"unspecified"
+							]
+						},
+						"Transport.Flight.Luggage": {
+							"name": "Bagaż w cenie",
+							"field": "Transport.Flight.Luggage",
+							"value": [
+								"yes"
+							]
+						},
+						"Transport.Flight.Stops": {
+							"name": "Lot bezpośredni",
+							"field": "Transport.Flight.Stops",
+							"value": [
+								"no"
+							]
+						}
+					}
+				}
+			},
+			"Base.Availability": {
+				"Availability": [
+					"available",
+					"notavailable",
+					"onrequest"
+				]
+			},
+			"Base.Price.FirstPerson.Min": {
+				"num": {
+					"max": 20000,
+					"min": 0,
+					"step": 500
+				}
+			},
+			"Base.Price.FirstPerson.Max": {
+				"num": {
+					"max": 20000,
+					"min": 0,
+					"step": 500
+				}
+			},
+			"Base.Price.Total.Min": {
+				"num": {
+					"max": 40000,
+					"min": 0,
+					"step": 500
+				}
+			},
+			"Base.Price.Total.Max": {
+				"num": {
+					"max": 40000,
+					"min": 0,
+					"step": 500
+				}
+			},
+			"Base.Candy": {
+				"list": {
+					"values": {
+						"1": "Darmowy internet",
+						"10": "Wycieczka Gratis",
+						"11": "Assistance",
+						"2": "Parking Gratis",
+						"3": "Ski Pass",
+						"32": "Wiza Gratis",
+						"45": "Pozostale",
+						"54": "Kolacja okolicznosciowa Gratis",
+						"58": "Klub i animacje po polsku",
+						"59": "Lokalne atrakcje",
+						"60": "VIP Transfer",
+						"61": "Gwarancja niezmiennosci ceny",
+						"63": "Serwis plazowy Gratis",
+						"64": "Dla rodzin"
+					}
+				}
+			},
+			"Base.Catalog": {
+				"text": null
+			},
+			"Base.Stay.Combinations": {
+				"multiple": true,
+				"values": {
+					"1-3": [
+						1,
+						3
+					],
+					"13-16": [
+						13,
+						16
+					],
+					"17-21": [
+						17,
+						21
+					],
+					"4-6": [
+						4,
+						6
+					],
+					"7-8": [
+						7,
+						8
+					],
+					"9-12": [
+						9,
+						12
+					],
+					"any": [
+						0,
+						0
+					]
+				}
+			},
+			"Base.NightsBeforeReturn": {
+				"num": {
+					"max": 35,
+					"min": 1,
+					"step": 1
+				}
+			},
+			"Base.DatasetInfo": [
+				{
+					"name": "PRIVATE-OFFERS",
+					"private": true
+				}
+			],
+			"Custom.Priority": {
+				"Hotels": {
+					"force": true,
+					"values": [
+						{
+							"id": "146610"
+						},
+						{
+							"id": "156893"
+						},
+						{
+							"id": "198614"
+						}
+					]
+				},
+				"Operators": {
+					"values": [
+						{
+							"id": "EXIM",
+							"regionCode": "10_145"
+						},
+						{
+							"id": "ITAKA",
+							"regionCode": "10_145"
+						},
+						{
+							"id": "EXIM",
+							"regionCode": "39_14"
+						},
+						{
+							"id": "ITAKA",
+							"regionCode": "39_14"
+						}
+					]
+				}
+			}
+		}
+	},
+	"webServiceVersion": "v1-12-22"
+}

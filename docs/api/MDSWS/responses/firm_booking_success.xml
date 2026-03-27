@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<response>
+	<result msgCode="200" bookingNumber="13865546" status="OK" msgText="Rezerwacja założona pomyślnie" orgOperText="" subCode="" />
+	<agency_messages></agency_messages>
+	<option possible="1" optiondate="2026-03-14" optiontime="23:59:00" optionchange="cancel" />
+	<quota possible="1" quotadate="2026-03-13" quotatime="11:14:50" />
+	<pricetotal operPrice="578.00" operCurrency="PLN" />
+	<catalog>571A</catalog>
+	<prices>
+		<margin>578.00</margin>
+		<currency>PLN</currency>
+	</prices>
+	<pricesDetails>
+		<priceDetails>
+			<Price>578.00</Price>
+			<NetPrice>0.00</NetPrice>
+			<PriceInclusive>1</PriceInclusive>
+		</priceDetails>
+	</pricesDetails>
+	<hotel code="9PLGOTU" name="Golden Tulip Międzyzdroje Residence" roomCode="ST2" roomDesc="Studio 2 os." mealCode="F" mealDesc="Śniadania" city="Międzyzdroje" region="Wybrzeże Zachodnie" country="Polska" category="0.0" depDate="2026-11-28" desDate="2026-11-29" status="" price="578.00" currency="PLN" tourop="" bookingNr="" type="H" />
+	<services>
+		<service desc="Turystyczny Fundusz Gwarancyjny - nie dotyczy" clientDesc="" perPassenger="0" perBooking="1" dateFromMin="2026-11-28T00:00:00" dateFromMax="2026-11-28T00:00:00" dateToMin="2026-11-29T00:00:00" dateToMax="2026-11-29T00:00:00" duration="1" status="OK" person_price="0.00" total_price="0.00" currency="PLN">
+			<id>2</id>
+			<code>TFG_NO</code>
+			<type>TGF</type>
+			<codeElemType>A</codeElemType>
+			<codeOptServType>A</codeOptServType>
+			<packageType>NotSet</packageType>
+			<excludedCodes></excludedCodes>
+			<requiredCodes></requiredCodes>
+			<defaultCodes></defaultCodes>
+			<date_from>28.11.2026</date_from>
+			<date_to>29.11.2026</date_to>
+			<checked>1</checked>
+			<flightData></flightData>
+			<allocations>
+				<allocate type="checkbox">
+					<value>1</value>
+					<checked>1</checked>
+					<options_list></options_list>
+				</allocate>
+				<allocate type="checkbox">
+					<value>2</value>
+					<checked>1</checked>
+					<options_list></options_list>
+				</allocate>
+			</allocations>
+			<prices></prices>
+			<hints></hints>
+			<options></options>
+		</service>
+		<service desc="Turystyczny Fundusz Pomocowy - nie dotyczy" clientDesc="" perPassenger="0" perBooking="1" dateFromMin="2026-11-28T00:00:00" dateFromMax="2026-11-28T00:00:00" dateToMin="2026-11-29T00:00:00" dateToMax="2026-11-29T00:00:00" duration="1" status="OK" person_price="0.00" total_price="0.00" currency="PLN">
+			<id>3</id>
+			<code>TFP_NO</code>
+			<type>TGF</type>
+			<codeElemType>A</codeElemType>
+			<codeOptServType>A</codeOptServType>
+			<packageType>NotSet</packageType>
+			<excludedCodes></excludedCodes>
+			<requiredCodes></requiredCodes>
+			<defaultCodes></defaultCodes>
+			<date_from>28.11.2026</date_from>
+			<date_to>29.11.2026</date_to>
+			<checked>1</checked>
+			<flightData></flightData>
+			<allocations>
+				<allocate type="checkbox">
+					<value>1</value>
+					<checked>1</checked>
+					<options_list></options_list>
+				</allocate>
+				<allocate type="checkbox">
+					<value>2</value>
+					<checked>1</checked>
+					<options_list></options_list>
+				</allocate>
+			</allocations>
+			<prices></prices>
+			<hints></hints>
+			<options></options>
+		</service>
+	</services>
+	<offers>
+		<offer offerNo="0" personAssign=""  >
+			<hotel code="9PLGOTU" name="Golden Tulip Międzyzdroje Residence" roomCode="ST2" roomDesc="Studio 2 os." mealCode="F" mealDesc="Śniadania" city="Międzyzdroje" region="Wybrzeże Zachodnie" country="Polska" category="0.0" depDate="2026-11-28" desDate="2026-11-29" status="" price="578.00" currency="PLN" tourop="" bookingNr="" type="H" />
+		</offer>
+	</offers>
+	<forminfo>
+		<persons>
+			<person price="289.00" currency="PLN">
+				<person_id type="integer">1</person_id>
+				<gender type="selected" maxlength="1" name="Płeć" required="1" requiredOption="1">
+					<option value="H" selected="1">Pan</option>
+					<option value="F">Pani</option>
+				</gender>
+				<lastname type="string" maxlength="30" name="Nazwisko" required="1" requiredOption="1">MERLIN-TEST</lastname>
+				<firstname type="string" maxlength="30" name="Imię" required="1" requiredOption="1">MACIEJ KRZYSZTOF</firstname>
+				<birthdate type="date" maxlength="10" name="Data urodzenia" required="1" requiredOption="1">06.09.1989</birthdate>
+			</person>
+			<person price="289.00" currency="PLN">
+				<person_id type="integer">2</person_id>
+				<gender type="selected" maxlength="1" name="Płeć" required="1" requiredOption="1">
+					<option value="H">Pan</option>
+					<option value="F" selected="1">Pani</option>
+				</gender>
+				<lastname type="string" maxlength="30" name="Nazwisko" required="1" requiredOption="1">MERLIN-TESTOWA</lastname>
+				<firstname type="string" maxlength="30" name="Imię" required="1" requiredOption="1">TEST</firstname>
+				<birthdate type="date" maxlength="10" name="Data urodzenia" required="1" requiredOption="1">06.09.1989</birthdate>
+			</person>
+		</persons>
+		<client>
+			<title type="selected" maxlength="1" name="Płeć" required="1" requiredOption="1">
+				<option value="H" selected="1">Pan</option>
+				<option value="F">Pani</option>
+			</title>
+			<lastname type="string" maxlength="30" name="Nazwisko" required="1" requiredOption="1">MERLIN-TEST</lastname>
+			<firstname type="string" maxlength="30" name="Imię" required="1" requiredOption="1">MACIEJ KRZYSZTOF</firstname>
+			<address type="string" maxlength="30" name="Ulica" required="1" requiredOption="1">TESTOWA</address>
+			<post_code type="postcode" maxlength="6" name="Kod pocztowy" required="1" requiredOption="1">12-345</post_code>
+			<city type="string" maxlength="30" name="Miejscowość" required="1" requiredOption="1">WROCLAW</city>
+			<phone type="phone" maxlength="20" name="Telefon" required="1" requiredOption="1">1234545678</phone>
+			<email_address type="email" maxlength="50" name="E-mail" required="1" requiredOption="1">TEST@TEST.PL</email_address>
+		</client>
+		<services_optional groupsInclusive="0" >
+			<service desc="Opłata administracyjna" clientDesc="" perPassenger="0" perBooking="1" dateFromMin="2026-11-28T00:00:00" dateFromMax="2026-11-28T00:00:00" dateToMin="2026-11-29T00:00:00" dateToMax="2026-11-29T00:00:00" duration="1" person_price="3.00" total_price="6.00" currency="PLN">
+				<debug></debug>
+				<id>1</id>
+				<code>OPLATA_A</code>
+				<type>Usługa dodatkowa</type>
+				<codeElemType>M</codeElemType>
+				<codeOptServType>A</codeOptServType>
+				<group>4</group>
+				<excludedCodes></excludedCodes>
+				<requiredCodes></requiredCodes>
+				<defaultCodes></defaultCodes>
+				<merlinGroupId>10</merlinGroupId>
+				<merlinGroupName>Pozostałe</merlinGroupName>
+				<date_from>28.11.2026</date_from>
+				<date_to>29.11.2026</date_to>
+				<checked>0</checked>
+				<flightData></flightData>
+				<allocations>
+					<allocate type="checkbox">
+						<value>1</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+					<allocate type="checkbox">
+						<value>2</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+				</allocations>
+				<prices>
+					<price>
+						<person>1</person>
+						<price>3.00</price>
+						<currency>PLN</currency>
+					</price>
+					<price>
+						<person>2</person>
+						<price>3.00</price>
+						<currency>PLN</currency>
+					</price>
+				</prices>
+				<hints></hints>
+				<options></options>
+			</service>
+			<service desc="Rezygnacja Cov PLUS 100 - Ubezpieczenie kosztów rezygnacji - obejmuje choroby przewlekłe i covid" clientDesc="" perPassenger="1" perBooking="0" dateFromMin="2026-11-28T00:00:00" dateFromMax="2026-11-28T00:00:00" dateToMin="2026-11-29T00:00:00" dateToMax="2026-11-29T00:00:00" duration="1" person_price="54.00" total_price="108.00" currency="PLN">
+				<debug></debug>
+				<id>2</id>
+				<code>UBSCANP_COV</code>
+				<type>INSURANCE_CNL</type>
+				<codeElemType>A</codeElemType>
+				<codeOptServType>D</codeOptServType>
+				<group>5</group>
+				<excludedCodes></excludedCodes>
+				<requiredCodes></requiredCodes>
+				<defaultCodes></defaultCodes>
+				<merlinGroupId>3</merlinGroupId>
+				<merlinGroupName>Ubezpieczenia od rezygnacji</merlinGroupName>
+				<date_from>28.11.2026</date_from>
+				<date_to>29.11.2026</date_to>
+				<checked>0</checked>
+				<flightData></flightData>
+				<allocations>
+					<allocate type="checkbox">
+						<value>1</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+					<allocate type="checkbox">
+						<value>2</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+				</allocations>
+				<prices>
+					<price>
+						<person>1</person>
+						<price>54.00</price>
+						<currency>PLN</currency>
+					</price>
+					<price>
+						<person>2</person>
+						<price>54.00</price>
+						<currency>PLN</currency>
+					</price>
+				</prices>
+				<hints></hints>
+				<options></options>
+			</service>
+			<service desc="Rezygnacja PLUS 100 - Ubezpieczenie kosztow rezygnacji - obejmuje choroby przewlekle" clientDesc="" perPassenger="1" perBooking="0" dateFromMin="2026-11-28T00:00:00" dateFromMax="2026-11-28T00:00:00" dateToMin="2026-11-29T00:00:00" dateToMax="2026-11-29T00:00:00" duration="1" person_price="50.00" total_price="100.00" currency="PLN">
+				<debug></debug>
+				<id>3</id>
+				<code>UBSCANP</code>
+				<type>INSURANCE_CNL</type>
+				<codeElemType>M</codeElemType>
+				<codeOptServType>A</codeOptServType>
+				<group>1</group>
+				<excludedCodes></excludedCodes>
+				<requiredCodes></requiredCodes>
+				<defaultCodes></defaultCodes>
+				<merlinGroupId>3</merlinGroupId>
+				<merlinGroupName>Ubezpieczenia od rezygnacji</merlinGroupName>
+				<date_from>28.11.2026</date_from>
+				<date_to>29.11.2026</date_to>
+				<checked>0</checked>
+				<flightData></flightData>
+				<allocations>
+					<allocate type="checkbox">
+						<value>1</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+					<allocate type="checkbox">
+						<value>2</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+				</allocations>
+				<prices>
+					<price>
+						<person>1</person>
+						<price>50.00</price>
+						<currency>PLN</currency>
+					</price>
+					<price>
+						<person>2</person>
+						<price>50.00</price>
+						<currency>PLN</currency>
+					</price>
+				</prices>
+				<hints></hints>
+				<options></options>
+			</service>
+			<service desc="Rezygnacja PLUS 80 - Ubezpieczenie kosztow rezygnacji - Obejmuje choroby przewlekle" clientDesc="" perPassenger="1" perBooking="0" dateFromMin="2026-11-28T00:00:00" dateFromMax="2026-11-28T00:00:00" dateToMin="2026-11-29T00:00:00" dateToMax="2026-11-29T00:00:00" duration="1" person_price="42.00" total_price="84.00" currency="PLN">
+				<debug></debug>
+				<id>4</id>
+				<code>UBSCNLP</code>
+				<type>INSURANCE_CNL</type>
+				<codeElemType>M</codeElemType>
+				<codeOptServType>A</codeOptServType>
+				<group>3</group>
+				<excludedCodes></excludedCodes>
+				<requiredCodes></requiredCodes>
+				<defaultCodes></defaultCodes>
+				<merlinGroupId>3</merlinGroupId>
+				<merlinGroupName>Ubezpieczenia od rezygnacji</merlinGroupName>
+				<date_from>28.11.2026</date_from>
+				<date_to>29.11.2026</date_to>
+				<checked>0</checked>
+				<flightData></flightData>
+				<allocations>
+					<allocate type="checkbox">
+						<value>1</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+					<allocate type="checkbox">
+						<value>2</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+				</allocations>
+				<prices>
+					<price>
+						<person>1</person>
+						<price>42.00</price>
+						<currency>PLN</currency>
+					</price>
+					<price>
+						<person>2</person>
+						<price>42.00</price>
+						<currency>PLN</currency>
+					</price>
+				</prices>
+				<hints></hints>
+				<options></options>
+			</service>
+		</services_optional>
+		<wishes></wishes>
+		<formalAgreements>
+			<formalAgreement required="1">
+				<code>GIODO</code>
+				<selected>0</selected>
+				<desc>Zgoda na przetwarzanie danych osobowych w celu realizacji umowy.</desc>
+			</formalAgreement>
+			<formalAgreement required="1">
+				<code>SFI</code>
+				<selected>0</selected>
+				<desc>Oświadczam, że przed zawarciem Umowy zostały przekazane Płatnikowi rezerwacji standardowe informacje za pośrednictwem odpowiedniego standardowego formularza informacyjnego, stanowiącego załącznik 1 lub 2 do Ustawy z dnia 24 listopada 2017r. o imprezach turystycznych i powiązanych usługach turystycznych.</desc>
+			</formalAgreement>
+		</formalAgreements>
+		<paymentTable></paymentTable>
+		<externalServiceTable></externalServiceTable>
+	</forminfo>
+	<payment>
+		<requirements>
+			<requirement>
+				<type>PrePayment</type>
+				<amount>174.00</amount>
+				<currency>PLN</currency>
+				<paidAmount>0.00</paidAmount>
+				<requiredTill>2026-03-12T00:00:00</requiredTill>
+				<additionalInfo></additionalInfo>
+			</requirement>
+			<requirement>
+				<type>RestPayment</type>
+				<amount>404.00</amount>
+				<currency>PLN</currency>
+				<paidAmount>0.00</paidAmount>
+				<requiredTill>2026-10-29T00:00:00</requiredTill>
+				<additionalInfo></additionalInfo>
+			</requirement>
+		</requirements>
+		<touroperatorInfo>
+			<bankAccount>92 2490 1028 3214 4000 1386 5546</bankAccount>
+			<bankName>Alior Bank S.A.</bankName>
+			<name>Nowa Itaka Sp. z o.o.</name>
+			<address>Reymonta</address>
+			<streetNo>39</streetNo>
+			<streetPlaceNo></streetPlaceNo>
+			<postCode>45-072</postCode>
+			<city>Opole</city>
+			<emailAddress>INFO@ITAKA.PL</emailAddress>
+			<phoneNo>77 541 22 69</phoneNo>
+			<faxNo>77 541 24 69</faxNo>
+		</touroperatorInfo>
+	</payment>
+</response>

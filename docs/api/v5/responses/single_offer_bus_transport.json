@@ -1,0 +1,229 @@
+{
+	"Base": {
+		"XCity": {
+			"Id": "25077",
+			"Name": "Cesana Torinese"
+		},
+		"XCode": {
+			"Id": 8062,
+			"Name": "Fraiteve"
+		},
+		"XCountry": {
+			"Id": "44",
+			"Name": "Włochy"
+		},
+		"XRegion": {
+			"Id": "1220",
+			"Name": "Piemont"
+		},
+		"Availability": {
+			"base": "available",
+			"message": "",
+			"option": {
+				"possible": false
+			},
+			"quota": {
+				"possible": false
+			}
+		},
+		"BookingConditions": "",
+		"Candy": {
+			"Description": "",
+			"Types": [
+				{
+					"Id": 3,
+					"Name": "Ski Pass"
+				}
+			]
+		},
+		"ComponentsCombinations": [
+			"transport.bus",
+			"accommodation.hotel"
+		],
+		"DatasetInfo": {
+			"name": "",
+			"private": false
+		},
+		"DepartureLocation": {
+			"Id": "0x4269656c736b6f202d20426961c58261",
+			"Name": "Bielsko - Biała"
+		},
+		"DestinationLocation": {
+			"Id": "44_1220",
+			"Name": "Włochy / Piemont"
+		},
+		"Duration": 10,
+		"InternalData": "523d3234383623533d4842234f3d3936343023483d31323023313d313232353638",
+		"NightsBeforeReturn": 7,
+		"ObjectId": "8062",
+		"OfferId": "p6LLcoKa7v7LFmsiiP-2wyAAogb63rtZcnHDLdUjRFc8gvqGhS5a6fXlRMeSk1LGylFIAqBFJPVFIwg5ipywZQAVjhB2oCSEJqCzU3ODQxLzYxMjg5chYcjwYReBu-EhjyN7kElmmrBB0B7YgGHu0rLg|ROTR|fHw=",
+		"Omnibus": {
+			"URL": "https://omnibus.merlinx.eu/omnibusV1/ROTR/20260227/6fadebb597271c32dd52344573c82fa86852e5ae9f5e544c7929352c6ca51480?MjYwMTE2MTUzMi9CMkMvMzAxOTMvMVopz9ti8eWH"
+		},
+		"Operator": "ROTR",
+		"OperatorDesc": "Nastok.pl",
+		"OriginalPrice": {
+			"FirstPerson": {
+				"amount": "4460.00",
+				"currency": "PLN"
+			},
+			"Total": {
+				"amount": "0.00",
+				"currency": "PLN"
+			}
+		},
+		"Price": {
+			"FirstPerson": {
+				"amount": "4460.00",
+				"currency": "PLN",
+				"details": {
+					"TFGIncluded": false
+				}
+			},
+			"Total": {
+				"amount": "0.00",
+				"currency": "PLN",
+				"details": {
+					"TFGIncluded": false
+				}
+			}
+		},
+		"Resident": "noinformation",
+		"ReturnDate": "2026-03-08",
+		"StartDate": "2026-02-27",
+		"ThumbUrl": "https://datacfstatic.merlinx.eu/T320/ROTR/IMG/120/main.webp",
+		"Transfer": "no",
+		"UniqueObjectId": "p6LLcoKa7v7LFmsiiP-2wy"
+	},
+	"Accommodation": {
+		"XCity": {
+			"Id": "25077",
+			"Name": "Cesana Torinese"
+		},
+		"XCode": {
+			"Id": 8062,
+			"Name": "Fraiteve"
+		},
+		"XCountry": {
+			"Id": "44",
+			"Name": "Włochy"
+		},
+		"XRegion": {
+			"Id": "1220",
+			"Name": "Piemont"
+		},
+		"Attributes": [
+			"location_mountains",
+			"location_ski_resorts",
+			"location_without_passport_from_pl",
+			"facility_free_wifi",
+			"facility_parking",
+			"facility_for_families_with_childrens",
+			"facility_kindergarten",
+			"facility_facilities_for_disabled",
+			"facility_pets",
+			"facility_internet_access",
+			"facility_air_conditioning",
+			"facility_night_life",
+			"facility_winter_equipment_rental",
+			"activity_bicycles",
+			"activity_animation_for_adults",
+			"activity_sport",
+			"activity_golf",
+			"activity_winter_sports"
+		],
+		"Category": 3,
+		"Code": "120",
+		"DistanceToAirport": 0,
+		"DistanceToBeach": 99999999,
+		"DistanceToCityCenter": 581,
+		"DistanceToSlope": 200,
+		"ExtTripAdvisor": {
+			"count": 0,
+			"description": "",
+			"image": "",
+			"rating": 0,
+			"review": ""
+		},
+		"Location": {
+			"Coords": [
+				44.948227,
+				6.796065
+			],
+			"geoSearchDistance": 0
+		},
+		"Name": "Hotel Fraiteve",
+		"Nights": 7,
+		"Room": {
+			"Id": "2486",
+			"Name": "Pokoj hotelowy pokój 2 osobowy"
+		},
+		"Service": {
+			"Id": "H",
+			"Name": "Śniadania i obiadokolacje"
+		},
+		"ThumbUrl": "https://datacfstatic.merlinx.eu/T320/ROTR/IMG/120/main.webp",
+		"Type": {
+			"Id": "H",
+			"Name": "Hotel"
+		},
+		"XService": {
+			"Id": 2,
+			"Name": "Śniadanie i obiadokolacja"
+		}
+	},
+	"Transport": {
+		"Bus": {
+			"Out": {
+				"Departure": {
+					"Code": "IEL",
+					"Date": "2026-02-27",
+					"Desc": "",
+					"Name": "Bielsko - Biała"
+				},
+				"Destination": {
+					"Code": "VL1",
+					"Date": "2026-02-28",
+					"Desc": "",
+					"Name": "Via Lattea"
+				}
+			},
+			"Ret": {
+				"Departure": {
+					"Code": "VL1",
+					"Date": "2026-03-07",
+					"Desc": "",
+					"Name": "Via Lattea"
+				},
+				"Destination": {
+					"Code": "IEL",
+					"Date": "2026-03-08",
+					"Desc": "",
+					"Name": "Bielsko - Biała"
+				}
+			}
+		}
+	},
+	"Online": {
+		"actions": [
+			{
+				"action": "checktransport",
+				"fieldList": [
+					"Transport.*",
+					"Accommodation.AvailableRoomsCount"
+				],
+				"timestamp": "2026-01-16T15:32:35+01:00"
+			},
+			{
+				"action": "checkstatus",
+				"fieldList": [
+					"Base.Availability",
+					"Base.Price",
+					"Base.OriginalPrice",
+					"Payment.Schedule"
+				],
+				"timestamp": "2026-01-16T15:32:35+01:00"
+			}
+		]
+	}
+}

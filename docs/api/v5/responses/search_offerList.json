@@ -1,0 +1,864 @@
+{
+	"offerList": {
+		"items": {
+			"p01otKbJFzujkoiUMmU48B": {
+				"offer": {
+					"Base": {
+						"XCity": {
+							"Id": "78332",
+							"Name": "Szczytna"
+						},
+						"XCode": {
+							"Id": 24477,
+							"Name": "Relax  - Ośrodek Wypoczynkowy"
+						},
+						"XCountry": {
+							"Id": "59",
+							"Name": "Polska"
+						},
+						"XRegion": {
+							"Id": "99061",
+							"Name": "Ziemia Kłodzka"
+						},
+						"Availability": {
+							"base": "available",
+							"message": "",
+							"option": {
+								"possible": false
+							},
+							"quota": {
+								"possible": false
+							}
+						},
+						"BookingConditions": "",
+						"Catalog": "LATO",
+						"ComponentsCombinations": [
+							"accommodation.*",
+							"accommodation.hotel"
+						],
+						"DatasetInfo": {
+							"name": "",
+							"private": false
+						},
+						"DepartureLocation": {
+							"Id": "0x",
+							"Name": ""
+						},
+						"DestinationLocation": {
+							"Id": "59_99061",
+							"Name": "Polska / Ziemia Kłodzka"
+						},
+						"Duration": 2,
+						"InternalData": "52543d505f5457494e2f31333938234d543d4f422348433d3333393335372341413d3132",
+						"NightsBeforeReturn": 1,
+						"ObjectId": "24477",
+						"OfferId": "p01otKbJFzujkoiUMmU48BAAogP__vfxJPuKkJ_oifU8hCl4G65ljTuwKp-Vi-OpTMC4UqBExVTFUwidrvyQZQAVilBmoLUF9UV0lOLzEzOThqAk9CagsyMDI2LTAxLTE1LGoLMjAyNi0wMS0xNixyEOkHtQbjA_cC8gIM8ASR2xRx-NTC|LULU|fHw=",
+						"Omnibus": {
+							"URL": "https://omnibus.merlinx.eu/omnibusV1/LULU/20260115/3fffef7f124fb8a909fe889f53c8429781bae658d3bb02a9f958be3a94cc0b85?MjUxMjEyMTEyMy9CMkMvMzAxOTMvMbnRtl-lbxl4"
+						},
+						"Operator": "LULU",
+						"OperatorDesc": "Lulubeds",
+						"OriginalPrice": {
+							"FirstPerson": {
+								"amount": "65.00",
+								"currency": "PLN"
+							},
+							"Total": {
+								"amount": "0.00",
+								"currency": "PLN"
+							}
+						},
+						"Price": {
+							"FirstPerson": {
+								"amount": "65.00",
+								"currency": "PLN",
+								"details": {
+									"TFGIncluded": false
+								}
+							},
+							"Total": {
+								"amount": "0.00",
+								"currency": "PLN",
+								"details": {
+									"TFGIncluded": false
+								}
+							}
+						},
+						"Resident": "noinformation",
+						"ReturnDate": "2026-01-16",
+						"StartDate": "2026-01-15",
+						"ThumbUrl": "https://datacfstatic.merlinx.eu/T320/LULU/IMG/339357/main.webp",
+						"Transfer": "unspecified",
+						"UniqueObjectId": "p01otKbJFzujkoiUMmU48B"
+					},
+					"Accommodation": {
+						"XCity": {
+							"Id": "78332",
+							"Name": "Szczytna"
+						},
+						"XCode": {
+							"Id": 24477,
+							"Name": "Relax  - Ośrodek Wypoczynkowy"
+						},
+						"XCountry": {
+							"Id": "59",
+							"Name": "Polska"
+						},
+						"XRegion": {
+							"Id": "99061",
+							"Name": "Ziemia Kłodzka"
+						},
+						"Attributes": [
+							"location_mountains",
+							"location_ski_resorts",
+							"location_without_passport_from_pl",
+							"facility_free_wifi",
+							"facility_barbecue",
+							"facility_parking",
+							"facility_indoor_pool",
+							"facility_internet_access",
+							"activity_bicycles",
+							"activity_sport",
+							"activity_tennis",
+							"activity_winter_sports"
+						],
+						"Code": "339357",
+						"DistanceToAirport": 0,
+						"DistanceToBeach": 99999999,
+						"DistanceToCityCenter": 2449,
+						"DistanceToSlope": 99999,
+						"ExtTripAdvisor": {
+							"count": 0,
+							"description": "",
+							"image": "",
+							"rating": 0,
+							"review": ""
+						},
+						"Location": {
+							"Coords": [
+								50.408146,
+								16.413563
+							],
+							"geoSearchDistance": 0
+						},
+						"Name": "Ośrodek wczasowo - rekreacyjny RELAX",
+						"Nights": 1,
+						"Room": {
+							"Id": "P_TWIN",
+							"Name": "Pokój 2 osobowy (C) - 2 łóżka"
+						},
+						"Service": {
+							"Id": "U",
+							"Name": "Bez wyżywienia"
+						},
+						"ThumbUrl": "https://datacfstatic.merlinx.eu/T320/LULU/IMG/339357/main.webp",
+						"Type": {
+							"Id": "H",
+							"Name": "Hotel"
+						},
+						"XService": {
+							"Id": 4,
+							"Name": "Bez wyżywienia"
+						}
+					},
+					"Transport": {},
+					"Online": {
+						"actions": [
+							{
+								"action": "checkstatus",
+								"fieldList": [
+									"Base.Availability",
+									"Base.Price",
+									"Base.OriginalPrice",
+									"Payment.Schedule"
+								],
+								"timestamp": "2025-12-12T11:23:05+01:00"
+							}
+						]
+					}
+				},
+				"sortKeyValue": [
+					"00006500"
+				]
+			},
+			"p18g7h62AUZwc6MT_XrJu-": {
+				"offer": {
+					"Base": {
+						"XCity": {
+							"Id": "78332",
+							"Name": "Szczytna"
+						},
+						"XCode": {
+							"Id": 24477,
+							"Name": "Relax  - Ośrodek Wypoczynkowy"
+						},
+						"XCountry": {
+							"Id": "59",
+							"Name": "Polska"
+						},
+						"XRegion": {
+							"Id": "99061",
+							"Name": "Ziemia Kłodzka"
+						},
+						"Availability": {
+							"base": "available",
+							"message": "",
+							"option": {
+								"possible": false
+							},
+							"quota": {
+								"possible": false
+							}
+						},
+						"BookingConditions": "",
+						"Catalog": "LATO",
+						"ComponentsCombinations": [
+							"accommodation.*",
+							"accommodation.hotel"
+						],
+						"DatasetInfo": {
+							"name": "",
+							"private": false
+						},
+						"DepartureLocation": {
+							"Id": "0x",
+							"Name": ""
+						},
+						"DestinationLocation": {
+							"Id": "59_99061",
+							"Name": "Polska / Ziemia Kłodzka"
+						},
+						"Duration": 2,
+						"InternalData": "52543d505f5457494e2f31333938234d543d4f422348433d3333393335372341413d3132",
+						"NightsBeforeReturn": 1,
+						"ObjectId": "24477",
+						"OfferId": "p18g7h62AUZwc6MT_XrJu-AAogP__vfxJPuKkJ_oifU8hCl7YpyMl3bjBkcA07eV8nlUoqBExVTFUwidrvyQZQAViFEGoLUF9UV0lOLzEzOThqAk9CagsyMDI2LTAzLTA4LGoLMjAyNi0wMy0wOSxyEOkHtQbjA_cC8gIM8ASR2xTnEfs8|LULU|fHw=",
+						"Omnibus": {
+							"URL": "https://omnibus.merlinx.eu/omnibusV1/LULU/20260308/3fffef7f124fb8a909fe889f53c84297b629c8c9776e3064700d3b795f27954a?MjUxMjEyMTEyMy9CMkMvMzAxOTMvMd7bavH8pPjU"
+						},
+						"Operator": "LULU",
+						"OperatorDesc": "Lulubeds",
+						"OriginalPrice": {
+							"FirstPerson": {
+								"amount": "65.00",
+								"currency": "PLN"
+							},
+							"Total": {
+								"amount": "0.00",
+								"currency": "PLN"
+							}
+						},
+						"Price": {
+							"FirstPerson": {
+								"amount": "65.00",
+								"currency": "PLN",
+								"details": {
+									"TFGIncluded": false
+								}
+							},
+							"Total": {
+								"amount": "0.00",
+								"currency": "PLN",
+								"details": {
+									"TFGIncluded": false
+								}
+							}
+						},
+						"Resident": "noinformation",
+						"ReturnDate": "2026-03-09",
+						"StartDate": "2026-03-08",
+						"ThumbUrl": "https://datacfstatic.merlinx.eu/T320/LULU/IMG/339357/main.webp",
+						"Transfer": "unspecified",
+						"UniqueObjectId": "p18g7h62AUZwc6MT_XrJu-"
+					},
+					"Accommodation": {
+						"XCity": {
+							"Id": "78332",
+							"Name": "Szczytna"
+						},
+						"XCode": {
+							"Id": 24477,
+							"Name": "Relax  - Ośrodek Wypoczynkowy"
+						},
+						"XCountry": {
+							"Id": "59",
+							"Name": "Polska"
+						},
+						"XRegion": {
+							"Id": "99061",
+							"Name": "Ziemia Kłodzka"
+						},
+						"Attributes": [
+							"location_mountains",
+							"location_ski_resorts",
+							"location_without_passport_from_pl",
+							"facility_free_wifi",
+							"facility_barbecue",
+							"facility_parking",
+							"facility_indoor_pool",
+							"facility_internet_access",
+							"activity_bicycles",
+							"activity_sport",
+							"activity_tennis",
+							"activity_winter_sports"
+						],
+						"Code": "339357",
+						"DistanceToAirport": 0,
+						"DistanceToBeach": 99999999,
+						"DistanceToCityCenter": 2449,
+						"DistanceToSlope": 99999,
+						"ExtTripAdvisor": {
+							"count": 0,
+							"description": "",
+							"image": "",
+							"rating": 0,
+							"review": ""
+						},
+						"Location": {
+							"Coords": [
+								50.408146,
+								16.413563
+							],
+							"geoSearchDistance": 0
+						},
+						"Name": "Ośrodek wczasowo - rekreacyjny RELAX",
+						"Nights": 1,
+						"Room": {
+							"Id": "P_TWIN",
+							"Name": "Pokój 2 osobowy (C) - 2 łóżka"
+						},
+						"Service": {
+							"Id": "U",
+							"Name": "Bez wyżywienia"
+						},
+						"ThumbUrl": "https://datacfstatic.merlinx.eu/T320/LULU/IMG/339357/main.webp",
+						"Type": {
+							"Id": "H",
+							"Name": "Hotel"
+						},
+						"XService": {
+							"Id": 4,
+							"Name": "Bez wyżywienia"
+						}
+					},
+					"Transport": {},
+					"Online": {
+						"actions": [
+							{
+								"action": "checkstatus",
+								"fieldList": [
+									"Base.Availability",
+									"Base.Price",
+									"Base.OriginalPrice",
+									"Payment.Schedule"
+								],
+								"timestamp": "2025-12-12T11:23:05+01:00"
+							}
+						]
+					}
+				},
+				"sortKeyValue": [
+					"00006500"
+				]
+			},
+			"p-B6_jqwJKC_LT8Aw0hiXM": {
+				"offer": {
+					"Base": {
+						"XCity": {
+							"Id": "745",
+							"Name": "Hurghada"
+						},
+						"XCode": {
+							"Id": 26949,
+							"Name": "Przelot - Hurghada"
+						},
+						"XCountry": {
+							"Id": "11",
+							"Name": "Egipt"
+						},
+						"XRegion": {
+							"Id": "64",
+							"Name": "Hurghada"
+						},
+						"Availability": {
+							"base": "available",
+							"message": "",
+							"option": {
+								"possible": false
+							},
+							"quota": {
+								"possible": false
+							}
+						},
+						"BookingConditions": "0P0",
+						"Catalog": "L345",
+						"ComponentsCombinations": [
+							"transport.onewayflight"
+						],
+						"DatasetInfo": {
+							"name": "",
+							"private": false
+						},
+						"DepartureLocation": {
+							"Id": "0x4b61746f77696365",
+							"Name": "Katowice"
+						},
+						"DestinationLocation": {
+							"Id": "11_64",
+							"Name": "Egipt / Hurghada"
+						},
+						"Duration": 1,
+						"InternalData": "4c415354",
+						"NightsBeforeReturn": 0,
+						"OfferId": "p-B6_jqwJKC_LT8Aw0hiXMAAogKuaDheVGaez-onov4Uuuwl9ri4Br7X8UYOF89S65exgqBFZJVFgwlIbxyQZIhgVQAVgfDyiYGQ|VITX|fHw=",
+						"Omnibus": {
+							"URL": "https://omnibus.merlinx.eu/omnibusV1/VITX/20251214/2ae68385e54669ecfea27a2fe14baec25f6b8b806bed7f1460e17cf52eb97b18?MjUxMjEyMTczMC9CMkMvMzAxOTMvMa8hnXFvkAFq"
+						},
+						"Operator": "VITX",
+						"OperatorDesc": "Itaka",
+						"OriginalPrice": {
+							"FirstPerson": {
+								"amount": "646.00",
+								"currency": "PLN"
+							},
+							"Total": {
+								"amount": "646.00",
+								"currency": "PLN"
+							}
+						},
+						"Price": {
+							"FirstPerson": {
+								"amount": "646.00",
+								"currency": "PLN",
+								"details": {
+									"TFGData": "0/0",
+									"TFGIncluded": false
+								}
+							},
+							"Total": {
+								"amount": "646.00",
+								"currency": "PLN",
+								"details": {
+									"TFGIncluded": false
+								}
+							}
+						},
+						"Resident": "no",
+						"ReturnDate": "2025-12-14",
+						"StartDate": "2025-12-14",
+						"ThumbUrl": "https://datacf.merlinx.eu/imgbycode/T320/VITX-_FLG_KTWHRG_-XX-.jpeg",
+						"Transfer": "no",
+						"UniqueObjectId": "p-B6_jqwJKC_LT8Aw0hiXM"
+					},
+					"Accommodation": null,
+					"Transport": {
+						"Flight": {
+							"AirlineType": "gds",
+							"Luggage": "yes",
+							"Out": [
+								{
+									"Airline": {
+										"Code": "AMQ",
+										"Name": "Electra Airways"
+									},
+									"Departure": {
+										"Code": "KTW",
+										"Date": "2025-12-14",
+										"Name": "Katowice",
+										"Time": "09:55"
+									},
+									"Destination": {
+										"Code": "HRG",
+										"Date": "2025-12-14",
+										"Name": "Hurghada",
+										"Time": "15:00"
+									},
+									"FlightNo": "AMQ 7464"
+								}
+							],
+							"Ret": null,
+							"Stops": "no"
+						}
+					},
+					"Online": {
+						"actions": [
+							{
+								"action": "checkstatus",
+								"fieldList": [
+									"Base.Availability",
+									"Base.Price",
+									"Base.OriginalPrice",
+									"Payment.Schedule",
+									"Transport.*"
+								],
+								"timestamp": "2025-12-12T17:30:12+01:00"
+							}
+						]
+					}
+				},
+				"sortKeyValue": [
+					"00064600"
+				]
+			},
+			"p-K4eYNWb9jGaM1IBkAcvD": {
+				"offer": {
+					"Base": {
+						"XCity": {
+							"Id": "92806",
+							"Name": "Ethere Madivaru"
+						},
+						"XCode": {
+							"Id": 203403,
+							"Name": "Varu by Atmosphere"
+						},
+						"XCountry": {
+							"Id": "24",
+							"Name": "Malediwy"
+						},
+						"XRegion": {
+							"Id": "5697",
+							"Name": "Male Atol"
+						},
+						"Availability": {
+							"base": "available",
+							"message": "",
+							"option": {
+								"possible": false
+							},
+							"quota": {
+								"possible": false
+							}
+						},
+						"BookingConditions": "",
+						"ComponentsCombinations": [
+							"accommodation.*",
+							"accommodation.hotel"
+						],
+						"DatasetInfo": {
+							"name": "",
+							"private": false
+						},
+						"DepartureLocation": {
+							"Id": "0x",
+							"Name": ""
+						},
+						"DestinationLocation": {
+							"Id": "24_5697",
+							"Name": "Malediwy / Male Atol"
+						},
+						"Duration": 11,
+						"NightsBeforeReturn": 10,
+						"ObjectId": "203403",
+						"OfferId": "p-K4eYNWb9jGaM1IBkAcvDAAog3eaGnwNoVXC4k_Gb3inScWgyOg6-CH8by9PoE-7SU6YqA0RFUjCAivHJBkgHUAFYhyRkCrhF|DER|fHw=",
+						"Omnibus": {
+							"URL": "https://omnibus.merlinx.eu/omnibusV1/DER/20260623/dde6869f03685570b893f19bde29d27168323a0ebe087f1bcbd3e813eed253a6?MjUxMjEyMTczOC9CMkMvMzAxOTMvMV2LoEGj1-As"
+						},
+						"Operator": "DER",
+						"OperatorDesc": "Dertour",
+						"OriginalPrice": {
+							"FirstPerson": {
+								"amount": "7.00",
+								"currency": "EUR"
+							},
+							"Total": {
+								"amount": "7.00",
+								"currency": "EUR"
+							}
+						},
+						"Price": {
+							"FirstPerson": {
+								"amount": "30.90",
+								"currency": "PLN",
+								"details": {
+									"TFGIncluded": false
+								}
+							},
+							"Total": {
+								"amount": "30.90",
+								"currency": "PLN",
+								"details": {
+									"TFGIncluded": false
+								}
+							}
+						},
+						"ReturnDate": "2026-07-03",
+						"StartDate": "2026-06-23",
+						"ThumbUrl": "https://datacf.merlinx.eu/imgbycode/T320/DER-MLE13164B-XX-.jpeg",
+						"Transfer": "unspecified",
+						"UniqueObjectId": "p-K4eYNWb9jGaM1IBkAcvD"
+					},
+					"Accommodation": {
+						"XCity": {
+							"Id": "92806",
+							"Name": "Ethere Madivaru"
+						},
+						"XCode": {
+							"Id": 203403,
+							"Name": "Varu by Atmosphere"
+						},
+						"XCountry": {
+							"Id": "24",
+							"Name": "Malediwy"
+						},
+						"XRegion": {
+							"Id": "5697",
+							"Name": "Male Atol"
+						},
+						"Attributes": [
+							"location_exotic_offers",
+							"location_seaside_resorts",
+							"location_directly_on_the_beach",
+							"facility_free_wifi",
+							"facility_wellness",
+							"facility_home_appliances",
+							"facility_for_families_with_childrens",
+							"facility_fitness_or_gym",
+							"facility_outdoor_pool",
+							"facility_kindergarten",
+							"facility_internet_access",
+							"facility_air_conditioning",
+							"activity_tennis",
+							"activity_water_sports",
+							"activity_diving"
+						],
+						"BuildRenovationYear": 2019,
+						"Category": 5,
+						"Code": "MLE13164B",
+						"DistanceToAirport": 0,
+						"DistanceToBeach": 24,
+						"DistanceToCityCenter": 63935,
+						"DistanceToSlope": 99999,
+						"ExtTripAdvisor": {
+							"count": 0,
+							"description": "",
+							"image": "",
+							"rating": 0,
+							"review": ""
+						},
+						"Location": {
+							"Coords": [
+								4.500903,
+								73.368477
+							],
+							"geoSearchDistance": 0
+						},
+						"Name": "VARU by Atmosphere",
+						"Nights": 10,
+						"Room": {
+							"Id": "FB1",
+							"Name": "2 Bedroom Beach Villa"
+						},
+						"Service": {
+							"Id": "A",
+							"Name": "All Inclusive"
+						},
+						"ThumbUrl": "https://datacf.merlinx.eu/imgbycode/T320/DER-MLE13164B-XX-.jpeg",
+						"Type": {
+							"Id": "H",
+							"Name": "Hotel"
+						},
+						"XService": {
+							"Id": 1,
+							"Name": "Wszystko w cenie"
+						}
+					},
+					"Transport": {},
+					"Online": {
+						"actions": [
+							{
+								"action": "checkstatus",
+								"fieldList": [
+									"Base.Availability",
+									"Base.Price",
+									"Base.OriginalPrice",
+									"Payment.Schedule"
+								],
+								"timestamp": "2025-12-12T17:38:24+01:00"
+							}
+						]
+					}
+				},
+				"sortKeyValue": [
+					"00003090"
+				]
+			},
+			"p2RB0TZUEyfoRnWUJNy9QV": {
+				"offer": {
+					"Base": {
+						"XCity": {
+							"Id": "374",
+							"Name": "Gdańsk"
+						},
+						"XCode": {
+							"Id": 224363,
+							"Name": "Sun & Snow Front Park Gdańsk"
+						},
+						"XCountry": {
+							"Id": "59",
+							"Name": "Polska"
+						},
+						"XRegion": {
+							"Id": "3111",
+							"Name": "Trójmiasto"
+						},
+						"Availability": {
+							"base": "available",
+							"message": "",
+							"option": {
+								"possible": false
+							},
+							"quota": {
+								"possible": false
+							}
+						},
+						"BookingConditions": "",
+						"Catalog": "LATO",
+						"ComponentsCombinations": [
+							"accommodation.*",
+							"accommodation.hotel"
+						],
+						"DatasetInfo": {
+							"name": "",
+							"private": false
+						},
+						"DepartureLocation": {
+							"Id": "0x",
+							"Name": ""
+						},
+						"DestinationLocation": {
+							"Id": "59_3111",
+							"Name": "Polska / Trójmiasto"
+						},
+						"Duration": 2,
+						"InternalData": "52543d595f41505431342f31383232234d543d4f422348433d3333393432342341413d3137",
+						"NightsBeforeReturn": 1,
+						"ObjectId": "224363",
+						"OfferId": "p2RB0TZUEyfoRnWUJNy9QVAAogju0ZyUCXF7eYEW1MyzPP4QX8AOC08gvn46ntKLtFZNQqBExVTFUwgIrxyQZQAVj_BmoMWV9BUFQxNC8xODIyagJPQmoLMjAyNi0wMS0xOSxqCzIwMjYtMDEtMjAschDpB7UG4wP3AvICEfAEz9sUqpJhFA|LULU|fHw=",
+						"Omnibus": {
+							"URL": "https://omnibus.merlinx.eu/omnibusV1/LULU/20260119/8eed19c9409717b798116d4ccb33cfe105fc00e0b4f20be7e3a9ed28bb4564d4?MjUxMjEyMTczOC9CMkMvMzAxOTMvMcAXl99n_v_6"
+						},
+						"Operator": "LULU",
+						"OperatorDesc": "Lulubeds",
+						"OriginalPrice": {
+							"FirstPerson": {
+								"amount": "37.00",
+								"currency": "PLN"
+							},
+							"Total": {
+								"amount": "0.00",
+								"currency": "PLN"
+							}
+						},
+						"Price": {
+							"FirstPerson": {
+								"amount": "37.00",
+								"currency": "PLN",
+								"details": {
+									"TFGIncluded": false
+								}
+							},
+							"Total": {
+								"amount": "0.00",
+								"currency": "PLN",
+								"details": {
+									"TFGIncluded": false
+								}
+							}
+						},
+						"Resident": "noinformation",
+						"ReturnDate": "2026-01-20",
+						"StartDate": "2026-01-19",
+						"ThumbUrl": "https://datacfstatic.merlinx.eu/T320/LULU/IMG/339424/main.webp",
+						"Transfer": "unspecified",
+						"UniqueObjectId": "p2RB0TZUEyfoRnWUJNy9QV"
+					},
+					"Accommodation": {
+						"XCity": {
+							"Id": "374",
+							"Name": "Gdańsk"
+						},
+						"XCode": {
+							"Id": 224363,
+							"Name": "Sun & Snow Front Park Gdańsk"
+						},
+						"XCountry": {
+							"Id": "59",
+							"Name": "Polska"
+						},
+						"XRegion": {
+							"Id": "3111",
+							"Name": "Trójmiasto"
+						},
+						"Attributes": [
+							"location_seaside_resorts",
+							"location_city_breaks",
+							"location_without_passport_from_pl"
+						],
+						"Code": "339424",
+						"DistanceToAirport": 0,
+						"DistanceToBeach": 5072,
+						"DistanceToCityCenter": 1730,
+						"DistanceToSlope": 99999,
+						"ExtTripAdvisor": {
+							"count": 0,
+							"description": "",
+							"image": "",
+							"rating": 0,
+							"review": ""
+						},
+						"Location": {
+							"Coords": [
+								54.343815,
+								18.669163
+							],
+							"geoSearchDistance": 0
+						},
+						"Name": "Apartamenty Sun & Snow Front Park Gdańsk",
+						"Nights": 1,
+						"Room": {
+							"Id": "Y_APT14",
+							"Name": "Apartament 2 pokojowy dla 4 osób - Front Park Apartament 10"
+						},
+						"Service": {
+							"Id": "U",
+							"Name": "Bez wyżywienia"
+						},
+						"ThumbUrl": "https://datacfstatic.merlinx.eu/T320/LULU/IMG/339424/main.webp",
+						"Type": {
+							"Id": "H",
+							"Name": "Hotel"
+						},
+						"XService": {
+							"Id": 4,
+							"Name": "Bez wyżywienia"
+						}
+					},
+					"Transport": {},
+					"Online": {
+						"actions": [
+							{
+								"action": "checkstatus",
+								"fieldList": [
+									"Base.Availability",
+									"Base.Price",
+									"Base.OriginalPrice",
+									"Payment.Schedule"
+								],
+								"timestamp": "2025-12-12T17:38:24+01:00"
+							}
+						]
+					}
+				},
+				"sortKeyValue": [
+					"00003700"
+				]
+			}
+		},
+		"more": true,
+		"pageBookmark": "OTIyMzZhOTQ0YzkyMDBmOGE4MzY4NWVlMWM5ZmI1MDIzZjEwNWMyODQ0ZmM0YjNhZDI4ODdiYjYzZjllMTE2OCw4YWI5MWJkNmRlYWE2MTYyNDc1ZjNjYmUyNmU0MGNiODNmMTA1YzI4NDRmYzRiM2FkMjg4N2JiNjNmOWUxMTY4LDNiNmYzYjIzYmJjZGUxYTU5OTgyNDc1NWIxMDc2Zjc0M2YxMDVjMjg0NGZjNGIzYWQyODg3YmI2M2Y5ZTExNjgsZTA1M2IzNjJmZWIxOTgwNTg1MDlhYTNhMGMyNGZiNmIzZjEwNWMyODQ0ZmM0YjNhZDI4ODdiYjYzZjllMTE2OCxkNGZmODViNGQ2ZWRiOTFhZjYyZGU5MGQ2OTdkMDZhZTgwZmYzMjc3ZmQ4ZDczZDJkNTgxMTAwY2RjMGNmM2Q3LDNmZmZlZjdmMTI0ZmI4YTkwOWZlODg5ZjUzYzg0Mjk3NWZlN2QyNzkzZjY4YmIyMWE0NmJlMmE2ODdlYjRiOGQsM2ZmZmVmN2YxMjRmYjhhOTA5ZmU4ODlmNTNjODQyOTc1MGFmNGJiMzgxNzA5NzE2N2UwZTViZDc2MzU0OGQ5YSwzZmZmZWY3ZjEyNGZiOGE5MDlmZTg4OWY1M2M4NDI5NzkyOTU1ODFlYjk5ZDAxNDdkNmE0OTBhMTM3Mzc1NDZhLDNmZmZlZjdmMTI0ZmI4YTkwOWZlODg5ZjUzYzg0Mjk3NGI2OWI0Njk4NmNkMGEwYmVkMGIyMWY4NjNmOTVkZWQsM2ZmZmVmN2YxMjRmYjhhOTA5ZmU4ODlmNTNjODQyOTdjNTEwMWExMWFlZDc5Y2UyZjIyNTc3ZThmNTQyZjVjMCwzZmZmZWY3ZjEyNGZiOGE5MDlmZTg4OWY1M2M4NDI5N2I2MjljOGM5Nzc2ZTMwNjQ3MDBkM2I3OTVmMjc5NTRhLDNmZmZlZjdmMTI0ZmI4YTkwOWZlODg5ZjUzYzg0Mjk3OWUzY2Q5YWFmNDIyYzY2MjM4ZDEyOWZjOTU1MGYxYjksM2ZmZmVmN2YxMjRmYjhhOTA5ZmU4ODlmNTNjODQyOTdmN2VjNjIwNWVkNWIxNmQ1N2Q0ZGQ3MDFlN2VhMDBjMCwzZmZmZWY3ZjEyNGZiOGE5MDlmZTg4OWY1M2M4NDI5N2UxNjcxN2VlOWEzNjhlZThkZTRhNjRmOGFmMmY2OGRiLDNmZmZlZjdmMTI0ZmI4YTkwOWZlODg5ZjUzYzg0Mjk3NTkyMDM3ZDU3MmU2NzMzYjVkYTE0MTRjMGU1ODQ4MDUsM2ZmZmVmN2YxMjRmYjhhOTA5ZmU4ODlmNTNjODQyOTdkYjk3OGYyMzQyNWEzMDU0M2VjYjE1ZDlmZmJkYjE0OCwzZmZmZWY3ZjEyNGZiOGE5MDlmZTg4OWY1M2M4NDI5N2Q3Yjc3YmQwMDllM2RkODU1ODc4YTM3ZjIwZmM5ODlmLDNmZmZlZjdmMTI0ZmI4YTkwOWZlODg5ZjUzYzg0Mjk3NzNhZDczMTBjZjgzYTVkMDAxOTc0NDMwN2U3YWM2NTksM2ZmZmVmN2YxMjRmYjhhOTA5ZmU4ODlmNTNjODQyOTdkZmQ4ZjczMjA5ZWIwMDI2ZDRlOWVhZjMzOWFlNTM3OCwzZmZmZWY3ZjEyNGZiOGE5MDlmZTg4OWY1M2M4NDI5N2I5ZmYyMzc2ZGM4NDE3MGEwZmE4NjQ1NWZkY2FmYjM1LDNmZmZlZjdmMTI0ZmI4YTkwOWZlODg5ZjUzYzg0Mjk3MjE2NGZkOWNiZDU0MDhlNTU5M2Y1NGRjY2QxY2ExZDIsM2ZmZmVmN2YxMjRmYjhhOTA5ZmU4ODlmNTNjODQyOTdjMzExMjZhYzllZDE2YWRmYTM4MjA0Njg1ZDQxZDU2NiwzZmZmZWY3ZjEyNGZiOGE5MDlmZTg4OWY1M2M4NDI5N2M3OTVlMWI4MjNlN2Y1N2NiYjI1MzBlZWIyZDYyNTZkLDNmZmZlZjdmMTI0ZmI4YTkwOWZlODg5ZjUzYzg0Mjk3ODFiYWU2NThkM2JiMDJhOWY5NThiZTNhOTRjYzBiODUsM2ZmZmVmN2YxMjRmYjhhOTA5ZmU4ODlmNTNjODQyOTdiZjU0NzBhMzhjYjQ2MTdjNzJiNmRjYzUyMTM2NjQyMiwzZmZmZWY3ZjEyNGZiOGE5MDlmZTg4OWY1M2M4NDI5NzRiMzVhMjgyMGQzNWFkNDU4N2ZlMDQ1NjVlY2RmMzZhLDNmZmZlZjdmMTI0ZmI4YTkwOWZlODg5ZjUzYzg0Mjk3ZmQ3YWY3MWMzOWMzYWFlYjUzNmM1MDQxOTI5MmUyNGQsM2ZmZmVmN2YxMjRmYjhhOTA5ZmU4ODlmNTNjODQyOTcyMGVkZTM5MjMyYjlhNGQxODg3MzM0M2Y5ZmY0ODNhYSwzZmZmZWY3ZjEyNGZiOGE5MDlmZTg4OWY1M2M4NDI5NzZiNDc5ZmRkZjEyODcxNzIxN2Y0NmQ5MDAyNWQ1MDc0LDNmZmZlZjdmMTI0ZmI4YTkwOWZlODg5ZjUzYzg0Mjk3NDYyMGNjNjA0OWRhMjU3OWQ4NTdjNzFkYjhhMGQ2NmM=",
+		"sortKeyOrderAscending": [
+			true
+		]
+	},
+	"debug": "{\"auth\":{\"Consultant\":\"DCJU\",\"Languagecode\":\"pl\",\"external\":true,\"login\":\"PL.30193\",\"source\":\"B2C\",\"srcdomain\":\"skionline.pl\"},\"requests\":[{\"Count\":0,\"GroupBy\":\"UniqueCatalogTouropInternal\",\"OrderBy\":[\"Base.Price.FirstPerson\"],\"SelectAnswerFields\":null,\"conditionsv5\":{\"Accommodation\":{\"Attributes\":[\"location_ski_resorts\"]},\"Base\":{}},\"id\":\"offers\",\"typ\":\"offers\"}]}"
+}

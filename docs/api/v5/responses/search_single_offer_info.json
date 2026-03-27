@@ -1,0 +1,105 @@
+{
+	"offerList": {
+		"items": {
+			"pAyAmOxiC4voPGKgVa67s5": {
+				"offer": {
+					"Base": {
+						"Candy": {
+							"Description": "",
+							"Types": [
+								{
+									"Id": 3,
+									"Name": "Ski Pass"
+								}
+							]
+						},
+						"OfferId": "pAyAmOxiC4voPGKgVa67s5AAogY7dPblp8VYZ9qwHke755cPxW_WDtBZjDfP68gr2UwgAqBFNOT1cwq5yUywZIqHdQAVj4DWABcgMEEmOH1Q2W|SNOW|NHx8",
+						"Price": {
+							"FirstPerson": {
+								"amount": "3818.00",
+								"currency": "PLN",
+								"details": {
+									"TFGIncluded": true
+								}
+							},
+							"Total": {
+								"amount": "15272.00",
+								"currency": "PLN",
+								"details": {
+									"TFGIncluded": true
+								}
+							}
+						}
+					},
+					"Accommodation": {},
+					"Transport": {},
+					"Online": {
+						"actions": [
+							{
+								"action": "checkstatus",
+								"fieldList": [
+									"Base.Availability",
+									"Base.Price",
+									"Base.OriginalPrice",
+									"Payment.Schedule"
+								],
+								"timestamp": "2026-01-12T16:07:23+01:00"
+							}
+						]
+					}
+				},
+				"sortKeyValue": [
+					"00381800"
+				]
+			},
+			"pTrP7aiumtmgBuJwiTXOtx": {
+				"offer": {
+					"Base": {
+						"OfferId": "pTrP7aiumtmgBuJwiTXOtxAAogHnOvmU7tY_j0D5_IsCjKA_xW_WDtBZjDfP68gr2UwgAqBFNOT1cwq5yUywZInE9QAVj4DWABcgMEEmMtLUuQ|SNOW|NHx8",
+						"Price": {
+							"FirstPerson": {
+								"amount": "2535.00",
+								"currency": "PLN",
+								"details": {
+									"TFGIncluded": true
+								}
+							},
+							"Total": {
+								"amount": "10140.00",
+								"currency": "PLN",
+								"details": {
+									"TFGIncluded": true
+								}
+							}
+						}
+					},
+					"Accommodation": {},
+					"Transport": {},
+					"Online": {
+						"actions": [
+							{
+								"action": "checkstatus",
+								"fieldList": [
+									"Base.Availability",
+									"Base.Price",
+									"Base.OriginalPrice",
+									"Payment.Schedule"
+								],
+								"timestamp": "2026-01-12T16:07:23+01:00"
+							}
+						]
+					}
+				},
+				"sortKeyValue": [
+					"00253500"
+				]
+			}
+		},
+		"more": false,
+		"pageBookmark": "MWU3M2FmOTk0ZWVkNjNmOGY0MGY5ZmM4YjAyOGNhMDNmYzU2ZmQ2MGVkMDU5OGMzN2NmZWJjODJiZDk0YzIwMCw2M2I3NGY2ZTVhN2M1NTg2N2RhYjAxZTQ3YmJlNzk3MGZjNTZmZDYwZWQwNTk4YzM3Y2ZlYmM4MmJkOTRjMjAw",
+		"sortKeyOrderAscending": [
+			true
+		]
+	},
+	"debug": "{\"auth\":{\"Consultant\":\"DCJU\",\"Languagecode\":\"pl\",\"external\":true,\"login\":\"PL.30193\",\"source\":\"B2C\",\"srcdomain\":\"skionline.pl\"},\"requests\":[{\"Count\":2,\"GroupBy\":\"UniqueCatalogTouropInternal\",\"OrderBy\":[\"Base.Price.FirstPerson\"],\"SelectAnswerFields\":null,\"conditionsv5\":{\"Accommodation\":{\"Attributes\":[\"+location_ski_resorts\"],\"Room\":\"0x4136\",\"XCode\":[236342],\"XService\":[4]},\"Base\":{\"Availability\":[\"available\",\"onrequest\",\"unknown\"],\"ComponentsCombinations\":[[\"accommodation.*\"]],\"NightsBeforeReturn\":{\"max\":7,\"min\":7},\"Operator\":[\"SNOW\"],\"ParticipantsList\":[{\"roomIndex\":0,\"code\":\"ADULT\"},{\"roomIndex\":0,\"code\":\"ADULT\"},{\"roomIndex\":0,\"code\":\"ADULT\"},{\"roomIndex\":0,\"code\":\"ADULT\"}],\"StartDate\":{\"After\":\"2026-03-28\",\"Before\":\"2026-03-28\",\"Max\":\"2026-03-28\",\"Min\":\"2026-03-28\"}}},\"id\":\"offers\",\"typ\":\"offers\"}]}"
+}

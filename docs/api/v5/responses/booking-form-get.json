@@ -1,0 +1,745 @@
+{
+	"debug": "{\"auth\":{\"Languagecode\":\"pl\",\"login\":\"PL.30193\",\"consultant\":\"DCJU\",\"source\":\"B2B\",\"srcdomain\":\"skionline.pl\"},\"context\":{\"Deadline\":\"45\"},\"requestBook\":{\"action\":\"form\",\"offerId\":\"pdL3onlNDf_yoJHA0O-d-lAAogOtj7F7xhuvOr-jXcoV_9ShUe11yWZJJS_s4iE-NO0UAqBFZJVFgw6YC7zQZIjjVQAViDAWABcgMCDWMmwlhd|VITX|Mnx8\",\"form\":{}}}",
+	"result": {
+		"form": {
+			"AdditionalServices": [
+				{
+					"Assignment": [],
+					"Code": "M:A:EXE_FT_WWA",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Comfort Pass. Fast Track oraz Executive Lounge w Warszawie. Etiuda 06:30 - 22:00 Preludium 05:00 - 22:00. Fantazja 05:00 - 22:00. Wymagany kod QR. Os. do 13 r.ż. bez kodu QR.",
+					"Price": {
+						"amount": "480.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "M:A:FT_WWA",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Fast Track w Warszawie: 3:30–23:00.Wymagany kod QR.Osoby do 13 r.ż. i powyżej 70 r.ż. – bezpłatnie na podstawie ID, bez kodu QR.",
+					"Price": {
+						"amount": "96.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "M:A:OPLATA_A",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Opłata administracyjna",
+					"Price": {
+						"amount": "70.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": true
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "M:A:PARK_WAP",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Parking przy lotnisku, \"PRKING\" P1 Okęcie Południe przy S7, Orna 46, 05-500 Nowa Wola, tel. 790 670 550. W cenie transfer na lotnisko i z lotniska",
+					"Price": {
+						"amount": "199.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "M:A:PARK_WAR",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Parking przy lotnisku, \"PRKING\" P3 Okęcie Południe przy S7, Orna 43, 05-500 Nowa Wola, tel. 790 670 550. W cenie transfer na lotnisko i z lotniska",
+					"Price": {
+						"amount": "179.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "M:A:PARK_WAA",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Parking przy lotnisku, \"WAW Parking\", Hołubcowa 100, Warszawa, tel. 518 101 208. W cenie transfer na lotnisko i z lotniska",
+					"Price": {
+						"amount": "189.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "M:A:PARK_WAW",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Parking przy lotnisku, Parking Lot, Krakowiakow 75, Warszawa tel. 697 888 111. Transfer dla max. 4 osob z rezerwacji. ",
+					"Price": {
+						"amount": "179.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "A:D:UBSCANP_COV",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Rezygnacja Cov PLUS 100 - Ubezpieczenie kosztów rezygnacji - obejmuje choroby przewlekłe i covid",
+					"Price": {
+						"amount": "386.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "M:A:UBSCANP",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Rezygnacja PLUS 100 - Ubezpieczenie kosztow rezygnacji - obejmuje choroby przewlekle",
+					"Price": {
+						"amount": "372.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "M:A:UBSCNLP",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Rezygnacja PLUS 80 - Ubezpieczenie kosztow rezygnacji - Obejmuje choroby przewlekle",
+					"Price": {
+						"amount": "302.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "M:A:UBSKLNW_AT",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Rozszerzenie ubezpieczenia o akty terroryzmu",
+					"Price": {
+						"amount": "72.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "M:A:UBSKLNW_PR",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Rozszerzenie ubezpieczenia o choroby przewlekłe",
+					"Price": {
+						"amount": "120.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "M:A:EXEC_WWA",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Salon Executive w Warszawie. Etiuda 06:30 - 22:00 Preludium 05:00 - 22:00. Fantazja 05:00 - 22:00. Wymagany kod QR. Dzieci do 3 r.ż. bez kodu QR.",
+					"Price": {
+						"amount": "456.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "A:R:UBSCOMP",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Ubezpieczenie Itaka Complex. Koszty leczenia do 50 000 EUR (w tym COVID 19), ubezpieczenie bagażu, zdarzenia pod wpływem alkoholu.",
+					"Price": {
+						"amount": "144.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [
+							"A:R:UBSOPTI",
+							"A:R:UBSPRES"
+						],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "A:R:UBSOPTI",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Ubezpieczenie Itaka Optimum. Koszty leczenia do 100 000 EUR (w tym COVID 19), ubezpieczenie bagażu, zdarzenia pod wpływem alkoholu, choroby przewlekłe.",
+					"Price": {
+						"amount": "192.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [
+							"A:R:UBSCOMP",
+							"A:R:UBSPRES"
+						],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "A:R:UBSPRES",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Ubezpieczenie Itaka Prestige. Koszty leczenia do 1 000 000 EUR (w tym COVID 19), choroby przewlekłe (do 300 000 EUR), sporty wysokiego ryzyka (do 50 000 EUR), zdarzenia pod wpływem alkoholu, ubezpieczenie bagażu.",
+					"Price": {
+						"amount": "334.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [
+							"A:R:UBSCOMP",
+							"A:R:UBSOPTI"
+						],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [],
+					"Code": "M:A:UBSSKIP",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Ubezpieczenie Itaka Ski&Sport - pakiet sportowy. Insurance includes skiiing personal liability",
+					"Price": {
+						"amount": "178.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				}
+			]
+		},
+		"offer": {
+			"Accommodation": {
+				"AvailableRoomsCount": "1"
+			},
+			"AdditionalServices": [
+				{
+					"Assignment": [
+						1,
+						2
+					],
+					"Code": "A:A:TFG_15",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Turystyczny Fundusz Gwarancyjny",
+					"Price": {
+						"amount": "30.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": true
+					}
+				},
+				{
+					"Assignment": [
+						1,
+						2
+					],
+					"Code": "A:A:TFP_15",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Turystyczny Fundusz Pomocowy",
+					"Price": {
+						"amount": "30.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": true
+					}
+				},
+				{
+					"Assignment": [
+						1,
+						2
+					],
+					"Code": "A:A:UBSSIMP",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Ubezpieczenie Itaka Simple. Koszty leczenia do 20 000 EUR.",
+					"Price": {
+						"amount": "52.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [
+						1,
+						2
+					],
+					"Code": "A:A:KUBS_SE",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Znizka za wartosc ubezpieczenia podstawowego",
+					"Price": {
+						"amount": "-56.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [
+						1,
+						2
+					],
+					"Code": "A:A:UBSKLNW_SE",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Rozszerzenie ubezpieczenia o sporty wysokiego ryzyka",
+					"Price": {
+						"amount": "56.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [
+						1,
+						2
+					],
+					"Code": "A:A:KUBS",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Znizka za wartosc ubezpieczenia podstawowego",
+					"Price": {
+						"amount": "-52.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [
+						1,
+						2
+					],
+					"Code": "A:A:ASR_DP_LOT",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Obowiazkowa oplata lotniskowa",
+					"Price": {
+						"amount": "400.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [
+						1,
+						2
+					],
+					"Code": "A:A:ASR_DP_TRA",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Obowiazkowa doplata transportowa",
+					"Price": {
+						"amount": "380.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [
+						1,
+						2
+					],
+					"Code": "A:A:ASR_DP_WAW",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Obowiazkowa oplata za wylot z Warszawy",
+					"Price": {
+						"amount": "0.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [
+						1,
+						2
+					],
+					"Code": "A:A:DANE_DOWOD",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "UWAGA! Przekaż sprzedawcy dane niezbędne do realizacji imprezy: paszport lub dow. osob.(ten sam dokument zabierz w podróż): seria, nr, data wydania/ważności, organ wydający, miejsce ur., obywatelstwo",
+					"Price": {
+						"amount": "0.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [
+						1,
+						2
+					],
+					"Code": "A:A:ASRTRAN",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Transfer: lotnisko-hotel-lotnisko",
+					"Price": {
+						"amount": "0.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				},
+				{
+					"Assignment": [
+						1,
+						2
+					],
+					"Code": "A:A:ASR_SKIPASS",
+					"DateFrom": "2026-03-15",
+					"DateTo": "2026-03-22",
+					"Description": "",
+					"Name": "Koszty SKIPASS",
+					"Price": {
+						"amount": "0.00",
+						"currency": "PLN"
+					},
+					"precondition": {
+						"assignment": [
+							1,
+							2
+						],
+						"incompatible": [],
+						"perBooking": false
+					}
+				}
+			],
+			"Base": {
+				"Availability": {
+					"base": "available",
+					"message": "Rezerwacja możliwa, proszę uzupełnić dane (712)",
+					"option": {
+						"possible": false
+					},
+					"quota": {
+						"date": "2026-03-10T13:44:39Z",
+						"possible": true
+					}
+				},
+				"BookingConditions": "",
+				"Price": {
+					"Details": {
+						"Participants": [
+							{
+								"birthdate": "1996-03-09",
+								"code": "ADULT",
+								"amount": "3429.00",
+								"currency": "PLN"
+							},
+							{
+								"birthdate": "1996-03-09",
+								"code": "ADULT",
+								"amount": "3429.00",
+								"currency": "PLN"
+							}
+						]
+					},
+					"FirstPerson": {
+						"amount": "3429.00",
+						"currency": "PLN",
+						"details": {
+							"TFGIncluded": true
+						}
+					},
+					"Total": {
+						"amount": "6858.00",
+						"currency": "PLN",
+						"details": {
+							"TFGIncluded": true
+						}
+					}
+				}
+			},
+			"Payment": {
+				"Schedule": [
+					{
+						"amount": "6858.00",
+						"currency": "PLN",
+						"paidAmount": "0.00",
+						"requiredTill": "2026-03-09T00:00:00+01:00",
+						"type": "RestPayment"
+					}
+				]
+			},
+			"Transport": {
+				"Flight": {
+					"AirlineType": "",
+					"Luggage": "yes",
+					"Out": [
+						{
+							"AvailableSeatsCount": "6+",
+							"Departure": {
+								"Code": "WAW",
+								"Date": "2026-03-15",
+								"Name": "Warszawa-Okęcie",
+								"Time": "08:00"
+							},
+							"Destination": {
+								"Code": "ASR",
+								"Date": "2026-03-15",
+								"Name": "Kayseri",
+								"Time": "13:00"
+							},
+							"FlightNo": "LO6273",
+							"Luggage": {
+								"Hand": "5",
+								"Registered": "15"
+							}
+						}
+					],
+					"Ret": [
+						{
+							"AvailableSeatsCount": "6+",
+							"Departure": {
+								"Code": "ASR",
+								"Date": "2026-03-22",
+								"Name": "Kayseri",
+								"Time": "14:30"
+							},
+							"Destination": {
+								"Code": "WAW",
+								"Date": "2026-03-22",
+								"Name": "Warszawa-Okęcie",
+								"Time": "15:45"
+							},
+							"FlightNo": "LO6274",
+							"Luggage": {
+								"Hand": "5",
+								"Registered": "15"
+							}
+						}
+					],
+					"Stops": "no"
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mds>
+  <auth>
+    <login>YOUR_LOGIN</login>
+    <pass>YOUR_PASSWORD</pass>
+    <source>MDSWS</source>
+    <srcDomain>skionline.pl</srcDomain>
+    <consultant>DCJU</consultant>
+  </auth>
+
+  <request>
+    <type>check</type>
+    <conditions>
+      <language>PL</language>
+			<currency>PLN</currency>
+      <ofr_tourOp>VITX</ofr_tourOp>
+      <ofr_id>pG9YQXwafRIOopwVjmtRzGAAogVpTNN972szPx2mtgWtQtVNFUyMPd-WzwDnshnJof0bAqBFZJVFgw_fXFzQZIwgRQAVi5LWABcgMCDWOwjx3z</ofr_id>
+      <par_adt>2</par_adt>
+    </conditions>
+  </request>
+</mds>

@@ -1,0 +1,172 @@
+{
+	"debug": "{\"auth\":{\"Consultant\":\"DCJU\",\"Languagecode\":\"pl\",\"external\":true,\"login\":\"PL.30193\",\"source\":\"B2C\",\"srcdomain\":\"skionline.pl\"},\"requests\":[{\"Count\":0,\"GroupBy\":\"\",\"OrderBy\":null,\"SelectAnswerFields\":null,\"conditionsv5\":{\"Base\":{\"OfferId\":\"p01otKbJFzujkoiUMmU48BAAogP__vfxJPuKkJ_oifU8hCl4G65ljTuwKp-Vi-OpTMC4UqBExVTFUwidrvyQZQAVilBmoLUF9UV0lOLzEzOThqAk9CagsyMDI2LTAxLTE1LGoLMjAyNi0wMS0xNixyEOkHtQbjA_cC8gIM8ASR2xRx-NTC|LULU|fHw=\"}},\"id\":\"details\",\"typ\":\"details\"}]}",
+	"result": {
+		"offer": {
+			"Accommodation": {
+				"XCity": {
+					"Id": "78332",
+					"Name": "Szczytna"
+				},
+				"XCode": {
+					"Id": 24477,
+					"Name": "Relax  - Ośrodek Wypoczynkowy"
+				},
+				"XCountry": {
+					"Id": "59",
+					"Name": "Polska"
+				},
+				"XRegion": {
+					"Id": "99061",
+					"Name": "Ziemia Kłodzka"
+				},
+				"Attributes": [
+					"location_mountains",
+					"location_ski_resorts",
+					"location_without_passport_from_pl",
+					"facility_free_wifi",
+					"facility_barbecue",
+					"facility_parking",
+					"facility_indoor_pool",
+					"facility_internet_access",
+					"activity_bicycles",
+					"activity_sport",
+					"activity_tennis",
+					"activity_winter_sports"
+				],
+				"Code": "339357",
+				"DistanceToAirport": 0,
+				"DistanceToBeach": 99999999,
+				"DistanceToCityCenter": 2449,
+				"DistanceToSlope": 99999,
+				"Location": {
+					"Coords": [
+						50.408146,
+						16.413563
+					],
+					"geoSearchDistance": 0
+				},
+				"Name": "Ośrodek wczasowo - rekreacyjny RELAX",
+				"Nights": 1,
+				"Room": {
+					"Id": "P_TWIN",
+					"Name": "Pokój 2 osobowy (C) - 2 łóżka"
+				},
+				"Service": {
+					"Id": "U",
+					"Name": "Bez wyżywienia"
+				},
+				"ThumbUrl": "https://datacfstatic.merlinx.eu/T320/LULU/IMG/339357/main.webp",
+				"Type": {
+					"Id": "H",
+					"Name": "Hotel"
+				},
+				"XService": {
+					"Id": 4,
+					"Name": "Bez wyżywienia"
+				}
+			},
+			"Base": {
+				"XCity": {
+					"Id": "78332",
+					"Name": "Szczytna"
+				},
+				"XCode": {
+					"Id": 24477,
+					"Name": "Relax  - Ośrodek Wypoczynkowy"
+				},
+				"XCountry": {
+					"Id": "59",
+					"Name": "Polska"
+				},
+				"XRegion": {
+					"Id": "99061",
+					"Name": "Ziemia Kłodzka"
+				},
+				"Availability": {
+					"base": "available",
+					"message": "",
+					"option": {
+						"possible": false
+					},
+					"quota": {
+						"possible": false
+					}
+				},
+				"BookingConditions": "",
+				"Catalog": "LATO",
+				"ComponentsCombinations": [
+					"accommodation.*",
+					"accommodation.hotel"
+				],
+				"DatasetInfo": {
+					"name": "",
+					"private": false
+				},
+				"DepartureLocation": {
+					"Id": "0x",
+					"Name": ""
+				},
+				"DestinationLocation": {
+					"Id": "59_99061",
+					"Name": "Polska / Ziemia Kłodzka"
+				},
+				"Duration": 2,
+				"InternalData": "52543d505f5457494e2f31333938234d543d4f422348433d3333393335372341413d3132",
+				"NightsBeforeReturn": 1,
+				"OfferId": "p01otKbJFzujkoiUMmU48BAAogP__vfxJPuKkJ_oifU8hCl4G65ljTuwKp-Vi-OpTMC4UqBExVTFUwqfLvyQZQAVikBmoLUF9UV0lOLzEzOThqAk9CagsyMDI2LTAxLTE1LGoLMjAyNi0wMS0xNixyEOkHtQbjA_cC8gIM8ASR2xRqJvlz|LULU|fHw=",
+				"Omnibus": {
+					"URL": "https://omnibus.merlinx.eu/omnibusV1/LULU/20260115/3fffef7f124fb8a909fe889f53c8429781bae658d3bb02a9f958be3a94cc0b85?MjUxMjEyMTIxNC9CMkMvMzAxOTMvMdxeZnvz1mmy"
+				},
+				"Operator": "LULU",
+				"OperatorDesc": "Lulubeds",
+				"OriginalPrice": {
+					"FirstPerson": {
+						"amount": "65.00",
+						"currency": "PLN"
+					},
+					"Total": {
+						"amount": "0.00",
+						"currency": "PLN"
+					}
+				},
+				"Price": {
+					"FirstPerson": {
+						"amount": "65.00",
+						"currency": "PLN",
+						"details": {
+							"TFGIncluded": false
+						}
+					},
+					"Total": {
+						"amount": "0.00",
+						"currency": "PLN",
+						"details": {
+							"TFGIncluded": false
+						}
+					}
+				},
+				"Resident": "noinformation",
+				"ReturnDate": "2026-01-16",
+				"StartDate": "2026-01-15",
+				"ThumbUrl": "https://datacfstatic.merlinx.eu/T320/LULU/IMG/339357/main.webp",
+				"Transfer": "unspecified",
+				"UniqueObjectId": "p01otKbJFzujkoiUMmU48B"
+			},
+			"Online": {
+				"actions": [
+					{
+						"action": "checkstatus",
+						"fieldList": [
+							"Base.Availability",
+							"Base.Price",
+							"Base.OriginalPrice",
+							"Payment.Schedule"
+						],
+						"timestamp": "2025-12-12T12:14:49+01:00"
+					}
+				]
+			},
+			"Transport": {}
+		}
+	}
+}

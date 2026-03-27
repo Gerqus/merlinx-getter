@@ -1,0 +1,2 @@
+- Retry mechanism is shared for all MerlinX endpoints
+- Operations pass retry/error context through `MerlinxHttpClient::request(..., array $context = [])` and never import `Http/Auxiliary` or `Http/Models` internals.

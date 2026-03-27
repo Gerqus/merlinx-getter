@@ -1,0 +1,21 @@
+http://mdsws.merlinx.pl/bookV4/*
+
+/checkplaces
+/checktransport
+/check				- availability check
+/checkavail			- availability check simplified
+/checkcommission
+/book				- booking
+/optiondraft
+/optionbooking
+/optionconfirm
+/bookingstatus		- bookingstatus
+/bookingstatusshort
+/bookingchange		- change of booking
+/bookingchangecheck	- check change of booking possibility
+/bookingcancel		- cancel of booking
+/bookingcancelcheck	- check cancel of booking possibility
+/voucher
+/vouchers			- vouchers
+/ARI
+/quota

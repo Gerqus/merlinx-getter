@@ -240,7 +240,7 @@ The package search engine owns:
 - repeated-bookmark stop guard
 - empty-page stop guard (`empty(items)`)
 - soft limit stop when merged item count reaches the explicitly requested view limit
-- rate-limit retry/backoff
+- shared MerlinX HTTP rate-limit retry/backoff across search, details, checkonline, and token acquisition
 - `fieldValues` normalization and merge
 - enforced `Accommodation.Attributes` pruning derived from `search_engine.conditions`
 - configured path-based exclusions (`response_filters.exclude_values_by_path`) applied on each fetched page before merge

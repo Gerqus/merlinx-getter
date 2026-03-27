@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<response>
+	<result msgCode="726" status="OK" msgText="Rezerwacja możliwa, proszę uzupełnić dane." orgOperText="" subCode="" />
+	<agency_messages>
+		<agency_message type="booking" status="OK">Mozna smialo rezerwowac!</agency_message>
+	</agency_messages>
+	<option possible="1" optiondate="2026-01-10" optiontime="14:41:55" optionchange="cancel" />
+	<quota possible="0"/>
+	<pricetotal operPrice="2826.00" operCurrency="PLN" TFGIncluded="0" />
+	<catalog></catalog>
+	<hotel code="1025763" name="COOEE alpin Hotel Bad Kleinkirchheim" roomCode="DSWE" roomDesc="DBL Standard with Extrabed" mealCode="AD" mealDesc="Śniadania" city="Bad Kleinkirchheim" region="Karyntia" country="Austria" category="4" depDate="2026-03-23" desDate="2026-03-30" status="" price="" currency="" tourop="" bookingNr="" type="H" />
+	<transport type="H" carrierCode="" carrierDesc="" depCode="Bad Kleinkirchheim" desCode="" rDepCode="" rDesCode="" depName="" desName="" rDepName="" rDesName="" depDate="" depTime="00:00" desDate="" desTime="" rDepDate="" rDepTime="" rDesDate="" rDesTime="00:00" flightNo="" rFlightNo="" flightCode="Bad Kleinkirchheim" status="" price="" currency="" handBaggage="" rHandBaggage="" regBaggage="" rRegBaggage="" >
+		<flightOut>
+			<flight depCode="Bad Kleinkirchheim" depName="" desCode="" desName="" depDate="" depTime="00:00" desDate="" desTime="" flightNo="" carrierDesc="" />
+		</flightOut>
+		<flightRet>
+			<flight depCode="" depName="" desCode="" desName="" depDate="" depTime="" desDate="" desTime="00:00" flightNo="" carrierDesc="" />
+		</flightRet>
+	</transport>
+	<services>
+		<service desc="" clientDesc="">
+			<code>Bad Kleinkirchheim </code>
+			<type>H</type>
+			<operInfo>Po dokonaniu rezerwacji prosimy o sprawdzenie dodatkowych informacji hotelowych, które znajdują się na umowie. Please check on the contract the additional information from the hotel.</operInfo>
+			<excludedCodes></excludedCodes>
+			<requiredCodes></requiredCodes>
+			<defaultCodes></defaultCodes>
+			<date_from>01.01.0001</date_from>
+			<date_to>01.01.0001</date_to>
+			<checked>1</checked>
+			<flightData></flightData>
+			<allocations></allocations>
+			<prices></prices>
+			<hints></hints>
+			<options></options>
+		</service>
+		<service desc="COOEE alpin Hotel Bad Kleinkirchheim" clientDesc="">
+			<code>1025763</code>
+			<type>H</type>
+			<excludedCodes></excludedCodes>
+			<requiredCodes></requiredCodes>
+			<defaultCodes></defaultCodes>
+			<checked>1</checked>
+			<flightData></flightData>
+			<allocations></allocations>
+			<prices></prices>
+			<hints></hints>
+			<options></options>
+		</service>
+	</services>
+	<offers></offers>
+	<forminfo>
+		<persons>
+			<person price="" currency="">
+				<person_id type="integer">1</person_id>
+				<gender type="string" maxlength="1" name="Płeć" required="1" requiredOption="1"></gender>
+				<lastname type="string" maxlength="30" name="Nazwisko" required="1" requiredOption="1"></lastname>
+				<firstname type="string" maxlength="30" name="Imię" required="1" requiredOption="1"></firstname>
+				<address type="string" maxlength="30" name="Ulica" required="0" requiredOption="0"></address>
+				<post_code type="postcode" maxlength="6" name="Kod pocztowy" required="0" requiredOption="0"></post_code>
+				<city type="string" maxlength="30" name="Miejscowość" required="0" requiredOption="0"></city>
+				<phone type="phone" maxlength="20" name="Telefon" required="0" requiredOption="0"></phone>
+				<email_address type="email" maxlength="50" name="E-mail" required="0" requiredOption="0"></email_address>
+				<birthdate type="date" maxlength="10" name="Data urodzenia" required="1" requiredOption="1"></birthdate>
+			</person>
+			<person price="" currency="">
+				<person_id type="integer">2</person_id>
+				<gender type="string" maxlength="1" name="Płeć" required="1" requiredOption="1"></gender>
+				<lastname type="string" maxlength="30" name="Nazwisko" required="1" requiredOption="1"></lastname>
+				<firstname type="string" maxlength="30" name="Imię" required="1" requiredOption="1"></firstname>
+				<address type="string" maxlength="30" name="Ulica" required="0" requiredOption="0"></address>
+				<post_code type="postcode" maxlength="6" name="Kod pocztowy" required="0" requiredOption="0"></post_code>
+				<city type="string" maxlength="30" name="Miejscowość" required="0" requiredOption="0"></city>
+				<phone type="phone" maxlength="20" name="Telefon" required="0" requiredOption="0"></phone>
+				<email_address type="email" maxlength="50" name="E-mail" required="0" requiredOption="0"></email_address>
+				<birthdate type="date" maxlength="10" name="Data urodzenia" required="1" requiredOption="1"></birthdate>
+			</person>
+		</persons>
+		<client>
+			<title type="selected" maxlength="1" name="Płeć" required="1" requiredOption="1">
+				<option value="H">Pan</option>
+				<option value="F">Pani</option>
+			</title>
+			<lastname type="string" maxlength="30" name="Nazwisko" required="1" requiredOption="1"></lastname>
+			<firstname type="string" maxlength="30" name="Imię" required="1" requiredOption="1"></firstname>
+			<address type="string" maxlength="30" name="Ulica" required="1" requiredOption="1"></address>
+			<post_code type="postcode" maxlength="6" name="Kod pocztowy" required="1" requiredOption="1"></post_code>
+			<city type="string" maxlength="30" name="Miejscowość" required="1" requiredOption="1"></city>
+			<phone type="phone" maxlength="20" name="Telefon" required="1" requiredOption="1"></phone>
+			<email_address type="email" maxlength="50" name="E-mail" required="1" requiredOption="1"></email_address>
+			<invoice type="selected" maxlength="1" name="Generuj fakturę" required="1" requiredOption="1">
+				<option value="0">Nie</option>
+				<option value="1">Tak</option>
+			</invoice>
+			<invoice_type type="selected" maxlength="7" name="Typ" required="1" requiredOption="1" dependOn="client_invoice:1">
+				<option value="PERSON">Osoba prywatna</option>
+				<option value="COMPANY">Firma</option>
+			</invoice_type>
+			<invoice_company_nip type="string" maxlength="16" name="NIP" required="1" requiredOption="1" dependOn="client_invoice:1|client_invoice_type:COMPANY"></invoice_company_nip>
+			<invoice_company_name type="string" maxlength="60" name="Pełna nazwa firmy" required="1" requiredOption="1" dependOn="client_invoice:1|client_invoice_type:COMPANY"></invoice_company_name>
+			<invoice_company_address type="string" maxlength="50" name="Adres" required="1" requiredOption="1" dependOn="client_invoice:1|client_invoice_type:COMPANY"></invoice_company_address>
+			<invoice_company_postCode type="postcode" maxlength="6" name="Kod pocztowy" required="0" requiredOption="0" dependOn="client_invoice:1|client_invoice_type:COMPANY"></invoice_company_postCode>
+			<invoice_company_city type="string" maxlength="30" name="Miejscowość" required="0" requiredOption="0" dependOn="client_invoice:1|client_invoice_type:COMPANY"></invoice_company_city>
+		</client>
+		<services_optional groupsInclusive="0" >
+			<service desc="GWARANCJA NIEZMIENNOŚCI CENY - ZIMA 2025/26 - DOJAZD WŁASNY" clientDesc="Dzięki tej usłudze gwaratnujemy, nie będą pobierane dopłaty do zarezerwowanej wycieczki, w przypadku ewentualnej zmiany jej ceny z powodu: wzrostu opłat urzędowych , wzrostu kursów walut, wzrostu kosztów transportu, wzrostu podatków lub opłat należnych za takie usługi." optionalServiceType="additional" perPassenger="1" perBooking="0" total_price="0.00">
+				<debug></debug>
+				<id>1</id>
+				<code>145045128</code>
+				<type>S</type>
+				<codeOptServType>A</codeOptServType>
+				<excludedCodes></excludedCodes>
+				<requiredCodes></requiredCodes>
+				<defaultCodes></defaultCodes>
+				<merlinGroupId>10</merlinGroupId>
+				<merlinGroupName>Pozostałe</merlinGroupName>
+				<checked>0</checked>
+				<flightData></flightData>
+				<allocations>
+					<allocate type="checkbox">
+						<value>1</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+					<allocate type="checkbox">
+						<value>2</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+				</allocations>
+				<prices></prices>
+				<hints></hints>
+				<options></options>
+			</service>
+			<service desc="2. Ubezpieczenie &#34;OPTIMUM&#34; KL do 35 000 EUR  za 1 osobę (1530638)" clientDesc="Ubezpieczenie &#34;OPTIMUM&#34; obejmuje KL 35 000 euro + NNW 3500 euro + BP 250 euro + OC 45 000 euro z włączonymi chorobami przewlekłymi + amatorskie sporty rekreacyjne, sporty wodne - szczegóły w OWU WIENER " optionalServiceType="additional" perPassenger="1" perBooking="0" total_price="0.00">
+				<debug></debug>
+				<id>2</id>
+				<code>135583735</code>
+				<type>INSURANCE</type>
+				<codeOptServType>A</codeOptServType>
+				<excludedCodes></excludedCodes>
+				<requiredCodes></requiredCodes>
+				<defaultCodes></defaultCodes>
+				<merlinGroupId>1</merlinGroupId>
+				<merlinGroupName>Ubezpieczenia</merlinGroupName>
+				<checked>0</checked>
+				<flightData></flightData>
+				<allocations>
+					<allocate type="checkbox">
+						<value>1</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+					<allocate type="checkbox">
+						<value>2</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+				</allocations>
+				<prices></prices>
+				<hints></hints>
+				<options></options>
+			</service>
+			<service desc="3. Ubezpieczenie &#34;PREMIUM&#34; KL do 150 000 EUR za 1 osobę (1530639)" clientDesc="Ubezpieczenie &#34;PREMIUM&#34; obejmuje KL 150 000 euro + NNW 8 000 euro + BP 450 euro + OC 80 000 euro z włączonymi chorobami przewlekłymi + amatorskie sporty rekreacyjne, sporty wodne i zimowe oraz wysokiego ryzyka + klauzula alkoholowa + dodatkowy assistance w tym: pomoc na wypadek przymusowej izolacji i kwarantanny za granicą z powodu COVID-19- szczegóły w OWU WIENER. " optionalServiceType="additional" perPassenger="1" perBooking="0" total_price="0.00">
+				<debug></debug>
+				<id>3</id>
+				<code>135583736</code>
+				<type>INSURANCE</type>
+				<codeOptServType>A</codeOptServType>
+				<excludedCodes></excludedCodes>
+				<requiredCodes></requiredCodes>
+				<defaultCodes></defaultCodes>
+				<merlinGroupId>1</merlinGroupId>
+				<merlinGroupName>Ubezpieczenia</merlinGroupName>
+				<checked>0</checked>
+				<flightData></flightData>
+				<allocations>
+					<allocate type="checkbox">
+						<value>1</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+					<allocate type="checkbox">
+						<value>2</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+				</allocations>
+				<prices></prices>
+				<hints></hints>
+				<options></options>
+			</service>
+			<service desc="1 * 6. KOSZTY REZYGNACJI lub przerwania imprezy turystycznej (1530640)" clientDesc="Ubezpieczenie gwarantuje zwrot 100% kosztów rezygnacji z imprezy w określonych przypadkach m.in. nagłe zachorowanie ubezpieczonego, współuczestnika podróży lub osoby bliskiej (w tym covid), nieszczęśliwy wypadek ubezpieczonego, współuczestnika podróży lub osoby bliskiej, utrata pracy przez ubezpieczonego lub współuczestnika podróży, kradzież - szczegóły w OWU WIENER. Dodanie tego ubezpieczenia jest możliwe do 7 dni przed wyjazem. " optionalServiceType="additional" perPassenger="0" perBooking="1" total_price="0.00">
+				<debug></debug>
+				<id>4</id>
+				<code>135584396</code>
+				<type>INSURANCE</type>
+				<codeOptServType>A</codeOptServType>
+				<excludedCodes></excludedCodes>
+				<requiredCodes></requiredCodes>
+				<defaultCodes></defaultCodes>
+				<merlinGroupId>3</merlinGroupId>
+				<merlinGroupName>Ubezpieczenia od rezygnacji</merlinGroupName>
+				<checked>0</checked>
+				<flightData></flightData>
+				<allocations>
+					<allocate type="checkbox">
+						<value>1</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+					<allocate type="checkbox">
+						<value>2</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+				</allocations>
+				<prices></prices>
+				<hints></hints>
+				<options></options>
+			</service>
+			<service desc="1 * 7. KOSZTY REZYGNACJI lub przerwania imprezy turystycznej w tym choroby przewlekłe (1530641)" clientDesc="Ubezpieczenie gwarantuje zwrot 100% kosztów rezygnacji z imprezy w określonych przypadkach, w tym przy chorobach przewlekłych m.in. nagłe zachorowanie ubezpieczonego, współuczestnika podróży lub osoby bliskiej (w tym covid), przedwczesny poród, poronienie, nieszczęśliwy wypadek ubezpieczonego, współuczestnika podróży lub osoby bliskiej, utrata pracy przez ubezpieczonego lub współuczestnika podróży, kradzież - szczegóły w OWU WIENER. Dodanie tego ubezpieczenia jest możliwe do 7 dni przed wyjazem. " optionalServiceType="additional" perPassenger="0" perBooking="1" total_price="0.00">
+				<debug></debug>
+				<id>5</id>
+				<code>135584397</code>
+				<type>INSURANCE</type>
+				<codeOptServType>A</codeOptServType>
+				<excludedCodes></excludedCodes>
+				<requiredCodes></requiredCodes>
+				<defaultCodes></defaultCodes>
+				<merlinGroupId>3</merlinGroupId>
+				<merlinGroupName>Ubezpieczenia od rezygnacji</merlinGroupName>
+				<checked>0</checked>
+				<flightData></flightData>
+				<allocations>
+					<allocate type="checkbox">
+						<value>1</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+					<allocate type="checkbox">
+						<value>2</value>
+						<checked>0</checked>
+						<options_list></options_list>
+					</allocate>
+				</allocations>
+				<prices></prices>
+				<hints></hints>
+				<options></options>
+			</service>
+		</services_optional>
+		<wishes></wishes>
+		<formalAgreements></formalAgreements>
+		<paymentTable></paymentTable>
+		<externalServiceTable></externalServiceTable>
+	</forminfo>
+	<payment>
+		<requirements>
+			<requirement>
+				<type>BookingFee</type>
+				<amount>706.00</amount>
+				<currency>PLN</currency>
+				<paidAmount>0</paidAmount>
+				<requiredTill>2026-01-12T00:00:00</requiredTill>
+				<additionalInfo></additionalInfo>
+			</requirement>
+			<requirement>
+				<type>RestPayment</type>
+				<amount>2120.00</amount>
+				<currency>PLN</currency>
+				<paidAmount>0</paidAmount>
+				<requiredTill>2026-02-21T00:00:00</requiredTill>
+				<additionalInfo></additionalInfo>
+			</requirement>
+		</requirements>
+		<touroperatorInfo>
+			<bankAccount></bankAccount>
+			<bankName></bankName>
+			<name></name>
+			<address></address>
+			<streetNo></streetNo>
+			<streetPlaceNo></streetPlaceNo>
+			<postCode></postCode>
+			<city></city>
+			<emailAddress></emailAddress>
+			<phoneNo></phoneNo>
+			<faxNo></faxNo>
+		</touroperatorInfo>
+	</payment>
+</response>
