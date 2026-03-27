@@ -1,0 +1,17 @@
+{
+  "name": "skionline/merlinx-getter",
+  "description": "Standalone MerlinX getter package for search, details, live availability, and portal search operations.",
+  "type": "library",
+  "license": "proprietary",
+  "require": {
+    "php": "^8.1",
+    "psr/simple-cache": "^3.0",
+    "symfony/http-client": "^7.4",
+    "symfony/http-client-contracts": "^3.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "Skionline\\MerlinxGetter\\": "src/"
+    }
+  }
+}

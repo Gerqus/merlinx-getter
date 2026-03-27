@@ -1,0 +1,24 @@
+{
+  "fieldValues": {
+    "fieldValues": {
+      "Accommodation.Room": {
+        "DBL": "Pokój 2 os.",
+        "SGL": "Pokój 1 os."
+      },
+      "Accommodation.XService": {
+        "2": "HB",
+        "6": "FB"
+      },
+      "Base.StartDate": [
+        "2026-03-07",
+        "2026-03-14"
+      ],
+      "Base.NightsBeforeReturn": [
+        7,
+        14
+      ]
+    },
+    "more": false,
+    "pageBookmark": ""
+  }
+}

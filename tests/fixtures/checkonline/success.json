@@ -1,0 +1,27 @@
+{
+  "debug": "debug payload that should be stripped",
+  "results": [
+    {
+      "OfferId": "offer-123|SNOW|NHx8",
+      "action": "checkstatus",
+      "offer": {
+        "Base": {
+          "Availability": {
+            "base": "available",
+            "message": "Rezerwacja możliwa"
+          },
+          "Price": {
+            "FirstPerson": {
+              "amount": "1851.00",
+              "currency": "PLN"
+            },
+            "Total": {
+              "amount": "7166.00",
+              "currency": "PLN"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

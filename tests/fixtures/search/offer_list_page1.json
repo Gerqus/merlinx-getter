@@ -1,0 +1,30 @@
+{
+  "offerList": {
+    "items": {
+      "offer-key-1": {
+        "offer": {
+          "Base": {
+            "OfferId": "offer-key-1|SNOW|NHx8",
+            "Availability": {
+              "base": "available"
+            },
+            "Price": {
+              "Total": {
+                "amount": "1000.00",
+                "currency": "PLN"
+              }
+            }
+          }
+        },
+        "sortKeyValue": [
+          "00100000"
+        ]
+      }
+    },
+    "more": true,
+    "pageBookmark": "bm-1",
+    "sortKeyOrderAscending": [
+      true
+    ]
+  }
+}
