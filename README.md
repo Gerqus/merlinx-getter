@@ -258,6 +258,7 @@ Important pagination rules:
 
 - `response(): array`
 - `view(string $name): ?array`
+- `meta(): array{limitHits: array<string, bool>}`
 
 The payload is the merged MerlinX search response after package-owned processing.
 

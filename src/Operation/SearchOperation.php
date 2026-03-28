@@ -24,7 +24,7 @@ use Skionline\MerlinxGetter\Search\Util\TravelSearchResponseMerger;
 
 final class SearchOperation implements OperationInterface
 {
-	private const SEARCH_CACHE_VERSION = 'search_engine_cache_v2';
+	private const SEARCH_CACHE_VERSION = 'search_engine_cache_v3';
 	private const QUERY_DEDUPE_VERSION = 'search_engine_query_dedupe_v1';
 	private const ERROR_CONTEXT_VERSION = 'search_engine_error_context_v1';
 	private const SEARCH_CACHE_KEY_PREFIX = 'search.';
@@ -73,36 +73,42 @@ final class SearchOperation implements OperationInterface
 		$now = time();
 
 		if ($this->isFresh($existing, $now)) {
-			return new SearchExecutionResult($existing['data']);
+			return new SearchExecutionResult($existing['data'], $existing['meta']);
 		}
 
 		$staleCandidate = $this->resolveStaleEnvelope($existing, $now);
 		$refreshLockKey = self::SEARCH_REFRESH_LOCK_PREFIX . $cacheKey;
 
-		$data = $this->lock->withLock($refreshLockKey, function () use ($cacheKey, $request, $staleCandidate): array {
+		$freshResult = $this->lock->withLock($refreshLockKey, function () use ($cacheKey, $request, $staleCandidate): array {
 			$lockedNow = time();
 			$latest = $this->readCacheEnvelope($cacheKey);
 			if ($this->isFresh($latest, $lockedNow)) {
-				return $latest['data'];
+				return [
+					'data' => $latest['data'],
+					'meta' => $latest['meta'],
+				];
 			}
 
 			$stale = $this->resolveStaleEnvelope($latest, $lockedNow)
 				?? $this->resolveStaleEnvelope($staleCandidate, $lockedNow);
 
 			try {
-				$data = $this->fetchFreshSearchData($request);
-				$this->writeCacheEnvelope($cacheKey, $data);
-				return $data;
+				$fresh = $this->fetchFreshSearchData($request);
+				$this->writeCacheEnvelope($cacheKey, $fresh['data'], $fresh['meta']);
+				return $fresh;
 			} catch (\Throwable $exception) {
 				if ($stale !== null) {
-					return $stale['data'];
+					return [
+						'data' => $stale['data'],
+						'meta' => $stale['meta'],
+					];
 				}
 
 				throw $exception;
 			}
 		});
 
-		return new SearchExecutionResult($data);
+		return new SearchExecutionResult($freshResult['data'], $freshResult['meta']);
 	}
 
 	/**
@@ -155,19 +161,23 @@ final class SearchOperation implements OperationInterface
 	}
 
 	/**
-	 * @return array<string, mixed>
+	 * @return array{data: array<string, mixed>, meta: array{limitHits: array<string, bool>}}
 	 */
 	private function fetchFreshSearchData(SearchExecutionRequest $request): array
 	{
 		$queries = SearchExecutionRequestBuilder::build($this->config, $request);
 		$queries = $this->dedupeQueries($queries);
-		$data = $this->executeQueries($queries);
+		$executed = $this->executeQueries($queries);
+		$data = $executed['response'];
 
 		if (!is_array($data)) {
 			throw new ResponseFormatException('MerlinX search response has unexpected format.');
 		}
 
-		return $this->fieldValuesPruner->apply($data);
+		return [
+			'data' => $this->fieldValuesPruner->apply($data),
+			'meta' => $executed['meta'],
+		];
 	}
 
 	/**
@@ -196,30 +206,46 @@ final class SearchOperation implements OperationInterface
 
 	/**
 	 * @param array<int, SearchExecutionRequest> $queries
-	 * @return array<string, mixed>
+	 * @return array{response: array<string, mixed>, meta: array{limitHits: array<string, bool>}}
 	 */
 	private function executeQueries(array $queries): array
 	{
 		$carry = [];
+		$latestExplicitViewLimits = [];
+		$limitHitsByView = [];
+
 		foreach ($queries as $query) {
-			$payload = $this->executePagedQuery($query);
-			$carry = $this->responseMerger->merge($carry === [] ? null : $carry, $payload);
+			$this->applyLatestExplicitViewLimits($latestExplicitViewLimits, $query->views());
+			$carry = $this->executePagedQuery($query, $carry, $latestExplicitViewLimits, $limitHitsByView);
+			$this->synchronizeLimitHitsByView($carry, $latestExplicitViewLimits, $limitHitsByView);
 		}
 
-		return $carry;
+		return [
+			'response' => $carry,
+			'meta' => $this->buildResultMeta($limitHitsByView),
+		];
 	}
 
 	/**
+	 * @param array<string, mixed> $carry
+	 * @param array<string, int> $explicitViewLimits
+	 * @param array<string, bool> $limitHitsByView
 	 * @return array<string, mixed>
 	 */
-	private function executePagedQuery(SearchExecutionRequest $request): array
+	private function executePagedQuery(
+		SearchExecutionRequest $request,
+		array $carry,
+		array $explicitViewLimits,
+		array &$limitHitsByView
+	): array
 	{
 		$options = $request->options();
 		$views = $request->views();
-		$explicitViewLimits = $this->extractExplicitViewLimits($views);
+		$viewsForRequest = $this->filterViewsByReachedViewLimit($carry === [] ? null : $carry, $views, $explicitViewLimits);
+		if ($viewsForRequest === []) {
+			return $carry;
+		}
 
-		$merged = null;
-		$viewsForRequest = $views;
 		$seenBookmarksByView = [];
 		$pagesFetched = 0;
 
@@ -232,13 +258,14 @@ final class SearchOperation implements OperationInterface
 			$pagesFetched++;
 
 			$pageData = $this->responseValueExcluder->apply($pageData);
-			$merged = $this->responseMerger->merge($merged, $pageData);
+			$carry = $this->responseMerger->merge($carry === [] ? null : $carry, $pageData);
+			$this->synchronizeLimitHitsByView($carry, $explicitViewLimits, $limitHitsByView);
 
 			$bookmarks = $this->extractViewBookmarks($pageData);
 			$newBookmarks = $this->responseMerger->filterUnseenBookmarks($bookmarks, $seenBookmarksByView);
 			$viewsForRequest = $this->filterViewsByBookmarks($viewsForRequest, $newBookmarks);
 			$viewsForRequest = $this->filterViewsByNonEmptyPageItems($viewsForRequest, $pageData);
-			$viewsForRequest = $this->filterViewsByReachedViewLimit($merged, $viewsForRequest, $explicitViewLimits);
+			$viewsForRequest = $this->filterViewsByReachedViewLimit($carry, $viewsForRequest, $explicitViewLimits);
 			$viewsForRequest = $this->buildViewsWithBookmarks($viewsForRequest, $newBookmarks);
 
 			$this->logger->debug('Will fetch next page for views: ' . implode(', ', array_keys($viewsForRequest)) . '. Pages fetched so far: ' . $pagesFetched);
@@ -252,7 +279,7 @@ final class SearchOperation implements OperationInterface
 			]);
 		}
 
-		return $merged ?? [];
+		return $carry;
 	}
 
 	/**
@@ -506,7 +533,80 @@ final class SearchOperation implements OperationInterface
 	}
 
 	/**
-	 * @return array{createdAt:int,freshUntil:int,staleUntil:int,data:array<string,mixed>}|null
+	 * @param array<string, int> $latestExplicitViewLimits
+	 * @param array<string, mixed> $views
+	 */
+	private function applyLatestExplicitViewLimits(array &$latestExplicitViewLimits, array $views): void
+	{
+		$explicitForQuery = $this->extractExplicitViewLimits($views);
+
+		foreach ($views as $viewName => $viewPayload) {
+			if (!is_string($viewName) || $viewName === '') {
+				continue;
+			}
+
+			if (array_key_exists($viewName, $explicitForQuery)) {
+				$latestExplicitViewLimits[$viewName] = $explicitForQuery[$viewName];
+				continue;
+			}
+
+			unset($latestExplicitViewLimits[$viewName]);
+		}
+	}
+
+	/**
+	 * @param array<string, mixed> $merged
+	 * @param array<string, int> $explicitViewLimits
+	 * @param array<string, bool> $limitHitsByView
+	 */
+	private function synchronizeLimitHitsByView(array $merged, array $explicitViewLimits, array &$limitHitsByView): void
+	{
+		foreach (array_keys($limitHitsByView) as $viewName) {
+			$limit = $explicitViewLimits[$viewName] ?? 0;
+			$itemCount = $this->countMergedItemsForView($merged, $viewName);
+			if ($limit <= 0 || !is_int($itemCount) || $itemCount < $limit) {
+				unset($limitHitsByView[$viewName]);
+			}
+		}
+
+		foreach ($explicitViewLimits as $viewName => $limit) {
+			if ($limit <= 0) {
+				continue;
+			}
+
+			$itemCount = $this->countMergedItemsForView($merged, $viewName);
+			if (is_int($itemCount) && $itemCount >= $limit) {
+				$limitHitsByView[$viewName] = true;
+			}
+		}
+	}
+
+	/**
+	 * @param array<string, bool> $limitHitsByView
+	 * @return array{limitHits: array<string, bool>}
+	 */
+	private function buildResultMeta(array $limitHitsByView): array
+	{
+		$limitHits = [];
+		foreach ($limitHitsByView as $viewName => $isHit) {
+			if (!is_string($viewName) || $viewName === '' || $isHit !== true) {
+				continue;
+			}
+
+			$limitHits[$viewName] = true;
+		}
+
+		return ['limitHits' => $limitHits];
+	}
+
+	/**
+	 * @return array{
+	 *   createdAt:int,
+	 *   freshUntil:int,
+	 *   staleUntil:int,
+	 *   data:array<string,mixed>,
+	 *   meta:array{limitHits: array<string, bool>}
+	 * }|null
 	 */
 	private function readCacheEnvelope(string $cacheKey): ?array
 	{
@@ -524,6 +624,7 @@ final class SearchOperation implements OperationInterface
 		$freshUntil = $payload['freshUntil'] ?? null;
 		$staleUntil = $payload['staleUntil'] ?? null;
 		$data = $payload['data'] ?? null;
+		$meta = $payload['meta'] ?? null;
 
 		if (!$this->isIntegerLike($createdAt) || !$this->isIntegerLike($freshUntil) || !$this->isIntegerLike($staleUntil) || !is_array($data)) {
 			return null;
@@ -534,11 +635,18 @@ final class SearchOperation implements OperationInterface
 			'freshUntil' => (int) $freshUntil,
 			'staleUntil' => (int) $staleUntil,
 			'data' => $data,
+			'meta' => $this->normalizeResultMeta($meta),
 		];
 	}
 
 	/**
-	 * @param array{createdAt:int,freshUntil:int,staleUntil:int,data:array<string,mixed>}|null $envelope
+	 * @param array{
+	 *   createdAt:int,
+	 *   freshUntil:int,
+	 *   staleUntil:int,
+	 *   data:array<string,mixed>,
+	 *   meta:array{limitHits: array<string, bool>}
+	 * }|null $envelope
 	 */
 	private function isFresh(?array $envelope, int $now): bool
 	{
@@ -546,8 +654,20 @@ final class SearchOperation implements OperationInterface
 	}
 
 	/**
-	 * @param array{createdAt:int,freshUntil:int,staleUntil:int,data:array<string,mixed>}|null $envelope
-	 * @return array{createdAt:int,freshUntil:int,staleUntil:int,data:array<string,mixed>}|null
+	 * @param array{
+	 *   createdAt:int,
+	 *   freshUntil:int,
+	 *   staleUntil:int,
+	 *   data:array<string,mixed>,
+	 *   meta:array{limitHits: array<string, bool>}
+	 * }|null $envelope
+	 * @return array{
+	 *   createdAt:int,
+	 *   freshUntil:int,
+	 *   staleUntil:int,
+	 *   data:array<string,mixed>,
+	 *   meta:array{limitHits: array<string, bool>}
+	 * }|null
 	 */
 	private function resolveStaleEnvelope(?array $envelope, int $now): ?array
 	{
@@ -560,8 +680,9 @@ final class SearchOperation implements OperationInterface
 
 	/**
 	 * @param array<string, mixed> $data
+	 * @param array{limitHits: array<string, bool>} $meta
 	 */
-	private function writeCacheEnvelope(string $cacheKey, array $data): void
+	private function writeCacheEnvelope(string $cacheKey, array $data, array $meta): void
 	{
 		$now = time();
 		$freshUntil = $now + $this->config->cacheSearchTtlSeconds;
@@ -574,9 +695,36 @@ final class SearchOperation implements OperationInterface
 				'freshUntil' => $freshUntil,
 				'staleUntil' => $staleUntil,
 				'data' => $data,
+				'meta' => $this->normalizeResultMeta($meta),
 			], $ttl);
 		} catch (\Throwable) {
 		}
+	}
+
+	/**
+	 * @return array{limitHits: array<string, bool>}
+	 */
+	private function normalizeResultMeta(mixed $rawMeta): array
+	{
+		if (!is_array($rawMeta)) {
+			return ['limitHits' => []];
+		}
+
+		$rawLimitHits = $rawMeta['limitHits'] ?? null;
+		if (!is_array($rawLimitHits)) {
+			return ['limitHits' => []];
+		}
+
+		$limitHits = [];
+		foreach ($rawLimitHits as $viewName => $isHit) {
+			if (!is_string($viewName) || $viewName === '' || $isHit !== true) {
+				continue;
+			}
+
+			$limitHits[$viewName] = true;
+		}
+
+		return ['limitHits' => $limitHits];
 	}
 
 	private function isIntegerLike(mixed $value): bool
