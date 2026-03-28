@@ -10,7 +10,7 @@ use Skionline\MerlinxGetter\Operation\SearchOperation;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/helpers/bootstrap.php';
 
 try {
 	$buildCacheDir = static function (): string {

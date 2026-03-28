@@ -6,7 +6,7 @@ use Skionline\MerlinxGetter\Cache\FileSimpleCache;
 use Skionline\MerlinxGetter\Cache\FilesystemCacheFactory;
 use Skionline\MerlinxGetter\Cache\InvalidCacheArgumentException;
 
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/helpers/bootstrap.php';
 
 try {
 	$cacheDir = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR)

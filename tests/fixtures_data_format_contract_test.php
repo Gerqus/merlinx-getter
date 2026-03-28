@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/helpers/bootstrap.php';
 
 try {
 	$offerPage1 = fixtureJson('search/offer_list_page1.json');

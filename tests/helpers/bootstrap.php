@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-$autoloadPath = __DIR__ . '/../vendor/autoload.php';
+$autoloadPath = __DIR__ . '/../../vendor/autoload.php';
 if (!is_file($autoloadPath)) {
 	throw new RuntimeException('Package dependencies are not installed. Run composer install in the package root.');
 }
@@ -42,7 +42,7 @@ function assertSameValue(mixed $expected, mixed $actual, string $message): void
  */
 function fixtureJson(string $relativePath): array
 {
-	$path = __DIR__ . '/fixtures/' . ltrim($relativePath, '/');
+	$path = __DIR__ . '/../fixtures/' . ltrim($relativePath, '/');
 	if (!is_file($path)) {
 		throw new RuntimeException('Fixture file does not exist: ' . $path);
 	}

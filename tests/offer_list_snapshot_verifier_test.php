@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Skionline\MerlinxGetter\Verification\OfferListSnapshotVerifier;
 
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/helpers/bootstrap.php';
 
 try {
 	$verifier = new OfferListSnapshotVerifier();

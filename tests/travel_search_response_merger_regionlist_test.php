@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Skionline\MerlinxGetter\Search\Util\TravelSearchResponseMerger;
 
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/helpers/bootstrap.php';
 
 try {
 	$merger = new TravelSearchResponseMerger();

@@ -7,7 +7,7 @@ use Skionline\MerlinxGetter\Http\AuthTokenProvider;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/helpers/bootstrap.php';
 
 try {
 	$tokenRequestCount = 0;

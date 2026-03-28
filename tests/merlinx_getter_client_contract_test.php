@@ -9,7 +9,7 @@ use Skionline\MerlinxGetter\MerlinxGetterClient;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/helpers/bootstrap.php';
 
 try {
 	$searchPayload = [
@@ -80,9 +80,11 @@ try {
 
 	$client = new MerlinxGetterClient(MerlinxGetterConfig::fromArray(baseMerlinxConfig()), $mock);
 
-	$searchResult = $client->executeSearch(searchRequest([], [], [], ['offerList' => []]))->response();
+	$searchExecutionResult = $client->executeSearch(searchRequest([], [], [], ['offerList' => []]));
+	$searchResult = $searchExecutionResult->response();
 	assertTrue(is_array($searchResult), 'search() should return an array.');
 	assertTrue(is_array($searchResult['offerList'] ?? null), 'search() should return offerList view payload.');
+	assertSameValue(['limitHits' => []], $searchExecutionResult->meta(), 'search() should expose meta.limitHits without duplicating limitHit.');
 
 	$detailsResult = $client->getDetails('contract-1|SNOW|NHx8');
 	assertTrue(is_array($detailsResult['result']['offer'] ?? null), 'getDetails() should return result.offer array.');

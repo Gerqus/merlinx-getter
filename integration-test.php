@@ -5,6 +5,7 @@ declare(strict_types=1);
 require __DIR__ . '/tests/bootstrap.php';
 
 use Skionline\MerlinxGetter\MerlinxGetterClient;
+use Skionline\MerlinxGetter\Config\MerlinxGetterConfig;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
@@ -146,7 +147,7 @@ try {
 	$preflight = callLivePortalResultsEndpoint([]);
 	assertPortalHttpContract($preflight, 'preflight');
 
-	$client = new MerlinxGetterClient(baseMerlinxConfig());
+	$client = new MerlinxGetterClient(MerlinxGetterConfig::fromArray(baseMerlinxConfig()));
 
 	$emptyPayload = assertPortalSearchResults($client, [], 'empty params');
 

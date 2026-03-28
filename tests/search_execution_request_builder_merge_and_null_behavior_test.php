@@ -6,7 +6,7 @@ use Skionline\MerlinxGetter\Config\MerlinxGetterConfig;
 use Skionline\MerlinxGetter\Search\Execution\SearchExecutionRequestBuilder;
 use Skionline\MerlinxGetter\Search\Policy\VariantOperatorSearchGroups;
 
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/helpers/bootstrap.php';
 
 try {
 	$config = MerlinxGetterConfig::fromArray(baseMerlinxConfig([
