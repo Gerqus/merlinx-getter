@@ -47,6 +47,41 @@ Then run:
 composer install
 ```
 
+## Release
+
+The repository includes a strict tag-driven release script at `./release`.
+
+Release rules:
+
+- must run from clean working tree
+- must run on `main`
+- local `main` must be in sync with `origin/main`
+- tests (`composer test`) must pass
+- generated tags are canonical `vX.Y.Z`
+- historical tags in both `vX.Y.Z` and `X.Y.Z` are parsed when computing latest version
+- only the new tag is pushed (no branch push)
+
+Usage:
+
+```bash
+# preview next patch release, run full checks, do not tag/push
+./release --bump patch --dry-run
+
+# release next minor version from latest existing tag
+./release --bump minor
+
+# release explicit version
+./release --version 2.0.0
+```
+
+Common failure cases:
+
+- dirty worktree: commit/stash/discard changes and retry
+- branch mismatch: switch to `main`
+- out-of-sync branch: pull/rebase/push until `HEAD == origin/main`
+- failing tests: fix test failures before retry
+- invalid/existing target tag: choose a valid, unused semver version
+
 ## Public API
 
 Entry point: `Skionline\MerlinxGetter\MerlinxGetterClient`
