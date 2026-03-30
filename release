@@ -55,6 +55,14 @@ require_command() {
     command -v "$cmd" >/dev/null 2>&1 || die "$EXIT_DEPENDENCY" "Required command '$cmd' not found."
 }
 
+cleanup_release_tmp_dir() {
+    local tmp_dir_path="${1:-}"
+
+    if [[ -n "$tmp_dir_path" && -d "$tmp_dir_path" ]]; then
+        rm -rf -- "$tmp_dir_path"
+    fi
+}
+
 rewrite_composer_json_version() {
     local composer_json_path="$1"
     local semver="$2"
@@ -252,7 +260,7 @@ build_release_artifacts() {
 
     log "Building release artifact: $tgz_path"
     tmp_dir="$(mktemp -d "${RELEASE_DIST_DIR}/.tmp.${artifact_name}.XXXXXX")"
-    trap 'rm -rf "$tmp_dir"' EXIT
+    trap "cleanup_release_tmp_dir '$tmp_dir'" EXIT
 
     # Composer's artifact repository needs a version, but we do not want it in the repo's composer.json.
     git archive --format=tar --prefix="${artifact_name}/" --worktree-attributes HEAD "${RELEASE_INCLUDE_PATHS[@]}" | tar -xf - -C "$tmp_dir"
@@ -260,6 +268,8 @@ build_release_artifacts() {
 
     tar -cf "$tar_path" -C "$tmp_dir" "$artifact_name"
     gzip -f "$tar_path"
+    cleanup_release_tmp_dir "$tmp_dir"
+    trap - EXIT
 
     log "Release artifact ready: $tgz_path"
 }
