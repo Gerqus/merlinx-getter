@@ -104,6 +104,8 @@ There is no legacy array-based `search(...)` API and no legacy winter query-buil
 
 ## Quickstart
 
+### 1. Instantiate the client
+
 ```php
 <?php
 
@@ -154,27 +156,16 @@ $config = [
 					'offer.Accommodation.XCity.Name' => ['Limone Piemonte'],
 				],
 			],
-			'runtime' => [
-				'default_view_limit' => 100,
-				'rate_limit_retry_max_attempts' => 4,
-				'rate_limit_retry_delay_ms' => 500,
-				'rate_limit_retry_backoff_multiplier' => 2.0,
-				'rate_limit_retry_max_delay_ms' => 8000,
-			],
-			'cache' => [
-				'search' => [
-					'ttl_seconds' => 300,
-					'stale_seconds' => 900,
-					'lock_timeout_ms' => 3000,
-					'lock_retry_delay_ms' => 50,
-				],
-			],
 		],
 	],
 ];
 
 $client = new MerlinxGetterClient(MerlinxGetterConfig::fromRootConfig($config));
+```
 
+### 2. Search for offers
+
+```php
 $request = SearchExecutionRequest::fromArrays(
 	search: [
 		'Base' => [
@@ -182,15 +173,65 @@ $request = SearchExecutionRequest::fromArrays(
 		],
 	],
 	views: [
-		'offerList' => ['limit' => 500],
-		'fieldValues' => ['fieldList' => ['Base.StartDate']],
+		'offerList' => ['limit' => 100],
+		'fieldValues' => ['fieldList' => ['Base.StartDate', 'Base.XCity.Name']],
 	],
 );
 
 $result = $client->executeSearch($request);
-$response = $result->response();
 
-print_r($response);
+// Iterate over matched offers (keyed by full OfferId)
+foreach ($result->view('offerList')['items'] ?? [] as $offerId => $item) {
+	$base = $item['offer']['Base'];
+	echo $offerId . ': ' . $base['StartDate'] . ' — ' . $base['Price']['Total']['amount'] . ' ' . $base['Price']['Total']['currency'] . PHP_EOL;
+}
+
+// Check whether the requested view limit was reached
+if ($result->meta()['limitHits']['offerList'] ?? false) {
+	echo 'Soft limit reached — there may be more results.' . PHP_EOL;
+}
+
+// Available start dates from the fieldValues view
+$dates = $result->view('fieldValues')['Base.StartDate'] ?? [];
+```
+
+### 3. Get offer details
+
+`getDetails()` accepts the composite `OfferId` from the search result (e.g. `BASE_ID|OPERATOR|ROOMCODE`).
+
+```php
+$details = $client->getDetails('BASE_ID|SNOW|NHx8');
+
+$offer = $details['result']['offer'];
+echo $offer['Accommodation']['Name'] . PHP_EOL;
+echo $offer['Base']['Price']['Total']['amount'] . ' ' . $offer['Base']['Price']['Total']['currency'] . PHP_EOL;
+```
+
+### 4. Check live availability
+
+```php
+$availability = $client->getLiveAvailability('BASE_ID|SNOW|NHx8');
+
+foreach ($availability['results'] ?? [] as $slot) {
+	echo $slot['OfferId'] . ': ' . $slot['Availability']['base'] . PHP_EOL;
+}
+
+// Force a cache bypass (e.g. user is about to book)
+$fresh = $client->getLiveAvailability('BASE_ID|SNOW|NHx8', force: true);
+```
+
+### 5. Portal search
+
+```php
+$portal = $client->portalSearch(['sortBy' => 'price', 'sortDirection' => 'asc']);
+
+foreach ($portal['offers'] as $offer) {
+	echo $offer['id'] . ': ' . $offer['name'] . PHP_EOL;
+}
+
+if ($portal['limitHit']) {
+	echo 'Portal result set was truncated.' . PHP_EOL;
+}
 ```
 
 ## Search Config
@@ -282,6 +323,7 @@ The package search engine owns:
 - empty-page stop guard (`empty(items)`)
 - soft limit stop when merged item count reaches the explicitly requested view limit
 - shared MerlinX HTTP rate-limit retry/backoff across search, details, checkonline, and token acquisition
+- automatic auth recovery on stale token: a 412 `autherror` response triggers a forced token refresh and a single request replay; if the replayed request also returns an auth error, `HttpRequestException` is thrown
 - `fieldValues` normalization and merge
 - enforced `Accommodation.Attributes` pruning derived from `search_engine.conditions`
 - configured path-based exclusions (`response_filters.exclude_values_by_path`) applied on each fetched page before merge
@@ -342,3 +384,4 @@ Package search behavior is covered by tests for:
 - child-as-adult split
 - fieldValues merge
 - city-name exclusions
+- auth recovery on stale token (force-refresh + replay, exception on persistent failure)
