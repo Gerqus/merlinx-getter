@@ -1,0 +1,304 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+readonly SCRIPT_NAME="$(basename "$0")"
+readonly EXIT_USAGE=2
+readonly EXIT_DEPENDENCY=3
+readonly EXIT_PRECHECK=4
+readonly EXIT_CONFIG=5
+readonly EXIT_DEPLOY=6
+readonly RELEASE_DIST_DIR="dist"
+readonly RELEASE_PACKAGE_NAME="merlinx-getter"
+readonly REMOTE_SUBDIRECTORY="packages/merlinx-getter"
+readonly CONFIG_NAMESPACE="remote-release"
+
+usage() {
+    cat <<EOF
+Usage:
+  $SCRIPT_NAME [--select] [--setup] [--dry-run]
+  $SCRIPT_NAME --help
+
+Description:
+  Deploys a selected release artifact to a remote FTP server using lftp.
+  Supports interactive selection of releases with optional FTP server setup.
+
+Options:
+  --select                    List and select from available releases (default behavior).
+  --setup                     Configure FTP server credentials (url, username, password).
+  --dry-run                   Run all checks and print deployment plan without uploading.
+  -h, --help                  Show this help and exit.
+
+Configuration:
+  FTP credentials are stored securely in git config:
+      git config --local ${CONFIG_NAMESPACE}.url <base-url>
+      git config --local ${CONFIG_NAMESPACE}.user <username>
+      git config --local ${CONFIG_NAMESPACE}.pass <password>
+
+  Deployment target path is hardcoded to:
+      ${REMOTE_SUBDIRECTORY}
+
+  The effective remote directory is: <base-url>/${REMOTE_SUBDIRECTORY}
+
+  Use --setup to configure interactively, or set git config manually before deployment.
+
+Examples:
+  # Setup FTP credentials
+  $SCRIPT_NAME --setup
+
+  # List releases and deploy selected one
+  $SCRIPT_NAME --select
+
+  # Preview deployment without uploading
+  $SCRIPT_NAME --select --dry-run
+EOF
+}
+
+die() {
+    local code="$1"
+    shift
+    printf 'ERROR: %s\n' "$*" >&2
+    exit "$code"
+}
+
+require_command() {
+    local cmd="$1"
+    command -v "$cmd" >/dev/null 2>&1 || die "$EXIT_DEPENDENCY" "Required command '$cmd' not found."
+}
+
+list_available_releases() {
+    local release_paths=()
+    local release_names=()
+    local path
+
+    if ! [[ -d "$RELEASE_DIST_DIR" ]]; then
+        die "$EXIT_PRECHECK" "Release directory '$RELEASE_DIST_DIR' not found."
+    fi
+
+    shopt -s nullglob
+    release_paths=("$RELEASE_DIST_DIR"/"${RELEASE_PACKAGE_NAME}"-*.tar.gz)
+    shopt -u nullglob
+
+    if [[ ${#release_paths[@]} -eq 0 ]]; then
+        die "$EXIT_PRECHECK" "No release artifacts found in '$RELEASE_DIST_DIR'."
+    fi
+
+    for path in "${release_paths[@]}"; do
+        release_names+=("$(basename "$path")")
+    done
+
+    printf '%s\n' "${release_names[@]}" | sort -V -r
+}
+
+select_release() {
+    local releases=()
+    local selected_index=0
+    local i
+
+    mapfile -t releases < <(list_available_releases)
+
+    printf '%s\n' "Select release to deploy:" >&2
+    for (( i = 0; i < ${#releases[@]}; i++ )); do
+        printf '  [%s] %s\n' "$((i + 1))" "${releases[$i]}" >&2
+    done
+
+    read -r -p "Enter selection [1-${#releases[@]}]: " selected_index
+
+    if ! [[ "$selected_index" =~ ^[0-9]+$ ]] || (( selected_index < 1 || selected_index > ${#releases[@]} )); then
+        die "$EXIT_USAGE" "Invalid selection: $selected_index"
+    fi
+
+    printf '%s\n' "${releases[$((selected_index - 1))]}"
+}
+
+extract_version_from_artifact() {
+    local artifact="$1"
+    local version="${artifact#${RELEASE_PACKAGE_NAME}-}"
+
+    version="${version%.tar.gz}"
+    printf '%s\n' "$version"
+}
+
+get_ftp_config() {
+    local key="$1"
+    local value=""
+
+    value="$(git config --local "${CONFIG_NAMESPACE}.$key" 2>/dev/null || true)"
+
+    if [[ -z "$value" ]]; then
+        return 1
+    fi
+
+    printf '%s\n' "$value"
+}
+
+prompt_ftp_config() {
+    local prompt="$1"
+    local is_password="${2:-0}"
+    local value=""
+
+    if (( is_password == 1 )); then
+        read -r -s -p "$prompt: " value
+        printf '\n' >&2
+    else
+        read -r -p "$prompt: " value
+    fi
+
+    printf '%s\n' "$value"
+}
+
+build_remote_url() {
+    local base_url="$1"
+
+    printf '%s/%s\n' "${base_url%/}" "$REMOTE_SUBDIRECTORY"
+}
+
+setup_ftp_credentials() {
+    local url username password
+
+    printf '%s\n' "Configuring FTP server credentials..."
+    printf '%s\n' "(Credentials will be stored in local git config)"
+
+    url="$(prompt_ftp_config "FTP server URL (e.g., ftp://ftp.example.com/path)")"
+    username="$(prompt_ftp_config "FTP username")"
+    password="$(prompt_ftp_config "FTP password" 1)"
+
+    [[ -n "$url" ]] || die "$EXIT_CONFIG" "FTP URL cannot be empty."
+    [[ -n "$username" ]] || die "$EXIT_CONFIG" "FTP username cannot be empty."
+    [[ -n "$password" ]] || die "$EXIT_CONFIG" "FTP password cannot be empty."
+
+    git config --local "${CONFIG_NAMESPACE}.url" "$url"
+    git config --local "${CONFIG_NAMESPACE}.user" "$username"
+    git config --local "${CONFIG_NAMESPACE}.pass" "$password"
+
+    printf '%s\n' "FTP credentials saved to local git config."
+}
+
+assert_ftp_config() {
+    local url username password
+
+    url="$(get_ftp_config "url")" || die "$EXIT_CONFIG" "FTP URL not configured. Run with --setup first."
+    username="$(get_ftp_config "user")" || die "$EXIT_CONFIG" "FTP username not configured. Run with --setup first."
+    password="$(get_ftp_config "pass")" || die "$EXIT_CONFIG" "FTP password not configured. Run with --setup first."
+
+    printf '%s\n' "$url" "$username" "$password"
+}
+
+cleanup_temp_dir() {
+    local temp_dir="${1:-}"
+
+    if [[ -n "$temp_dir" && -d "$temp_dir" ]]; then
+        rm -rf -- "$temp_dir"
+    fi
+}
+
+extract_release_artifact() {
+    local artifact_path="$1"
+    local temp_dir="$2"
+
+    if ! [[ -f "$artifact_path" ]]; then
+        die "$EXIT_PRECHECK" "Artifact file not found: $artifact_path"
+    fi
+
+    printf '%s\n' "Extracting artifact: $artifact_path"
+    tar -xzf "$artifact_path" -C "$temp_dir"
+}
+
+deploy_with_lftp() {
+    local temp_dir="$1"
+    local version="$2"
+    local dry_run="$3"
+    local base_url username password remote_url deploy_dir lftp_script
+
+    mapfile -t < <(assert_ftp_config)
+    base_url="${MAPFILE[0]}"
+    username="${MAPFILE[1]}"
+    password="${MAPFILE[2]}"
+    remote_url="$(build_remote_url "$base_url")"
+    deploy_dir="${temp_dir}/${RELEASE_PACKAGE_NAME}-${version}"
+
+    if ! [[ -d "$deploy_dir" ]]; then
+        die "$EXIT_DEPLOY" "Extracted release directory not found: $deploy_dir"
+    fi
+
+    printf '%s\n' "Preparing deployment from: $deploy_dir"
+
+    if (( dry_run == 1 )); then
+        printf '%s\n' "[DRY RUN] Would deploy to: $remote_url"
+        printf '%s\n' "[DRY RUN] Files to be deployed:"
+        find "$deploy_dir" -type f -printf '  %P\n' | sort
+        return 0
+    fi
+
+    printf '%s\n' "Uploading release with lftp..."
+    lftp -u "$username","$password" "$base_url" <<EOF
+set cmd:fail-exit yes
+set ftp:use-mdtm off
+mirror -R --delete --verbose --ignore-time --parallel=5 --use-pget-n=2 $deploy_dir $REMOTE_SUBDIRECTORY
+bye
+EOF
+    printf '%s\n' "Deployment complete: v$version"
+}
+
+main() {
+    local mode="select"
+    local dry_run=0
+    local artifact_name version temp_dir
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --select)
+                mode="select"
+                shift
+                ;;
+            --setup)
+                mode="setup"
+                shift
+                ;;
+            --dry-run)
+                dry_run=1
+                shift
+                ;;
+            -h|--help)
+                usage
+                exit 0
+                ;;
+            *)
+                die "$EXIT_USAGE" "Unknown argument '$1'. Use --help for usage."
+                ;;
+        esac
+    done
+
+    require_command git
+
+    case "$mode" in
+        setup)
+            setup_ftp_credentials
+            exit 0
+            ;;
+        select)
+            require_command tar
+
+            artifact_name="$(select_release)"
+            version="$(extract_version_from_artifact "$artifact_name")"
+
+            assert_ftp_config >/dev/null
+
+            temp_dir="$(mktemp -d)"
+            trap "cleanup_temp_dir '$temp_dir'" EXIT
+
+            extract_release_artifact "${RELEASE_DIST_DIR}/${artifact_name}" "$temp_dir"
+
+            if (( dry_run == 0 )); then
+                require_command lftp
+            fi
+
+            deploy_with_lftp "$temp_dir" "$version" "$dry_run"
+            ;;
+        *)
+            die "$EXIT_USAGE" "Unknown mode: $mode"
+            ;;
+    esac
+}
+
+main "$@"
