@@ -8,6 +8,7 @@ use Skionline\MerlinxGetter\Config\MerlinxGetterConfig;
 use Skionline\MerlinxGetter\Search\Policy\InquiryableAvailabilityPolicy;
 use Skionline\MerlinxGetter\Search\Policy\VariantOperatorSearchGroups;
 use Skionline\MerlinxGetter\Search\Util\DeepMerge;
+use Skionline\MerlinxGetter\Search\Util\SearchRequestFingerprint;
 
 final class SearchExecutionRequestBuilder
 {
@@ -20,6 +21,7 @@ final class SearchExecutionRequestBuilder
 		$operatorGroups = new VariantOperatorSearchGroups($config->childAsAdultOperators());
 		$conditions = $config->searchEngineConditions;
 		$queries = [];
+		$seenFingerprints = [];
 
 		foreach ($conditions as $condition) {
 			if (!is_array($condition)) {
@@ -64,13 +66,21 @@ final class SearchExecutionRequestBuilder
 					$groupSearch['Base']['ParticipantsList'] = $group['participants'];
 				}
 
-				$queries[] = SearchExecutionRequest::fromArrays(
+				$builtRequest = SearchExecutionRequest::fromArrays(
 					$groupSearch,
 					$filter,
 					$results,
 					$views,
 					$request->options(),
 				);
+
+				$fingerprint = self::requestFingerprint($builtRequest);
+				if (isset($seenFingerprints[$fingerprint])) {
+					continue;
+				}
+
+				$seenFingerprints[$fingerprint] = true;
+				$queries[] = $builtRequest;
 			}
 		}
 
@@ -153,5 +163,16 @@ final class SearchExecutionRequestBuilder
 		}
 
 		return $out;
+	}
+
+	private static function requestFingerprint(SearchExecutionRequest $request): string
+	{
+		return SearchRequestFingerprint::hash([
+			'search' => $request->search(),
+			'filter' => $request->filter(),
+			'results' => $request->results(),
+			'views' => $request->views(),
+			'options' => $request->options(),
+		]);
 	}
 }

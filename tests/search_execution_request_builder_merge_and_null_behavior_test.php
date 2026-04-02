@@ -123,6 +123,29 @@ try {
 	$noOperatorBase = $noOperatorQueries[0]->search()['Base'] ?? [];
 	assertTrue(!array_key_exists('Operator', $noOperatorBase), 'Builder should omit Base.Operator when normalized operator list is empty.');
 
+	$duplicateNoOpConfig = MerlinxGetterConfig::fromArray(baseMerlinxConfig([
+		'search_engine' => [
+			'operators' => ['VITX'],
+			'conditions' => [
+				[
+					'search' => [],
+					'filter' => [],
+				],
+				[
+					'search' => [],
+					'filter' => [],
+				],
+			],
+		],
+	]));
+	$duplicateNoOpRequest = searchRequest([
+		'Base' => [
+			'Operator' => ['VITX'],
+		],
+	]);
+	$duplicateNoOpQueries = SearchExecutionRequestBuilder::build($duplicateNoOpConfig, $duplicateNoOpRequest);
+	assertSameValue(1, count($duplicateNoOpQueries), 'Builder should skip condition branches that resolve to an already user-shaped request.');
+
 	echo "PASS: SearchExecutionRequestBuilder merge order and VariantOperatorSearchGroups null behavior are covered.\n";
 	exit(0);
 } catch (Throwable $e) {
