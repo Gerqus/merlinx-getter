@@ -28,7 +28,27 @@ final class SearchExecutionRequestBuilder
 				continue;
 			}
 
-			$search = DeepMerge::merge($request->search(), is_array($condition['search'] ?? null) ? $condition['search'] : []);
+			$conditionSearch = is_array($condition['search'] ?? null) ? $condition['search'] : [];
+			$conditionFilter = is_array($condition['filter'] ?? null) ? $condition['filter'] : [];
+			$conditionResults = is_array($condition['results'] ?? null) ? $condition['results'] : [];
+			$conditionViews = is_array($condition['views'] ?? null) ? $condition['views'] : [];
+
+			if (
+				self::hasNoIntersection($request->search(), $conditionSearch)
+				|| self::hasNoIntersection($request->filter(), $conditionFilter)
+			) {
+				continue;
+			}
+
+			$search = DeepMerge::merge($conditionSearch, $request->search());
+			$filter = DeepMerge::merge($conditionFilter, $request->filter());
+			$results = DeepMerge::merge($conditionResults, $request->results());
+			$views = DeepMerge::merge($conditionViews, $request->views());
+
+			if (self::isNoOpBranch($request, $search, $filter)) {
+				continue;
+			}
+
 			$search['Base'] = is_array($search['Base'] ?? null) ? $search['Base'] : [];
 
 			if (
@@ -51,10 +71,6 @@ final class SearchExecutionRequestBuilder
 			if ($participants !== []) {
 				$search['Base']['ParticipantsList'] = $participants;
 			}
-
-			$filter = DeepMerge::merge($request->filter(), is_array($condition['filter'] ?? null) ? $condition['filter'] : []);
-			$results = DeepMerge::merge($request->results(), is_array($condition['results'] ?? null) ? $condition['results'] : []);
-			$views = DeepMerge::merge($request->views(), is_array($condition['views'] ?? null) ? $condition['views'] : []);
 
 			foreach ($operatorGroups->build($normalizedOperators, $participants) as $group) {
 				$groupSearch = $search;
@@ -85,6 +101,131 @@ final class SearchExecutionRequestBuilder
 		}
 
 		return $queries;
+	}
+
+	/**
+	 * @param array<string, mixed> $requestValues
+	 * @param array<string, mixed> $conditionValues
+	 */
+	private static function hasNoIntersection(array $requestValues, array $conditionValues): bool
+	{
+		foreach ($conditionValues as $key => $conditionValue) {
+			if (!array_key_exists($key, $requestValues)) {
+				continue;
+			}
+
+			if (self::valuesConflict($requestValues[$key], $conditionValue)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param array<string, mixed> $search
+	 * @param array<string, mixed> $filter
+	 */
+	private static function isNoOpBranch(
+		SearchExecutionRequest $request,
+		array $search,
+		array $filter,
+	): bool {
+		return ($request->search() !== [] || $request->filter() !== [])
+			&& $search === $request->search()
+			&& $filter === $request->filter();
+	}
+
+	private static function valuesConflict(mixed $requestValue, mixed $conditionValue): bool
+	{
+		if (is_array($requestValue) && is_array($conditionValue)) {
+			$requestIsList = array_is_list($requestValue);
+			$conditionIsList = array_is_list($conditionValue);
+
+			if ($requestIsList && $conditionIsList) {
+				return !self::listsIntersect($requestValue, $conditionValue);
+			}
+
+			if (!$requestIsList && !$conditionIsList) {
+				return self::hasNoIntersection($requestValue, $conditionValue);
+			}
+
+			return self::normalizeComparableValue($requestValue) !== self::normalizeComparableValue($conditionValue);
+		}
+
+		if (is_array($requestValue)) {
+			return array_is_list($requestValue)
+				? !self::listContainsValue($requestValue, $conditionValue)
+				: self::normalizeComparableValue($requestValue) !== self::normalizeComparableValue($conditionValue);
+		}
+
+		if (is_array($conditionValue)) {
+			return array_is_list($conditionValue)
+				? !self::listContainsValue($conditionValue, $requestValue)
+				: self::normalizeComparableValue($requestValue) !== self::normalizeComparableValue($conditionValue);
+		}
+
+		return self::normalizeComparableValue($requestValue) !== self::normalizeComparableValue($conditionValue);
+	}
+
+	/**
+	 * @param array<int, mixed> $left
+	 * @param array<int, mixed> $right
+	 */
+	private static function listsIntersect(array $left, array $right): bool
+	{
+		$seen = [];
+		foreach ($left as $value) {
+			$seen[self::normalizeComparableValue($value)] = true;
+		}
+
+		foreach ($right as $value) {
+			if (isset($seen[self::normalizeComparableValue($value)])) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param array<int, mixed> $list
+	 */
+	private static function listContainsValue(array $list, mixed $value): bool
+	{
+		$needle = self::normalizeComparableValue($value);
+		foreach ($list as $item) {
+			if (self::normalizeComparableValue($item) === $needle) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static function normalizeComparableValue(mixed $value): string
+	{
+		if (!is_array($value)) {
+			return json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: 'null';
+		}
+
+		if (array_is_list($value)) {
+			$normalized = [];
+			foreach ($value as $item) {
+				$normalized[] = self::normalizeComparableValue($item);
+			}
+
+			sort($normalized);
+			return json_encode($normalized, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]';
+		}
+
+		ksort($value);
+		$normalized = [];
+		foreach ($value as $key => $item) {
+			$normalized[(string) $key] = self::normalizeComparableValue($item);
+		}
+
+		return json_encode($normalized, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '{}';
 	}
 
 	/**
