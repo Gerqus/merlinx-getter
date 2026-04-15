@@ -16,7 +16,7 @@ final class MerlinxGetterConfig
 	private const DEFAULT_CACHE_LIVE_AVAILABILITY_TTL_SECONDS = 30;
 	private const DEFAULT_SEARCH_LOCK_TIMEOUT_MS = 3000;
 	private const DEFAULT_SEARCH_LOCK_RETRY_DELAY_MS = 50;
-	private const DEFAULT_TIMEOUT = 15.0;
+	private const DEFAULT_TIMEOUT = 5.0;
 	private const DEFAULT_DEFAULT_VIEW_LIMIT = 100;
 	private ?SearchEngineProfile $searchProfile = null;
 	/** @var array<string, true>|null */
@@ -82,7 +82,7 @@ final class MerlinxGetterConfig
 		$source = self::optionalString($merlinx, ['source'], 'B2C');
 		$type = self::optionalString($merlinx, ['type'], 'web');
 		$language = self::optionalString($merlinx, ['language'], 'pl');
-		$timeout = self::toPositiveFloat($merlinx['timeout'] ?? null, self::DEFAULT_TIMEOUT);
+		$timeout = self::toPositiveFloat($merlinx['mdsws']['timeout'] ?? null, self::DEFAULT_TIMEOUT);
 
 		$cache = is_array($merlinx['cache'] ?? null) ? $merlinx['cache'] : [];
 		$searchCache = is_array($searchEngine['cache']['search'] ?? null) ? $searchEngine['cache']['search'] : [];
