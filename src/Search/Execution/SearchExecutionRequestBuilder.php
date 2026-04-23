@@ -43,6 +43,36 @@ final class SearchExecutionRequestBuilder
 			$results = DeepMerge::merge($conditionResults, $request->results());
 			$views = DeepMerge::merge($conditionViews, $request->views());
 
+			$responseFilters = $config->searchEngineResponseFilters;
+			$viewFieldsForFilters = self::extractViewFieldsFromFilters($responseFilters);
+
+			foreach ($views as $viewKey => $viewValue) {
+				if (!is_string($viewKey) || trim($viewKey) === '') {
+					unset($views[$viewKey]);
+					continue;
+				}
+
+				if (!is_array($viewValue)) {
+					unset($views[$viewKey]);
+					continue;
+				}
+
+				if (isset($viewValue['fieldList'])) {
+					if (!is_array($viewValue['fieldList'])) {
+						unset($views[$viewKey]['fieldList']);
+						continue;
+					}
+
+					$views[$viewKey]['fieldList'] =
+						array_unique(
+							array_merge(
+								$viewValue['fieldList'],
+								$viewFieldsForFilters,
+							)
+						);
+				}
+			}
+
 			$search['Base'] = is_array($search['Base'] ?? null) ? $search['Base'] : [];
 
 			if (
@@ -95,6 +125,26 @@ final class SearchExecutionRequestBuilder
 		}
 
 		return $queries;
+	}
+
+	private static function extractViewFieldsFromFilters(array $responseFilters): array
+	{
+		$fields = [];
+		foreach ($responseFilters as $path => $values) {
+			if (!is_string($path) || trim($path) === '' || !str_starts_with($path, 'offer.')) {
+				continue;
+			}
+
+			$noPrefixPath = ltrim($path, 'offer.');
+			$fragments = explode('.', $noPrefixPath);
+			$fieldListFragments = array_slice($fragments, 0, 2);
+			$normalizedPath = implode('.', $fieldListFragments);
+			if ($normalizedPath !== '') {
+				$fields[] = $normalizedPath;
+			}
+		}
+
+		return array_unique($fields);
 	}
 
 	/**
