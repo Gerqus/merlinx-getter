@@ -43,7 +43,7 @@ function firstBuiltQuery(MerlinxGetterConfig $config, SearchExecutionRequest $re
 	$queries = SearchExecutionRequestBuilder::build($config, $request);
 	assertSameValue(1, count($queries), $message);
 
-	return $queries[0];
+	return $queries[0]->request();
 }
 
 function assertNoBuiltQueries(MerlinxGetterConfig $config, SearchExecutionRequest $request, string $message): void
@@ -317,7 +317,7 @@ try {
 	]);
 	$nullLikeQueries = SearchExecutionRequestBuilder::build($scopeConfig, $nullLikeRequest);
 	assertSameValue(1, count($nullLikeQueries), 'Null operator input should still produce one query.');
-	$nullLikeBase = $nullLikeQueries[0]->search()['Base'] ?? [];
+	$nullLikeBase = $nullLikeQueries[0]->request()->search()['Base'] ?? [];
 	assertSameValue(['VITX', 'SNOW'], $nullLikeBase['Operator'] ?? null, 'Builder should normalize null operator input to configured operators.');
 	assertTrue(!array_key_exists('ParticipantsList', $nullLikeBase), 'Builder should not emit ParticipantsList key when participant group value is null/empty.');
 
@@ -331,7 +331,7 @@ try {
 	]);
 	$noOperatorQueries = SearchExecutionRequestBuilder::build($noOperatorConfig, $noOperatorRequest);
 	assertSameValue(1, count($noOperatorQueries), 'Empty configured operators should still produce one query.');
-	$noOperatorBase = $noOperatorQueries[0]->search()['Base'] ?? [];
+	$noOperatorBase = $noOperatorQueries[0]->request()->search()['Base'] ?? [];
 	assertTrue(!array_key_exists('Operator', $noOperatorBase), 'Builder should omit Base.Operator when normalized operator list is empty.');
 
 	$duplicateNoOpConfig = MerlinxGetterConfig::fromArray(baseMerlinxConfig([
@@ -356,6 +356,36 @@ try {
 	]);
 	$duplicateNoOpQueries = SearchExecutionRequestBuilder::build($duplicateNoOpConfig, $duplicateNoOpRequest);
 	assertSameValue(1, count($duplicateNoOpQueries), 'Duplicate permissive config branches should still execute one deduped user-shaped request.');
+
+	$duplicateBodyDifferentFilterConfig = MerlinxGetterConfig::fromArray(baseMerlinxConfig([
+		'search_engine' => [
+			'operators' => ['VITX'],
+			'conditions' => [
+				[
+					'search' => [],
+					'filter' => [],
+				],
+				[
+					'search' => [],
+					'filter' => [],
+					'response_filters' => [
+						'exclude_values_by_path' => [
+							'offer.Accommodation.Attributes' => ['location_ski_resorts'],
+						],
+					],
+				],
+			],
+		],
+	]));
+	$duplicateBodyDifferentFilterQueries = SearchExecutionRequestBuilder::build(
+		$duplicateBodyDifferentFilterConfig,
+		$duplicateNoOpRequest
+	);
+	assertSameValue(2, count($duplicateBodyDifferentFilterQueries), 'Branches with the same MerlinX body but different response filters must remain separate.');
+	assertSameValue([], $duplicateBodyDifferentFilterQueries[0]->responseFilters(), 'First duplicate-body branch should carry no branch-local response filters.');
+	assertSameValue([
+		'offer.Accommodation.Attributes' => ['location_ski_resorts'],
+	], $duplicateBodyDifferentFilterQueries[1]->responseFilters(), 'Second duplicate-body branch should preserve branch-local response filters.');
 
 	echo "PASS: SearchExecutionRequestBuilder scoped request behavior and VariantOperatorSearchGroups null behavior are covered.\n";
 	exit(0);

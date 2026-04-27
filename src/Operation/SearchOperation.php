@@ -14,6 +14,7 @@ use Skionline\MerlinxGetter\Exception\ResponseFormatException;
 use Skionline\MerlinxGetter\Http\MerlinxHttpClient;
 use Skionline\MerlinxGetter\Log\LoggerInterface;
 use Skionline\MerlinxGetter\Log\NullLogger;
+use Skionline\MerlinxGetter\Search\Execution\SearchExecutionQuery;
 use Skionline\MerlinxGetter\Search\Execution\SearchExecutionRequest;
 use Skionline\MerlinxGetter\Search\Execution\SearchExecutionRequestBuilder;
 use Skionline\MerlinxGetter\Search\Execution\SearchExecutionResult;
@@ -35,7 +36,6 @@ final class SearchOperation implements OperationInterface
 
 	private readonly TravelSearchResponseMerger $responseMerger;
 	private readonly ConfiguredFieldValuesPruner $fieldValuesPruner;
-	private readonly ConfiguredResponseValueExcluder $responseValueExcluder;
 	private readonly CacheInterface $cache;
 	private readonly FileKeyLock $lock;
 	private readonly LoggerInterface $logger;
@@ -52,7 +52,6 @@ final class SearchOperation implements OperationInterface
 	) {
 		$this->responseMerger = $responseMerger ?? new TravelSearchResponseMerger();
 		$this->fieldValuesPruner = $fieldValuesPruner ?? new ConfiguredFieldValuesPruner($config->enforcedAccommodationAttributes());
-		$this->responseValueExcluder = new ConfiguredResponseValueExcluder($config->excludedValuesByPath());
 		$this->cache = $cache ?? (new FilesystemCacheFactory($config->cacheDir))->create('merlinx_getter.search.v2');
 		$lockDir = rtrim($config->cacheDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'locks';
 		$this->lock = $lock ?? new FileKeyLock($lockDir, $config->cacheSearchLockTimeoutMs, $config->cacheSearchLockRetryDelayMs);
@@ -181,17 +180,19 @@ final class SearchOperation implements OperationInterface
 	}
 
 	/**
-	 * @param array<int, SearchExecutionRequest> $queries
-	 * @return array<int, SearchExecutionRequest>
+	 * @param array<int, SearchExecutionQuery> $queries
+	 * @return array<int, SearchExecutionQuery>
 	 */
 	private function dedupeQueries(array $queries): array
 	{
 		$seen = [];
 		$unique = [];
 		foreach ($queries as $query) {
+			$request = $query->request();
 			$fingerprint = SearchRequestFingerprint::hash([
 				'schema' => self::QUERY_DEDUPE_VERSION,
-				'body' => $query->toBody($this->config->defaultViewLimit),
+				'body' => $request->toBody($this->config->defaultViewLimit),
+				'response_filters' => $query->responseFilters(),
 			]);
 			if (isset($seen[$fingerprint])) {
 				continue;
@@ -205,7 +206,7 @@ final class SearchOperation implements OperationInterface
 	}
 
 	/**
-	 * @param array<int, SearchExecutionRequest> $queries
+	 * @param array<int, SearchExecutionQuery> $queries
 	 * @return array{response: array<string, mixed>, meta: array{limitHits: array<string, bool>}}
 	 */
 	private function executeQueries(array $queries): array
@@ -215,7 +216,7 @@ final class SearchOperation implements OperationInterface
 		$limitHitsByView = [];
 
 		foreach ($queries as $query) {
-			$this->applyLatestExplicitViewLimits($latestExplicitViewLimits, $query->views());
+			$this->applyLatestExplicitViewLimits($latestExplicitViewLimits, $query->request()->views());
 			$carry = $this->executePagedQuery($query, $carry, $latestExplicitViewLimits, $limitHitsByView);
 			$this->synchronizeLimitHitsByView($carry, $latestExplicitViewLimits, $limitHitsByView);
 		}
@@ -233,12 +234,13 @@ final class SearchOperation implements OperationInterface
 	 * @return array<string, mixed>
 	 */
 	private function executePagedQuery(
-		SearchExecutionRequest $request,
+		SearchExecutionQuery $query,
 		array $carry,
 		array $explicitViewLimits,
 		array &$limitHitsByView
 	): array
 	{
+		$request = $query->request();
 		$options = $request->options();
 		$views = $request->views();
 		$viewsForRequest = $this->filterViewsByReachedViewLimit($carry === [] ? null : $carry, $views, $explicitViewLimits);
@@ -248,6 +250,7 @@ final class SearchOperation implements OperationInterface
 
 		$seenBookmarksByView = [];
 		$pagesFetched = 0;
+		$responseValueExcluder = new ConfiguredResponseValueExcluder($query->responseFilters());
 
 		$maxPages = ceil(self::MERLINX_MAX_CONCATENATED_LIMIT / self::MERLINX_MAX_PAGE_LIMIT);
 
@@ -257,7 +260,7 @@ final class SearchOperation implements OperationInterface
 			$pageData = $this->fetchSearchPage($pageRequest, $options);
 			$pagesFetched++;
 
-			$pageData = $this->responseValueExcluder->apply($pageData);
+			$pageData = $responseValueExcluder->apply($pageData);
 			$carry = $this->responseMerger->merge($carry === [] ? null : $carry, $pageData);
 			$this->synchronizeLimitHitsByView($carry, $explicitViewLimits, $limitHitsByView);
 

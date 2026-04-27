@@ -565,6 +565,7 @@ final class MerlinxGetterConfig
 				'filter' => is_array($variant['filter'] ?? null) ? $variant['filter'] : [],
 				'results' => is_array($variant['results'] ?? null) ? $variant['results'] : [],
 				'views' => is_array($variant['views'] ?? null) ? $variant['views'] : [],
+				'response_filters' => self::resolveResponseFilters($variant),
 			];
 		}
 

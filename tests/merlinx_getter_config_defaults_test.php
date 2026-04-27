@@ -33,6 +33,7 @@ try {
 		'filter' => [],
 		'results' => [],
 		'views' => [],
+		'response_filters' => [],
 	]], $config->searchEngineConditions, 'Default search conditions mismatch.');
 	assertSameValue([], $config->inquiryableAvailabilityBases(), 'Default inquiryable bases mismatch.');
 	assertSameValue(0, $config->inquiryableOnrequestMinDays(), 'Default inquiryable_onrequest_min_days mismatch.');
@@ -42,7 +43,7 @@ try {
 	assertSameValue(1800, $config->cacheSearchTtlSeconds, 'Default search ttl mismatch.');
 	assertSameValue(900, $config->cacheSearchStaleSeconds, 'Default search stale ttl mismatch.');
 	assertSameValue(86400, $config->cacheDetailsTtlSeconds, 'cache.details.ttlSeconds mapping mismatch.');
-	assertSameValue(300, $config->cacheSearchBaseTtlSeconds, 'Default searchBase ttl mismatch.');
+	assertSameValue(1800, $config->cacheSearchBaseTtlSeconds, 'Default searchBase ttl mismatch.');
 	assertSameValue(900, $config->cacheSearchBaseStaleSeconds, 'Default searchBase stale ttl mismatch.');
 	assertSameValue(45, $config->cacheLiveAvailabilityTtlSeconds, 'cache.liveAvailability.ttlSeconds mapping mismatch.');
 	assertSameValue(3000, $config->cacheSearchLockTimeoutMs, 'Default cache.search.lockTimeoutMs mismatch.');
@@ -58,7 +59,14 @@ try {
 			'name' => 'overridden',
 			'operators' => ['ABC', 'SNOW'],
 			'conditions' => [
-				['search' => ['Base' => ['XCity' => 'Test City']]],
+				[
+					'search' => ['Base' => ['XCity' => 'Test City']],
+					'response_filters' => [
+						'exclude_values_by_path' => [
+							'offer.Accommodation.Attributes' => [' location_ski_resorts ', ''],
+						],
+					],
+				],
 			],
 			'availability_policy' => [
 				'inquiryable_bases' => ['available', 'onrequest'],
@@ -108,6 +116,9 @@ try {
 	assertSameValue(['ABC', 'SNOW'], $overrideConfig->searchEngineOperators, 'Explicit operators override mismatch.');
 	assertSameValue(1, count($overrideConfig->searchEngineConditions), 'Explicit conditions override mismatch.');
 	assertSameValue('Test City', $overrideConfig->searchEngineConditions[0]['search']['Base']['XCity'] ?? null, 'Explicit conditions value mismatch.');
+	assertSameValue([
+		'offer.Accommodation.Attributes' => ['location_ski_resorts'],
+	], $overrideConfig->searchEngineConditions[0]['response_filters'] ?? null, 'Explicit condition response filters should be normalized.');
 	assertSameValue(['available', 'onrequest'], $overrideConfig->inquiryableAvailabilityBases(), 'Explicit inquiryable bases override mismatch.');
 	assertSameValue(7, $overrideConfig->inquiryableOnrequestMinDays(), 'Explicit inquiryable_onrequest_min_days override mismatch.');
 	assertSameValue(['ABC'], $overrideConfig->childAsAdultOperators(), 'Explicit child_as_adult_operators override mismatch.');

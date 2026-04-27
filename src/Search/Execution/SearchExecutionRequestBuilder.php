@@ -13,7 +13,7 @@ use Skionline\MerlinxGetter\Search\Util\SearchRequestFingerprint;
 final class SearchExecutionRequestBuilder
 {
 	/**
-	 * @return array<int, SearchExecutionRequest>
+	 * @return array<int, SearchExecutionQuery>
 	 */
 	public static function build(MerlinxGetterConfig $config, SearchExecutionRequest $request): array
 	{
@@ -32,6 +32,7 @@ final class SearchExecutionRequestBuilder
 			$conditionFilter = is_array($condition['filter'] ?? null) ? $condition['filter'] : [];
 			$conditionResults = is_array($condition['results'] ?? null) ? $condition['results'] : [];
 			$conditionViews = is_array($condition['views'] ?? null) ? $condition['views'] : [];
+			$conditionResponseFilters = is_array($condition['response_filters'] ?? null) ? $condition['response_filters'] : [];
 
 			$search = ScopedConditionResolver::resolve($conditionSearch, $request->search());
 			$filter = ScopedConditionResolver::resolve($conditionFilter, $request->filter());
@@ -43,7 +44,7 @@ final class SearchExecutionRequestBuilder
 			$results = DeepMerge::merge($conditionResults, $request->results());
 			$views = DeepMerge::merge($conditionViews, $request->views());
 
-			$responseFilters = $config->searchEngineResponseFilters;
+			$responseFilters = self::mergeResponseFilters($config->searchEngineResponseFilters, $conditionResponseFilters);
 			$viewFieldsForFilters = self::extractViewFieldsFromFilters($responseFilters);
 
 			foreach ($views as $viewKey => $viewValue) {
@@ -113,14 +114,15 @@ final class SearchExecutionRequestBuilder
 					$views,
 					$request->options(),
 				);
+				$builtQuery = new SearchExecutionQuery($builtRequest, $responseFilters);
 
-				$fingerprint = self::requestFingerprint($builtRequest);
+				$fingerprint = self::queryFingerprint($builtQuery);
 				if (isset($seenFingerprints[$fingerprint])) {
 					continue;
 				}
 
 				$seenFingerprints[$fingerprint] = true;
-				$queries[] = $builtRequest;
+				$queries[] = $builtQuery;
 			}
 		}
 
@@ -145,6 +147,27 @@ final class SearchExecutionRequestBuilder
 		}
 
 		return array_unique($fields);
+	}
+
+	/**
+	 * @param array<string, array<int, string>> $base
+	 * @param array<string, array<int, string>> $override
+	 * @return array<string, array<int, string>>
+	 */
+	private static function mergeResponseFilters(array $base, array $override): array
+	{
+		$merged = $base;
+		foreach ($override as $path => $values) {
+			if (!is_string($path) || trim($path) === '' || !is_array($values)) {
+				continue;
+			}
+
+			$path = trim($path);
+			$existing = is_array($merged[$path] ?? null) ? $merged[$path] : [];
+			$merged[$path] = array_values(array_unique(array_merge($existing, $values)));
+		}
+
+		return $merged;
 	}
 
 	/**
@@ -225,14 +248,17 @@ final class SearchExecutionRequestBuilder
 		return $out;
 	}
 
-	private static function requestFingerprint(SearchExecutionRequest $request): string
+	private static function queryFingerprint(SearchExecutionQuery $query): string
 	{
+		$request = $query->request();
+
 		return SearchRequestFingerprint::hash([
 			'search' => $request->search(),
 			'filter' => $request->filter(),
 			'results' => $request->results(),
 			'views' => $request->views(),
 			'options' => $request->options(),
+			'response_filters' => $query->responseFilters(),
 		]);
 	}
 }
